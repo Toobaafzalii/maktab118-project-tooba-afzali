@@ -2,20 +2,62 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+@font-face {
+  font-family: "app-display-font";
+  src: url("/fonts/Hamrah-FD.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "app-peyda-black";
+  src: url("/fonts/Peyda-Black.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "app-peyda-bold";
+  src: url("/fonts/Peyda-Bold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "app-peyda-extrabold";
+  src: url("/fonts/Peyda-ExtraBold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "app-peyda-extralight";
+  src: url("/fonts/Peyda-extralight.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "app-peyda-light";
+  src: url("/fonts/Peyda-light.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "app-peyda-medium";
+  src: url("/fonts/Peyda-Medium.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "app-peyda-regular";
+  src: url("/fonts/Peyda-Regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "app-peyda-semibold";
+  src: url("/fonts/Peyda-SemiBold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "app-peyda-thin";
+  src: url("/fonts/Peyda-Thin.ttf") format("truetype");
 }
