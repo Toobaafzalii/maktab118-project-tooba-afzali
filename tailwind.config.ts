@@ -1,4 +1,3 @@
-import { pallete } from "@/theme/pallete";
 import type { Config } from "tailwindcss";
 
 export default {
