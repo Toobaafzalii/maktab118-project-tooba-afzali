@@ -2,20 +2,122 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --gray-50: #fafafa;
+    --gray-100: #f2f2f2;
+    --gray-200: #e6e6e6;
+    --gray-300: #cccccc;
+    --gray-400: #b3b3b3;
+    --gray-500: #999999;
+    --gray-600: #808080;
+    --gray-700: #666666;
+    --gray-800: #4d4d4d;
+    --gray-900: #333333;
+    --gray-950: #1a1a1a;
+    --green-50: #ebffef;
+    --green-100: #d1ffdb;
+    --green-200: #a3ffb7;
+    --green-300: #7aff97;
+    --green-400: #4dff73;
+    --green-500: #1eff4f;
+    --green-600: #00e632;
+    --green-700: #00ad26;
+    --green-800: #007018;
+    --green-900: #00380c;
+    --green-950: #001f07;
+    --yellow-50: #fffdeb;
+    --yellow-100: #fffad1;
+    --yellow-200: #fff6a3;
+    --yellow-300: #fff27a;
+    --yellow-400: #ffed4d;
+    --yellow-500: #ffe81e;
+    --yellow-600: #e6cf00;
+    --yellow-700: #ad9c00;
+    --yellow-800: #706500;
+    --yellow-900: #383200;
+    --yellow-950: #1f1c00;
+    --red-50: #ffebef;
+    --red-100: #ffd1dc;
+    --red-200: #ffa3b9;
+    --red-300: #ff7595;
+    --red-400: #ff4772;
+    --red-500: #ff1a51;
+    --red-600: #e00034;
+    --red-700: #a80027;
+    --red-800: #70001a;
+    --red-900: #38000d;
+    --red-950: #1f0007;
+    --brown-50: #faf4f0;
+    --brown-100: #e5dad3;
+    --brown-200: #d0beb4;
+    --brown-300: #bca496;
+    --brown-400: #a88a77;
+    --brown-500: #947058;
+    --brown-600: #7f5539;
+    --brown-700: #6a452e;
+    --brown-800: #553522;
+    --brown-900: #402516;
+    --brown-950: #2b150a;
   }
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+@font-face {
+  font-family: "app-display-font";
+  src: url("/fonts/Hamrah-FD.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "app-peyda-black";
+  src: url("/fonts/Peyda-Black.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "app-peyda-bold";
+  src: url("/fonts/Peyda-Bold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "app-peyda-extrabold";
+  src: url("/fonts/Peyda-ExtraBold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "app-peyda-extralight";
+  src: url("/fonts/Peyda-extralight.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "app-peyda-light";
+  src: url("/fonts/Peyda-light.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "app-peyda-medium";
+  src: url("/fonts/Peyda-Medium.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "app-peyda-regular";
+  src: url("/fonts/Peyda-Regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "app-peyda-semibold";
+  src: url("/fonts/Peyda-SemiBold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "app-peyda-thin";
+  src: url("/fonts/Peyda-Thin.ttf") format("truetype");
 }
