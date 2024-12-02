@@ -13,7 +13,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" dir="rtl">
-      <body>{children}</body>
+      <body className="font-app-peyda">{children}</body>
     </html>
   );
 }
