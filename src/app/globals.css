@@ -59,6 +59,18 @@
     --brown-800: #553522;
     --brown-900: #402516;
     --brown-950: #2b150a;
+    --dirty-gray-50: #faf7f5;
+    --dirty-gray-100: #f2efed;
+    --dirty-gray-200: #e6e3e1;
+    --dirty-gray-300: #ccc9c8;
+    --dirty-gray-400: #b3aeac;
+    --dirty-gray-500: #999491;
+    --dirty-gray-600: #807b79;
+    --dirty-gray-700: #666361;
+    --dirty-gray-800: #4d4845;
+    --dirty-gray-900: #332924;
+    --dirty-gray-950: #1a0d05;
+    --dirty-gray-1000: #0d0601;
   }
 }
 
