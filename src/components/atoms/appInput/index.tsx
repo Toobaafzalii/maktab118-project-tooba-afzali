@@ -1,13 +1,12 @@
-"use client";
-
 import React, { useState } from "react";
 import {
   Label,
   TextInput as FlowbiteTextInput,
+  TextInputProps,
   CustomFlowbiteTheme,
 } from "flowbite-react";
 
-interface AppInputProps {
+type AppInputProps = {
   label?: string;
   labelValue?: string;
   placeholder?: string;
@@ -22,7 +21,7 @@ interface AppInputProps {
   sizing: "sm" | "lg";
   helperText?: string;
   iconFunctionality?: IconFunctionality;
-}
+} & TextInputProps;
 
 interface IconFunctionality {
   type: "toggleFocus" | "toggleVisibility";
@@ -55,9 +54,11 @@ const customTheme: CustomFlowbiteTheme["textInput"] = {
     },
     icon: {
       svg: "w-6 h-6",
+      base: "absolute inset-y-0 left-0 flex items-center pl-4",
     },
     rightIcon: {
       svg: "w-6 h-6",
+      base: "absolute inset-y-0 right-0 flex items-center pr-4",
     },
   },
 };
@@ -87,17 +88,22 @@ export const AppInput: React.FC<AppInputProps> = ({
   helperText,
   sizing,
   iconFunctionality,
+  ...rest
 }) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
 
+  // Handle icon click to toggle focus or visibility
   const handleIconClick = () => {
     if (iconFunctionality) {
       const { type, callback } = iconFunctionality;
 
       if (type === "toggleFocus") {
-        callback(false, () => {});
+        setIsFocused((prev) => !prev);
+        callback(isFocused, setIsFocused); // Pass the current state of focus
       } else if (type === "toggleVisibility") {
         setIsPasswordVisible((prevState) => !prevState);
+        callback(isPasswordVisible, setIsPasswordVisible); // Toggle visibility
       }
     }
   };
@@ -128,6 +134,7 @@ export const AppInput: React.FC<AppInputProps> = ({
       )}
       {label && <div>{label}</div>}
       <FlowbiteTextInput
+        {...rest}
         theme={customTheme}
         id={id}
         color={renderColor()}
@@ -137,16 +144,22 @@ export const AppInput: React.FC<AppInputProps> = ({
         disabled={isDisabled}
         icon={({ className }) =>
           icon && (
-            <div className={`cursor-pointer`} onClick={handleIconClick}>
-              {icon(`${className} ${renderHelperStyle()} fill-current`)}
+            <div
+              className={`cursor-pointer ${className} ${renderHelperStyle()} fill-current`}
+              onClick={handleIconClick}
+            >
+              {icon(className)}
             </div>
           )
         }
         helperText={<span className={renderHelperStyle()}>{helperText}</span>}
         rightIcon={({ className }) =>
           rightIcon ? (
-            <div>
-              {rightIcon(`${className} ${renderHelperStyle()} fill-current`)}
+            <div
+              className={`cursor-pointer ${className} ${renderHelperStyle()} fill-current`}
+              onClick={handleIconClick}
+            >
+              {rightIcon(className)}
             </div>
           ) : null
         }

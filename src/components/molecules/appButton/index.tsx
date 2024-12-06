@@ -1,19 +1,27 @@
-import { CustomFlowbiteTheme, Button as FlowbiteButton } from "flowbite-react";
+import {
+  CustomFlowbiteTheme,
+  Button as FlowbiteButton,
+  ButtonProps,
+} from "flowbite-react";
 import React from "react";
 
-type AppButtonProps = {
+export type AppButtonProps = {
   fullWidth?: boolean;
-  variant?: "primary" | "secondary";
+  variant?: "primary" | "secondary" | "failure";
   size?: "xs" | "sm" | "base" | "l" | "xl";
   isDisabled?: boolean;
   outline?: boolean;
   text: string;
   iconLeft?: (className: string) => React.ReactNode;
   iconRight?: (className: string) => React.ReactNode;
-};
+} & ButtonProps;
 
 const customTheme: CustomFlowbiteTheme["button"] = {
   color: {
+    failure:
+      "border-[1px] bg-transparent border-light-error-border-default-subtle !text-light-error-text-title text-subtitle-12 active:ring-2 active:ring-light-error-border-default-subtle ",
+    dark: "border border-transparent bg-gray-800 text-red focus:ring-4 focus:ring-gray-300 enabled:hover:bg-gray-900 dark:border-gray-700 dark:bg-gray-800 dark:focus:ring-gray-800 ",
+
     primary:
       "bg-light-primary-surface-negative-subtle hover:bg-light-primary-surface-negative text-light-primary-text-negative active:border-[3px] active:border-light-primary-border-default-subtle active:scale-100 ",
     secondary:
@@ -22,10 +30,11 @@ const customTheme: CustomFlowbiteTheme["button"] = {
   outline: {
     color: {
       primary:
-        "border-[1px] border-light-primary-border-negative bg-transparent text-light-primary-text-title hover:bg-dark-primary-surface-negative active:border-[3px] active:border-light-primary-border-default-subtle active:scale-100",
+        "border-[1px] border-light-primary-border-negative bg-transparent text-light-primary-text-title hover:bg-dark-primary-surface-negative active:border-[3px] active:border-light-primary-border-default-subtle active:scale-100 !dark:text-light-primary-text-title",
       secondary:
         "border-[1px] border-light-primary-border-default-subtle bg-transparent text-dark-primary-text-title hover:bg-dark-primary-surface-object active:border-[3px] active:border-dark-primary-border-default-subtle active:scale-100",
     },
+    on: "",
   },
   size: {
     xs: "py-2 px-3 text-subtitle-12 ",
@@ -41,11 +50,13 @@ const disabledStyle = {
     "bg-light-gray-surface-default text-light-gray-text-caption hover:bg-light-gray-surface-default hover:text-light-gray-text-caption",
   secondary:
     "bg-light-gray-surface-default-subtle text-dark-gray-text-caption hover:bg-light-gray-surface-default-subtle hover:text-dark-gray-text-caption ",
+  failure: "",
   outline: {
     primary:
       "bg-light-primary-surface-default text-light-primary-text-title border-[1px] border-light-primary-border-default hover:bg-light-primary-surface-default",
     secondary:
       "bg-dark-primary-surface-default text-light-primary-text-caption border-[1px] border-dark-primary-border-default hover:bg-dark-primary-surface-default",
+    failure: "",
   },
 };
 
@@ -54,10 +65,12 @@ const iconColor = {
     primary:
       "fill-light-primary-text-negative stroke-light-primary-text-negative",
     secondary: "fill-light-primary-text-title stroke-light-primary-text-title",
+    failure: "",
   },
   outline: {
     primary: "fill-light-primary-text-title stroke-light-primary-text-title",
     secondary: "fill-dark-primary-text-title stroke-dark-primary-text-title",
+    failure: "",
   },
   disabled: "fill-light-primary-text-caption stroke-light-primary-text-caption",
 };
@@ -79,6 +92,7 @@ export const AppButton: React.FC<AppButtonProps> = ({
   isDisabled,
   outline,
   fullWidth,
+  ...rest
 }) => {
   const getDisabledStyle = () => {
     if (isDisabled) {
@@ -106,12 +120,13 @@ export const AppButton: React.FC<AppButtonProps> = ({
 
   return (
     <FlowbiteButton
+      {...rest}
       theme={customTheme}
       color={variant}
       size={size}
       outline={outline}
       disabled={isDisabled}
-      className={`rounded-sm transition-all items-center ${
+      className={`rounded-sm transition-all items-center  ${
         fullWidth ? "w-full" : ""
       } ${getDisabledStyle()}`}
     >
