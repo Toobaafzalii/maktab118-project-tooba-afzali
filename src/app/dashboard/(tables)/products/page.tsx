@@ -1,9 +1,10 @@
+import ProductsTable from "@/components/organisms/products/productsTable";
 import React from "react";
-const Test: React.FC = () => {
+const ProductsPage: React.FC = () => {
   return (
-    <div>
-      <h1>PRODUCTS LIST</h1>
+    <div className="w-full flex flex-1">
+      <ProductsTable />
     </div>
   );
 };
-export default Test;
+export default ProductsPage;
