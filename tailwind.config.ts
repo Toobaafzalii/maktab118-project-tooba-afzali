@@ -222,6 +222,309 @@ export default {
         "app-peyda-semibold": ["app-peyda-semibold", "sans-serif"],
         "app-peyda-thin": ["app-peyda-thin", "sans-serif"],
       },
+      fontSize: {
+        "display-100": [
+          "6.25rem",
+          {
+            fontWeight: "400",
+            lineHeight: "156.25px",
+          },
+        ],
+        "display-92": [
+          "5.75rem",
+          {
+            fontWeight: "400",
+            lineHeight: "143.75px",
+          },
+        ],
+        "display-88": [
+          "5.5rem",
+          {
+            fontWeight: "400",
+            lineHeight: "137.5px",
+          },
+        ],
+        "display-80": [
+          "5rem",
+          {
+            fontWeight: "400",
+            lineHeight: "125px",
+          },
+        ],
+        "display-72": [
+          "4.5rem",
+          {
+            fontWeight: "400",
+            lineHeight: "112.5px",
+          },
+        ],
+        "display-64": [
+          "4rem",
+          {
+            fontWeight: "400",
+            lineHeight: "89.6px",
+          },
+        ],
+        "display-56": [
+          "3.5rem",
+          {
+            fontWeight: "400",
+            lineHeight: "78.4px",
+          },
+        ],
+        "display-48": [
+          "3rem",
+          {
+            fontWeight: "400",
+            lineHeight: "75px",
+          },
+        ],
+        "display-36": [
+          "2.25rem",
+          {
+            fontWeight: "400",
+            lineHeight: "56.25px",
+          },
+        ],
+        "display-32": [
+          "2rem",
+          {
+            fontWeight: "400",
+            lineHeight: "50px",
+          },
+        ],
+        "display-28": [
+          "1.75rem",
+          {
+            fontWeight: "400",
+            lineHeight: "43.75px",
+          },
+        ],
+        "title-36": [
+          "2.25rem",
+          {
+            fontWeight: "700",
+            lineHeight: "50.4px",
+          },
+        ],
+        "title-32": [
+          "2rem",
+          {
+            fontWeight: "700",
+            lineHeight: "44.8px",
+          },
+        ],
+        "title-28": [
+          "1.75rem",
+          {
+            fontWeight: "700",
+            lineHeight: "39.2px",
+          },
+        ],
+        "title-24": [
+          "1.5rem",
+          {
+            fontWeight: "700",
+            lineHeight: "33.8px",
+          },
+        ],
+        "title-20": [
+          "1.25rem",
+          {
+            fontWeight: "700",
+            lineHeight: "28px",
+          },
+        ],
+        "title-18": [
+          "1.125rem",
+          {
+            fontWeight: "700",
+            lineHeight: "25.2px",
+          },
+        ],
+        "title-16": [
+          "1rem",
+          {
+            fontWeight: "700",
+            lineHeight: "22.4px",
+          },
+        ],
+        "title-14": [
+          "0.875rem",
+          {
+            fontWeight: "700",
+            lineHeight: "19.6px",
+          },
+        ],
+        "title-12": [
+          "0.75rem",
+          {
+            fontWeight: "700",
+            lineHeight: "16.8px",
+          },
+        ],
+        "title-10": [
+          "0.625rem",
+          {
+            fontWeight: "700",
+            lineHeight: "14px",
+          },
+        ],
+        "subtitle-24": [
+          "1.5rem",
+          {
+            fontWeight: "500",
+            lineHeight: "33.6px",
+          },
+        ],
+        "subtitle-20": [
+          "1.25rem",
+          {
+            fontWeight: "500",
+            lineHeight: "28px",
+          },
+        ],
+        "subtitle-18": [
+          "1.125rem",
+          {
+            fontWeight: "500",
+            lineHeight: "25.2px",
+          },
+        ],
+        "subtitle-16": [
+          "1rem",
+          {
+            fontWeight: "500",
+            lineHeight: "22.4px",
+          },
+        ],
+        "subtitle-14": [
+          "0.875rem",
+          {
+            fontWeight: "500",
+            lineHeight: "19.6px",
+          },
+        ],
+        "subtitle-12": [
+          "0.75rem",
+          {
+            fontWeight: "500",
+            lineHeight: "18px",
+          },
+        ],
+        "subtitle-10": [
+          "0.625rem",
+          {
+            fontWeight: "500",
+            lineHeight: "16px",
+          },
+        ],
+        "subtitle-9": [
+          "0.5625rem",
+          {
+            fontWeight: "500",
+            lineHeight: "16px",
+          },
+        ],
+        "body-24": [
+          "1.5rem",
+          {
+            fontWeight: "400",
+            lineHeight: "33.6px",
+          },
+        ],
+        "body-20": [
+          "1.25rem",
+          {
+            fontWeight: "400",
+            lineHeight: "28px",
+          },
+        ],
+        "body-18": [
+          "1.125rem",
+          {
+            fontWeight: "400",
+            lineHeight: "25.2px",
+          },
+        ],
+        "body-16": [
+          "1rem",
+          {
+            fontWeight: "400",
+            lineHeight: "22.4px",
+          },
+        ],
+        "body-14": [
+          "1rem",
+          {
+            fontWeight: "400",
+            lineHeight: "22.4px",
+          },
+        ],
+        "body-12": [
+          "0.875rem",
+          {
+            fontWeight: "400",
+            lineHeight: "18px",
+          },
+        ],
+        "body-10": [
+          "0.75rem",
+          {
+            fontWeight: "400",
+            lineHeight: "16px",
+          },
+        ],
+        "body-9": [
+          "0.5625rem",
+          {
+            fontWeight: "400",
+            lineHeight: "16px",
+          },
+        ],
+        "caption-20": [
+          "1.25rem",
+          {
+            fontWeight: "300",
+            lineHeight: "28px",
+          },
+        ],
+        "caption-18": [
+          "1.125rem",
+          {
+            fontWeight: "300",
+            lineHeight: "25.2px",
+          },
+        ],
+        "caption-16": [
+          "1rem",
+          {
+            fontWeight: "300",
+            lineHeight: "22.4px",
+          },
+        ],
+        "caption-14": [
+          "0.875rem",
+          {
+            fontWeight: "300",
+            lineHeight: "19.6px",
+          },
+        ],
+        "caption-12": [
+          "0.75rem",
+          {
+            fontWeight: "300",
+            lineHeight: "20px",
+          },
+        ],
+        "caption-10": [
+          "0.625rem",
+          {
+            fontWeight: "300",
+            lineHeight: "18px",
+          },
+        ],
+      },
     },
   },
   plugins: [],
