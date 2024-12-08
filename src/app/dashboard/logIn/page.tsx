@@ -13,15 +13,17 @@ import { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "@/validation/schemas/adminLogin";
+import useAuthStore from "../../../stores/useAuthStore/index";
 
 interface FormData {
   username: string;
   password: string;
 }
 
-const Test: React.FC = () => {
+const AdminloginPage: React.FC = () => {
   const router = useRouter();
   const { isLoginLoading, login } = useLogin();
+  const setAuthUser = useAuthStore((state) => state.setUser);
   const {
     register,
     handleSubmit,
@@ -37,14 +39,19 @@ const Test: React.FC = () => {
     login(formData, {
       onSuccess: (data) => {
         if (data.data.user.role === "ADMIN") {
-          localStorage.setItem("access-token", data.token.accessToken);
-          localStorage.setItem("refresh-token", data.token.refreshToken);
-          localStorage.setItem("role", data.data.user.role);
+          setAuthUser({
+            accessToken: data.token.accessToken,
+            refreshToken: data.token.refreshToken,
+            role: data.data.user.role,
+            firstName: data.data.user.firstname,
+            lastName: data.data.user.lastname,
+          });
           router.push("/dashboard");
         }
       },
       onError: (error) => {
         const axiosError = error as AxiosError;
+        console.error("Login error:", axiosError.message);
       },
     });
   };
@@ -54,7 +61,7 @@ const Test: React.FC = () => {
   };
 
   return (
-    <div className="bg-light-primary-surface-default border-[1px] border-light-primary-border-default pb-60 pt-32 px-32 gap-11 w-[609px] flex flex-col justify-start items-start">
+    <div className="bg-light-primary-surface-default border-[1px] border-light-primary-border-default pb-36 pt-24 max-h-screen px-32 gap-11 w-[609px] flex flex-col justify-start items-start">
       <div className="space-y-1">
         <p className="text-light-primary-text-title text-title-24">
           ورود به داشبورد
@@ -120,4 +127,4 @@ const Test: React.FC = () => {
   );
 };
 
-export default Test;
+export default AdminloginPage;

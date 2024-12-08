@@ -19,7 +19,7 @@ export default function Layout({
         backgroundImage: "url(/png/admin-login-bg.png)",
       }}
     >
-      <div className="flex flex-1 flex-col justify-center p-8 w-full md:w-1/2 lg:w-1/3 ">
+      <div className="flex flex-1 flex-col justify-center p-8 w-full md:w-1/2 lg:w-1/3 max-h-screen">
         <div className="bg-light-primary-surface-default p-5 gap-8 w-[609px] flex justify-between items-center">
           <TibziLogo />
           <div onClick={() => router.push("/")}>
