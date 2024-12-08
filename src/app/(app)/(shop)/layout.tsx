@@ -2,6 +2,9 @@
 import { AppButton } from "@/components/molecules/appButton";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import CaretDown from "../../../../public/svg/CaretDown.svg";
+import TwLogo from "../../../../public/svg/TW-logo-dark.svg";
+
 
 export default function LandingLayout({
   children,
@@ -25,10 +28,10 @@ export default function LandingLayout({
 <div className="flex flex-col justify-start items-center">
 <header className="bg-light-primary-surface-negative text-white w-full sticky top-0 px-14 py-3">
       <div className="container mx-auto flex items-center justify-between ">
-     
+        <div className="flex items-start gap-2">
+          <TwLogo/>
         <div className="font-bold text-title-28">TIBZI WEAR</div>
-
-     
+        </div>
         <nav className="flex space-x-8 rtl:space-x-reverse">
           {Object.keys(categories).map((category) => (
             <div
@@ -43,7 +46,7 @@ export default function LandingLayout({
                 onClick={() => toggleDropdown(category)}
               >
                 <span>{category}</span>
-                <span>▼</span>
+                <span><CaretDown/></span>
               </button>
 
        

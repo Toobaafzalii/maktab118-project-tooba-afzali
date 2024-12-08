@@ -8,18 +8,12 @@ import Trash from "../../../../../public/svg/Trash.svg";
 import PlusSquare from "../../../../../public/svg/PlusSquare.svg";
 import { AppButtonProps } from "@/components/molecules/appButton";
 import useProducts from "@/hooks/queries/useProducts";
-
-const PRODUCT_HEADCELLS = [
-  { label: "تصویر", key: "thumbnail", sortable: false },
-  { label: "نام محصول", key: "name", sortable: false },
-  { label: "دسته بندی", key: "subcategory", sortable: true },
-  { label: "برند", key: "brand", sortable: false },
-  { label: "عملیات", key: "actions", sortable: false },
-];
+import useSubcategoryByIds from "@/hooks/queries/useSubcategoryByIds";
 
 const ProductsTable: React.FC = () => {
   const [page, setPage] = useState(1);
-
+  const { issubcategoryByIdsLoading, subcategoryByIds, subcategoryByIdsData } =
+    useSubcategoryByIds();
   const { isProductsLoading, products, refetch } = useProducts({
     page,
   });
@@ -40,6 +34,37 @@ const ProductsTable: React.FC = () => {
       },
     ];
   }, []);
+
+  const productHeadCells = [
+    { label: "تصویر", key: "thumbnail", sortable: false },
+    { label: "نام محصول", key: "name", sortable: false },
+    {
+      label: "دسته بندی",
+      key: "subcategory",
+      sortable: true,
+      dataFormatter: (id: string) => {
+        if (!subcategoryByIdsData || issubcategoryByIdsLoading) {
+          return "...";
+        }
+        let subcategory = subcategoryByIdsData.find(
+          (subcategory) => subcategory.data.subcategory._id === id
+        )?.data.subcategory;
+        const fullName = String(subcategory?.name ?? "---");
+        return fullName;
+      },
+    },
+    { label: "برند", key: "brand", sortable: false },
+    { label: "عملیات", key: "actions", sortable: false },
+  ];
+
+  useEffect(() => {
+    const subcategoryIds: Array<string> = [];
+    products?.data.products.map((product) => {
+      subcategoryIds.push(product.subcategory);
+    });
+    const uniqeIds = new Set(subcategoryIds);
+    subcategoryByIds({ ids: [...uniqeIds] });
+  }, [products]);
 
   const tableButtons: Array<AppButtonProps> = useMemo(() => {
     return [
@@ -67,7 +92,7 @@ const ProductsTable: React.FC = () => {
     <div className="w-full">
       <AppTable
         data={products?.data.products}
-        headCells={PRODUCT_HEADCELLS}
+        headCells={productHeadCells}
         title="لیست محصولات"
         actionButtons={actionButtons}
         tableButtons={tableButtons}

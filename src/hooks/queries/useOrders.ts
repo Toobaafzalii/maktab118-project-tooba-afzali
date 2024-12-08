@@ -7,7 +7,7 @@ import { OrdersDto } from "./dtos/orders";
 const queryName = "orders";
 const apiRequestMethod = "get";
 type QueryResponse = OrdersDto;
-type QueryFnProps = { page: number; deliveryStatus: boolean };
+type QueryFnProps = { page: number; deliveryStatus?: boolean };
 
 const useOrders = (props: QueryFnProps) => {
   const { data, isPending, refetch } = useQuery<

@@ -12,7 +12,7 @@ const PRICE_HEADCELLS = [
   { label: "تصویر", key: "thumbnail", sortable: false },
   { label: "نام محصول", key: "name", sortable: false },
   { label: "قیمت", key: "price", sortable: true },
-  { label: "موجودی", key: "quantity", sortable: false },
+  { label: "موجودی", key: "quantity", sortable: true },
 ];
 
 const PricesTable: React.FC = () => {
