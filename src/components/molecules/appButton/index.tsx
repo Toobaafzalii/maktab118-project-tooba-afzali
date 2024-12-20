@@ -14,12 +14,13 @@ export type AppButtonProps = {
   text: string;
   iconLeft?: (className: string) => React.ReactNode;
   iconRight?: (className: string) => React.ReactNode;
+  onClick?: (event?: string) => void;
 } & ButtonProps;
 
 const customTheme: CustomFlowbiteTheme["button"] = {
   color: {
     failure:
-      "border-[1px] bg-transparent border-light-error-border-default-subtle !text-light-error-text-title text-subtitle-12 active:ring-2 active:ring-light-error-border-default-subtle ",
+      "!bg-dark-error-surface-default  !text-light-error-text-negative text-subtitle-12 active:border-[3px] active:border-light-error-text-negative !hover:text-light-error-text-negative-subtle !hover:bg-dark-error-surface-default-subtle",
     dark: "border border-transparent bg-gray-800 text-red focus:ring-4 focus:ring-gray-300 enabled:hover:bg-gray-900 dark:border-gray-700 dark:bg-gray-800 dark:focus:ring-gray-800 ",
 
     primary:
@@ -33,6 +34,8 @@ const customTheme: CustomFlowbiteTheme["button"] = {
         "border-[1px] border-light-primary-border-negative bg-transparent text-light-primary-text-title hover:bg-dark-primary-surface-negative active:border-[3px] active:border-light-primary-border-default-subtle active:scale-100 !dark:text-light-primary-text-title",
       secondary:
         "border-[1px] border-light-primary-border-default-subtle bg-transparent text-dark-primary-text-title hover:bg-dark-primary-surface-object active:border-[3px] active:border-dark-primary-border-default-subtle active:scale-100",
+      failure:
+        "bg-transparent border-[1px] border-light-error-order-default-subtle !hover:bg-light-error-surface-default-subtle !active:bg-light-error-surface-default",
     },
     on: "",
   },
@@ -56,7 +59,8 @@ const disabledStyle = {
       "bg-light-primary-surface-default text-light-primary-text-title border-[1px] border-light-primary-border-default hover:bg-light-primary-surface-default",
     secondary:
       "bg-dark-primary-surface-default text-light-primary-text-caption border-[1px] border-dark-primary-border-default hover:bg-dark-primary-surface-default",
-    failure: "",
+    failure:
+      "!bg-light-error-surface-default-subtle !text-dark-error-text-subtitle !hover:bg-light-error-surface-default-subtle !hover:text-dark-error-text-subtitle",
   },
 };
 
@@ -65,12 +69,12 @@ const iconColor = {
     primary:
       "fill-light-primary-text-negative stroke-light-primary-text-negative",
     secondary: "fill-light-primary-text-title stroke-light-primary-text-title",
-    failure: "",
+    failure: "fill-light-error-text-negative stroke-light-error-text-negative",
   },
   outline: {
     primary: "fill-light-primary-text-title stroke-light-primary-text-title",
     secondary: "fill-dark-primary-text-title stroke-dark-primary-text-title",
-    failure: "",
+    failure: "fill-light-error-text-title stroke-light-error-text-title",
   },
   disabled: "fill-light-primary-text-caption stroke-light-primary-text-caption",
 };

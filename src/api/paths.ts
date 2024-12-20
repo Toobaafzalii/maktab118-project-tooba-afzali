@@ -9,4 +9,11 @@ export const PATHS = {
   users: "/users",
   userByIds: "/users/:id",
   subcategoryByIds: "/subcategories/:id",
+  newProduct: "/products",
+  categories: "/categories",
+  subcategories: "/subcategories",
+  editProductById: "/products/:id",
+  getProductById: "/products/:id",
+  deleteProductById: "products/:id",
+  editProductsByIds: "products/:id",
 };

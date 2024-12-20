@@ -19,12 +19,13 @@ const AppRadioButtonTabs: React.FC<RadioButtonTabsProps> = ({
   const [activeIndex, setActiveIndex] = useState(0);
 
   useEffect(() => {
-    onActiveItemChange(items[activeIndex].value);
+    onActiveItemChange(items[activeIndex]?.value);
   }, [activeIndex]);
   return (
     <div className="flex rounded-sm overflow-hidden">
       {items.map((item, index) => (
         <AppButton
+          key={index}
           onClick={() => setActiveIndex(index)}
           outline={index !== activeIndex}
           text={item.text}

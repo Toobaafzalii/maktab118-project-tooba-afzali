@@ -5,4 +5,11 @@ export const QUERY_KEYS = {
   users: "users",
   userByIds: "userByIds",
   subcategoryByIds: "subcategoryByIds",
+  newProduct: "newProduct",
+  categories: "categories",
+  subcategories: "subcategories",
+  editProductById: "editProductById",
+  getProductById: "getProductById",
+  deleteProductById: "deleteProductById",
+  editProductsByIds: "editProductsByIds",
 };

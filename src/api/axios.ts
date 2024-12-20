@@ -6,9 +6,11 @@ const client = axios.create({
 
 client.interceptors.request.use(
   function (config) {
-    // if(token){
-    //     config.headers.Authorization = "Bearer ${token}"
-    // }
+    const user = localStorage.getItem("auth-user");
+    if (user) {
+      const token = JSON.parse(user)?.accessToken;
+      config.headers.Authorization = `Bearer ${token}`;
+    }
     return config;
   },
   function (error) {

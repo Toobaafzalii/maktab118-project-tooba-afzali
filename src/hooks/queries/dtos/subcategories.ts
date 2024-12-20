@@ -14,3 +14,20 @@ export interface categoryInSubcategoryById {
   name: string;
   icon: string;
 }
+
+export interface SubcategoryDto {
+  _id: string;
+  category: string;
+  name: string;
+}
+
+export interface SubcategoriesDto {
+  status: string;
+  page: number;
+  per_page: number;
+  total: number;
+  total_pages: number;
+  data: {
+    subcategories: SubcategoryDto[];
+  };
+}

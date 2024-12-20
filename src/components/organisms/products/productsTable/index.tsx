@@ -9,31 +9,49 @@ import PlusSquare from "../../../../../public/svg/PlusSquare.svg";
 import { AppButtonProps } from "@/components/molecules/appButton";
 import useProducts from "@/hooks/queries/useProducts";
 import useSubcategoryByIds from "@/hooks/queries/useSubcategoryByIds";
+import AppProductModal from "@/components/organisms/appNewProductModal";
+import AppConfrimModal from "@/components/molecules/appConfrimModal";
+import useDeleteProductById from "@/hooks/queries/useDeleteProductById";
+import AppEditProductModal from "../../appEditProductModal";
 
 const ProductsTable: React.FC = () => {
   const [page, setPage] = useState(1);
+  const [isNewProductModalOpen, setIsNewProductModalOpen] = useState(false);
+  const [isEditProductModalOpen, setIsEditProductModalOpen] = useState(false);
+  const [isDeleteConfrimModalOpen, setIsDeleteConfrimModalOpen] =
+    useState(false);
+  const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
+
   const { issubcategoryByIdsLoading, subcategoryByIds, subcategoryByIdsData } =
     useSubcategoryByIds();
   const { isProductsLoading, products, refetch } = useProducts({
     page,
   });
+  const { deleteProductById, isDeleteProductByIdLoading } =
+    useDeleteProductById();
 
   const actionButtons: Array<AppButtonProps> = useMemo(() => {
     return [
       {
         text: "ویرایش",
-        iconLeft: (className: string) => <Pencil className={className} />,
-        onClick: () => {},
+        iconLeft: (className) => <Pencil className={className} />,
+        onClick: (rowId) => {
+          if (typeof rowId === "string") setSelectedItemId(rowId);
+          setIsEditProductModalOpen(true);
+        },
         variant: "secondary",
       },
       {
         text: "حذف",
-        iconRight: (className: string) => <Trash className={className} />,
-        onClick: () => {},
+        iconRight: (className) => <Trash className={className} />,
+        onClick: (rowId) => {
+          if (typeof rowId === "string") setSelectedItemId(rowId);
+          setIsDeleteConfrimModalOpen(true);
+        },
         variant: "failure",
       },
     ];
-  }, []);
+  }, [setIsDeleteConfrimModalOpen]);
 
   const productHeadCells = [
     { label: "تصویر", key: "thumbnail", sortable: false },
@@ -71,7 +89,7 @@ const ProductsTable: React.FC = () => {
       {
         text: "افزودن محصول جدید",
         iconLeft: (className: string) => <PlusSquare className={className} />,
-        onClick: () => {},
+        onClick: () => setIsNewProductModalOpen(true),
         variant: "primary",
       },
     ];
@@ -81,6 +99,25 @@ const ProductsTable: React.FC = () => {
     refetch();
   }, [page]);
 
+  const handleConfrimDelete = (rowId?: string) => {
+    if (rowId) {
+      deleteProductById(
+        { id: rowId },
+        {
+          onSuccess: () => {
+            console.log(`product with ID: ${rowId} deleted`);
+            refetch();
+          },
+          onError: (error) => {
+            console.log("Error deleting product:", error);
+          },
+        }
+      );
+      setSelectedItemId(null);
+      setIsDeleteConfrimModalOpen(false);
+    }
+  };
+
   if (isProductsLoading) {
     return (
       <div className="flex flex-col flex-1 justify-center items-center ">
@@ -88,6 +125,7 @@ const ProductsTable: React.FC = () => {
       </div>
     );
   }
+
   return (
     <div className="w-full">
       <AppTable
@@ -100,7 +138,36 @@ const ProductsTable: React.FC = () => {
         totalPages={products?.total_pages}
         onPageChange={(page) => setPage(page)}
       />
+
+      {isNewProductModalOpen && (
+        <AppProductModal
+          onSuccess={() => {
+            refetch();
+          }}
+          onClose={() => setIsNewProductModalOpen(false)}
+        />
+      )}
+      {isDeleteConfrimModalOpen && (
+        <AppConfrimModal
+          onConfrim={() =>
+            selectedItemId && handleConfrimDelete(selectedItemId)
+          }
+          message="از حدف این محصول مطمئن هستید؟"
+          buttonTitles={["لغو", "تایید"]}
+          onClose={() => setIsDeleteConfrimModalOpen(false)}
+        />
+      )}
+      {isEditProductModalOpen && selectedItemId && (
+        <AppEditProductModal
+          productId={selectedItemId}
+          onSuccess={() => {
+            refetch();
+          }}
+          onClose={() => setIsEditProductModalOpen(false)}
+        />
+      )}
     </div>
   );
 };
+
 export default ProductsTable;

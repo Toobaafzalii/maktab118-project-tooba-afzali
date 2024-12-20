@@ -11,6 +11,8 @@ import CaretUp from "../../../../public/svg/CaretUP.svg";
 const customTheme = {
   root: {
     base: "w-full text-left text-sm text-gray-500  text-right",
+    shadow:
+      "absolute left-0 top-0 -z-10 h-full w-full rounded-lg drop-shadow-md ",
   },
   body: {
     base: "group/body border-y-[1px] border-light-primary-border-default-subtle",
@@ -48,10 +50,14 @@ type TableProps = {
   };
   tableButtons?: AppButtonProps[];
   actionButtons?: AppButtonProps[];
+  onDeleteClick?: (rowId: string) => void;
   onFilterChange?: (props: { value: string; key: string }) => void;
   page: number;
   onPageChange: (page: number) => void;
   totalPages?: number;
+  isEditMode?: boolean;
+  onInputChange?: (id: string, key: string, value: any) => void;
+  editedRows?: Array<{ rowId: string; changes: Record<string, any> }>;
 };
 
 const AppTable: React.FC<TableProps> = ({
@@ -65,6 +71,9 @@ const AppTable: React.FC<TableProps> = ({
   page,
   onPageChange,
   totalPages,
+  isEditMode = false,
+  onInputChange,
+  editedRows = [],
 }) => {
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
   const [sortBy, setSortBy] = useState<string>("");
@@ -103,20 +112,48 @@ const AppTable: React.FC<TableProps> = ({
 
   const formatValue = (column: any, row: any) => {
     let value = row[column.key];
+    if (isEditMode && ["quantity", "price"].includes(column.key)) {
+      const editedRow = editedRows.find((edited) => edited.rowId === row._id);
+      const editedValue = editedRow?.changes[column.key] ?? row[column.key];
+      value = (
+        <input
+          className="w-full bg-transparent rounded-none px-2 border-0 focus:ring-0 outline-none focus:outline-none py-1 text-sm"
+          type="number"
+          value={editedValue}
+          onChange={(e) =>
+            onInputChange && onInputChange(row._id, column.key, e.target.value)
+          }
+        />
+      );
+    }
     if (column.key === "createdAt" || column.key === "updatedAt") {
       const date = new Date(row[column.key]);
       value = new Intl.DateTimeFormat("fa-IR", {
         dateStyle: "full",
       }).format(date);
     } else if (column.key === "actions") {
-      value = actionButtons?.map((item) => <AppButton {...item} />);
+      value = actionButtons?.map((item, index) => (
+        <AppButton
+          key={index}
+          {...item}
+          onClick={() => {
+            item.onClick?.(row._id);
+          }}
+        />
+      ));
       value = <div className="flex items-center gap-1">{value}</div>;
     } else if (column.key === "thumbnail") {
-      value = <img className="w-8 h-8" src={value} />;
+      let url = value;
+      if (!url.includes("https://")) {
+        url = `http://localhost:8000/images/products/thumbnails/${value}`;
+      }
+      value = <img className="w-8 h-8" src={url} />;
     } else if (column.dataFormatter) {
       value = column.dataFormatter(value);
     } else if (["price", "totalPrice"].includes(column.key)) {
-      value = `${value} تومان`;
+      if (typeof value === "number" || typeof value === "string") {
+        value = `${value} تومان`;
+      }
     }
     return value;
   };
