@@ -51,7 +51,6 @@ const AdminloginPage: React.FC = () => {
       },
       onError: (error) => {
         const axiosError = error as AxiosError;
-        console.error("Login error:", axiosError.message);
       },
     });
   };
