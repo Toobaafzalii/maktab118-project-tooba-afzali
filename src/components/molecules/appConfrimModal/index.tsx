@@ -3,10 +3,13 @@ import { Modal } from "flowbite-react";
 import { useState } from "react";
 import { AppButton } from "../appButton";
 import Exclamation from "../../../../public/svg/exclamation-circle.svg";
+import { string } from "zod";
 
 type AppConfrimModalProps = {
   buttonTitles: Array<string>;
-  message: string;
+  message?: string;
+  onClose: () => void;
+  onConfrim: (value?: string) => void;
 };
 
 const customTheme = {
@@ -43,15 +46,15 @@ const customTheme = {
   content: {
     base: "relative h-full w-full p-6 md:h-auto !text-subtitle-16",
     inner:
-      "relative flex max-h-[90dvh] flex-col rounded-sm !bg-light-primary-surface-default-subtle gap-5 text-light-primary-text-subtitle !text-subtitle-16",
+      "relative flex max-h-[90dvh] flex-col rounded-sm !bg-light-primary-surface-default-subtle text-light-primary-text-subtitle !text-subtitle-16",
   },
   body: {
     base: "self-center overflow-auto p-6 !bg-light-primary-surface-default-subtle !text-subtitle-16",
     popup: "pt-0",
   },
   header: {
-    base: "flex w-full items-center justify-between rounded-sm border-b p-5 ",
-    popup: "border-b-0 p-2",
+    base: "flex w-full items-center justify-between rounded-sm p-5 pb-0 ",
+    popup: "",
     title: "text-light-primary-text-title text-title-18 w-full",
     close: {
       base: "ml-auto inline-flex items-center rounded-sm bg-transparent p-1.5 !text-title-18 !text-light-primary-text-title",
@@ -59,23 +62,15 @@ const customTheme = {
     },
   },
   footer: {
-    base: "flex items-center gap-3 rounded-sm p-6",
-    popup: "border-t",
+    base: "flex items-center gap-3 rounded-sm p-6 ",
+    popup: "",
   },
 };
 
 const AppConfrimModal: React.FC<AppConfrimModalProps> = (props) => {
-  const [openConfrimModal, setOpenConfrimModal] = useState(false);
-
   return (
     <>
-      <Modal
-        theme={customTheme}
-        show={openConfrimModal}
-        size="md"
-        onClose={() => setOpenConfrimModal(false)}
-        popup
-      >
+      <Modal theme={customTheme} size="md" onClose={props.onClose} show={true}>
         <Modal.Header />
         <Modal.Body>
           <div className="text-center flex flex-col items-center gap-4">
@@ -88,6 +83,9 @@ const AppConfrimModal: React.FC<AppConfrimModalProps> = (props) => {
                   text={item}
                   variant={index % 2 === 0 ? "failure" : "primary"}
                   outline={index % 2 !== 0}
+                  onClick={
+                    index % 2 === 0 ? props.onClose : () => props.onConfrim()
+                  }
                 />
               ))}
             </div>
