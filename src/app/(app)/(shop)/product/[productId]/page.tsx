@@ -1,9 +1,11 @@
+"use client";
+import AppSingleProductContainer from "@/components/organisms/appSingleProductContainer";
 import React from "react";
-const Test: React.FC = () => {
+const SingleProductPage: React.FC = () => {
   return (
-    <div>
-      <h1>SINGLE PRODUCT</h1>
+    <div className="flex flex-col flex-1">
+      <AppSingleProductContainer />
     </div>
   );
 };
-export default Test;
+export default SingleProductPage;

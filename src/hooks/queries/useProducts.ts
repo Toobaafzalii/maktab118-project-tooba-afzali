@@ -8,7 +8,7 @@ import { ProductsDto } from "./dtos/products";
 const queryName = "products";
 const apiRequestMethod = "get";
 type QueryResponse = ProductsDto;
-type QueryFnProps = { page: number };
+type QueryFnProps = { page: number; sort?: string; subcategory?: string };
 
 const useProducts = (props: QueryFnProps) => {
   const { data, isPending, refetch } = useQuery<
@@ -16,7 +16,12 @@ const useProducts = (props: QueryFnProps) => {
     unknown,
     QueryResponse
   >({
-    queryKey: [QUERY_KEYS[queryName], props.page],
+    queryKey: [
+      QUERY_KEYS[queryName],
+      props.page,
+      props.sort,
+      props.subcategory,
+    ],
     queryFn: () => queryFn(props),
     placeholderData: keepPreviousData,
   });
@@ -27,7 +32,7 @@ const useProducts = (props: QueryFnProps) => {
 const queryFn = async (props: QueryFnProps) => {
   try {
     const res = await client[apiRequestMethod](PATHS[queryName], {
-      params: props,
+      params: { ...props, limit: 12 },
     });
     return res.data;
   } catch (error) {

@@ -527,5 +527,5 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [require("flowbite/plugin")],
 } satisfies Config;

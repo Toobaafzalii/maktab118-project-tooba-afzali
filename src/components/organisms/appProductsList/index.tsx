@@ -1,0 +1,71 @@
+"use client";
+import AppSpinner from "@/components/atoms/appSpinner";
+import AppPagination from "@/components/molecules/appPagination";
+import AppProductCard from "@/components/molecules/appProductCard";
+import useProducts from "@/hooks/queries/useProducts";
+import { useEffect, useState } from "react";
+import { Filters } from "../appFilteringSidebar";
+
+type AppProductsListProps = {
+  filters: Filters | null;
+};
+
+const AppProductsList: React.FC<AppProductsListProps> = ({ filters }) => {
+  const [page, setPage] = useState(1);
+  const { isProductsLoading, products, refetch } = useProducts({
+    page,
+    ...(filters?.sort && {
+      sort: filters?.sort,
+    }),
+    ...(filters?.subcategories && {
+      subcategory: filters?.subcategories[0],
+    }),
+  });
+
+  useEffect(() => {
+    refetch();
+  }, [page]);
+
+  const handlePageChange = (page: number) => {
+    setPage(page);
+  };
+
+  useEffect(() => {
+    setPage(1);
+    refetch();
+  }, [filters]);
+
+  if (isProductsLoading) {
+    return (
+      <div className="w-full h-full flex flex-col flex-1 justify-center items-center ">
+        <AppSpinner />
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex flex-col justify-between items-center gap-6 py-10">
+      <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 space-x-2 space-y-2">
+        {products &&
+          products.data.products.map(({ price, name, thumbnail, _id }) => {
+            return (
+              <AppProductCard
+                id={_id}
+                key={_id}
+                thumbnail={thumbnail}
+                name={name}
+                price={price}
+              />
+            );
+          })}
+      </div>
+      <AppPagination
+        page={page}
+        totalPages={products?.total_pages}
+        onPageChange={(page) => handlePageChange(page)}
+      />
+    </div>
+  );
+};
+
+export default AppProductsList;

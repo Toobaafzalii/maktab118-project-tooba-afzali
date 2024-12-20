@@ -2,33 +2,25 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 interface AuthState {
-  user: {
-    accessToken: string | null;
-    refreshToken: string | null;
-    role: string | null;
-    firstName: string | null;
-    lastName: string | null;
+  user?: {
+    accessToken: string;
+    refreshToken: string;
+    role: string;
+    firstName: string;
+    lastName: string;
   };
-  setUser: (user: Partial<AuthState["user"]>) => void;
+  setUser: (user: Required<Partial<AuthState["user"]>>) => void;
   clearUser: () => void;
 }
 
 const useAuthStore = create(
   persist<AuthState>(
     (set) => ({
-      user: {
-        accessToken: null,
-        refreshToken: null,
-        role: null,
-        firstName: null,
-        lastName: null,
-      },
+      user: undefined,
+
       setUser: (user) => {
         set((state) => ({
-          user: {
-            ...state.user,
-            ...user,
-          },
+          user,
         }));
 
         const updatedUser = {
@@ -39,13 +31,7 @@ const useAuthStore = create(
       },
       clearUser: () => {
         set({
-          user: {
-            accessToken: null,
-            refreshToken: null,
-            role: null,
-            firstName: null,
-            lastName: null,
-          },
+          user: undefined,
         });
 
         localStorage.removeItem("auth-user");

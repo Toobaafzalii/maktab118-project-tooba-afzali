@@ -10,7 +10,7 @@ type QueryResponse = Array<SubcategoryByIdDto>;
 type QueryFnProps = { ids: Array<string> };
 
 const useSubcategoryByIds = () => {
-  const { mutate, isPending, data } = useMutation<
+  const { mutate, isPending, data, isError } = useMutation<
     QueryResponse,
     unknown,
     QueryFnProps
@@ -23,6 +23,7 @@ const useSubcategoryByIds = () => {
     [queryName]: mutate,
     issubcategoryByIdsLoading: isPending,
     subcategoryByIdsData: data,
+    subcategoryByIdsError: isError,
   };
 };
 
