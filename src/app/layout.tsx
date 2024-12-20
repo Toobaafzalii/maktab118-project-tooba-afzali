@@ -12,7 +12,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" dir="rtl">
-      <body className="font-app-peyda">
+      <body className="font-app-peyda-regular">
         <QueryClientProvider client={queryClient}>
           {children}
         </QueryClientProvider>
