@@ -83,8 +83,7 @@ export default function Layout({
   };
 
   const canAccess = () => {
-    const authorizedRoles = ["ADMIN"];
-    return authorizedRoles.includes(user.role || "");
+    return user?.role === "ADMIN";
   };
 
   const { title = "", description = "" } = pageTitle[pathName] || {};
@@ -153,10 +152,10 @@ export default function Layout({
               <UserAvatar className="fill-current text-light-primary-text-body" />
               <div className="flex flex-col justify-start items-start gap-3">
                 <p className="text-light-primary-text-title text-title-20">
-                  {user.firstName || "کاربر"} {user.lastName || ""}
+                  {user?.firstName || "کاربر"} {user?.lastName || "ناشناس"}
                 </p>
                 <p className="text-light-primary-text-subtitle text-subtitle-14">
-                  {user.role === "ADMIN" ? "ادمین تیبزی" : "کاربر عادی"}
+                  {user?.role === "ADMIN" ? "ادمین تیبزی" : "کاربر عادی"}
                 </p>
               </div>
             </div>
