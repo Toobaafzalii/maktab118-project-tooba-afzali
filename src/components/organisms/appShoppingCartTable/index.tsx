@@ -3,6 +3,7 @@ import { FC } from "react";
 import { Table } from "flowbite-react";
 import useCartStore from "@/stores/useCartStore";
 import AppCartTableRow from "@/components/molecules/appCartTableRow";
+import { SingleProductDto } from "@/hooks/queries/dtos/products";
 
 const customTheme = {
   root: {
@@ -29,7 +30,10 @@ const customTheme = {
   },
 };
 
-const AppShoppingCartTable: FC = () => {
+interface Props {
+  products?: SingleProductDto["data"]["product"][];
+}
+const AppShoppingCartTable: FC<Props> = ({ products }) => {
   const cartItems = useCartStore((state) => state.cartItems);
 
   return (
@@ -54,6 +58,7 @@ const AppShoppingCartTable: FC = () => {
               itemId={item.id}
               quantity={item.quantity}
               index={index + 1}
+              product={products?.[index]}
             />
           ))}
         </Table.Body>

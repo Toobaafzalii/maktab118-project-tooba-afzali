@@ -6,14 +6,21 @@ import useCartStore from "@/stores/useCartStore";
 import AppSpinner from "@/components/atoms/appSpinner";
 import AppImage from "@/components/organisms/appImage";
 import { Table } from "flowbite-react";
+import { SingleProductDto } from "@/hooks/queries/dtos/products";
 
 interface AppCartItemProps {
   itemId: string;
   quantity: number;
   index: number;
+  product?: SingleProductDto["data"]["product"];
 }
 
-const AppCartTableRow: FC<AppCartItemProps> = ({ itemId, quantity, index }) => {
+const AppCartTableRow: FC<AppCartItemProps> = ({
+  itemId,
+  quantity,
+  index,
+  product,
+}) => {
   const addItem = useCartStore((state) => state.addItem);
   const updateQuantity = useCartStore((state) => state.updateQuantity);
   const removeItem = useCartStore((state) => state.removeItem);
@@ -26,19 +33,17 @@ const AppCartTableRow: FC<AppCartItemProps> = ({ itemId, quantity, index }) => {
     removeItem(itemId);
   };
 
-  const { getProductById, isSingleProductByIdLoading } = useSingleProductById({
-    id: itemId,
-  });
+  // const { getProductById, isSingleProductByIdLoading } = useSingleProductById({
+  //   id: itemId,
+  // });
 
-  if (isSingleProductByIdLoading) {
-    return (
-      <div className="text-center w-full py-4">
-        <AppSpinner />
-      </div>
-    );
-  }
-
-  const product = getProductById?.data?.product;
+  // if (isSingleProductByIdLoading) {
+  //   return (
+  //     <div className="text-center w-full py-4">
+  //       <AppSpinner />
+  //     </div>
+  //   );
+  // }
 
   if (!product) {
     return <div className="text-center text-red-500 py-4">محصول یافت نشد.</div>;
