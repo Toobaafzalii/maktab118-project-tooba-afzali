@@ -132,7 +132,7 @@ export const AppInput: React.FC<AppInputProps> = ({
   };
 
   return (
-    <div className=" min-h-[100px]">
+    <div className={`${sizing === "sm" ? "min-h-[100px]" : "min-h-[117px]"}`}>
       {labelValue && (
         <div className="block">
           <Label
