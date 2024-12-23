@@ -1,9 +1,14 @@
-import React from "react";
-const Test: React.FC = () => {
+"use client";
+
+import AppOrderDetailsCard from "@/components/molecules/appOrderDetailsCard";
+import AppShoppingCartTable from "@/components/organisms/appShoppingCartTable";
+
+const ShoppingCartPage: React.FC = () => {
   return (
-    <div>
-      <h1>SHOPPING CART</h1>
+    <div className="relative bg-light-primary-surface-default flex flex-grow justify-between items-start p-10 w-full text-nowrap gap-2">
+      <AppShoppingCartTable />
+      <AppOrderDetailsCard hasButton={true} />
     </div>
   );
 };
-export default Test;
+export default ShoppingCartPage;

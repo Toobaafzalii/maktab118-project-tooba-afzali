@@ -73,16 +73,26 @@ const AppFileUploader: React.FC<AppFileUploaderProps> = ({
   const onSelectFile = (e: ChangeEvent<HTMLInputElement>) => {
     if (isDisabled) return;
     if (e.target.files) {
-      const file = e.target.files[0];
-      const res = URL.createObjectURL(file);
+      const files = Array.from(e.target.files);
+      const newImages = files.map((file) => ({
+        id: Math.random(),
+        url: URL.createObjectURL(file),
+        isThumbnail: false,
+        imageObject: file,
+        preview: true,
+      }));
 
       setImages((prevImages) => {
-        const nextAvailableIndex = prevImages.findIndex((img) => !img.url);
-        return prevImages.map((img, index) =>
-          index === nextAvailableIndex
-            ? { ...img, url: res, imageObject: file, preview: true }
-            : img
-        );
+        const updatedImages = [...prevImages];
+        let index = 0;
+        newImages.forEach((image) => {
+          const nextAvailableIndex = updatedImages.findIndex((img) => !img.url);
+          if (nextAvailableIndex !== -1) {
+            updatedImages[nextAvailableIndex] = { ...image, id: index++ };
+          }
+        });
+
+        return updatedImages;
       });
     }
   };
@@ -197,6 +207,7 @@ const AppFileUploader: React.FC<AppFileUploaderProps> = ({
           type="file"
           onChange={onSelectFile}
           disabled={isDisabled}
+          multiple
         />
         <AppButton
           text="آپلود فایل تصویر"

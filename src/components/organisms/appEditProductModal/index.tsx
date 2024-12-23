@@ -56,6 +56,8 @@ const AppEditProductModal: React.FC<AppProductModalProps> = ({
       setValue("category", getProductById?.data.product.category._id);
       setValue("subcategory", getProductById?.data.product.subcategory._id);
       setValue("description", getProductById?.data.product.description);
+      setValue("quantity", getProductById?.data.product.quantity);
+      setValue("price", getProductById?.data.product.price);
     }
   }, [getProductById]);
 
@@ -66,6 +68,8 @@ const AppEditProductModal: React.FC<AppProductModalProps> = ({
     formData.append("category", data.category);
     formData.append("subcategory", data.subcategory);
     formData.append("description", data.description);
+    formData.append("quantity", String(data.quantity));
+    formData.append("price", String(data.price));
 
     editProductById(
       { id: productId, payLoad: formData },
@@ -178,7 +182,32 @@ const AppEditProductModal: React.FC<AppProductModalProps> = ({
             {...register("description")}
             hasError={!!errors.description}
             helperText={errors.description?.message}
+            defaultValue={getProductById?.data.product.description}
           />
+          <div className="w-full flex justify-between items-start gap-3">
+            <AppInput
+              id="product-quantity"
+              type="text"
+              sizing="sm"
+              label="موجودی"
+              placeholder="مثل: ۱۰۰"
+              {...register("quantity", { valueAsNumber: true })}
+              hasError={!!errors.quantity}
+              helperText={errors.quantity?.message}
+              defaultValue={getProductById?.data.product.quantity}
+            />
+            <AppInput
+              id="product-price"
+              type="text"
+              sizing="sm"
+              label="قیمت(تومان) "
+              placeholder="مثال: ۲۰۰,۰۰۰"
+              {...register("price", { valueAsNumber: true })}
+              hasError={!!errors.price}
+              helperText={errors.price?.message}
+              defaultValue={getProductById?.data.product.price}
+            />
+          </div>
         </div>
         <AppFileUploader
           helperText={"امکان ویرایش تصاویر برای این محصول وجود ندارد."}

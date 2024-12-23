@@ -42,7 +42,13 @@ const AppCarousel: React.FC = () => {
       responsive={responsive}
     >
       {carouselImages.map((image, index) => {
-        return <AppImage src={image} key={index} className="w-full h-screen" />;
+        return (
+          <AppImage
+            src={image}
+            key={index}
+            className="w-full h-screen object-cover"
+          />
+        );
       })}
     </Carousel>
   );

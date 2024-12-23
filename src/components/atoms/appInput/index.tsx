@@ -132,7 +132,7 @@ export const AppInput: React.FC<AppInputProps> = ({
   };
 
   return (
-    <div className="max-w-md min-h-[100px]">
+    <div className=" min-h-[100px]">
       {labelValue && (
         <div className="block">
           <Label

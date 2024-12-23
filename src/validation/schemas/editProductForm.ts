@@ -9,6 +9,12 @@ export const productSchema = z.object({
   category: z.string().min(3, "دسته ضروری است."),
   subcategory: z.string().min(3, "زیر دسته ضروری است."),
   description: z.string().min(5, "توضیحات ضروری است."),
+  quantity: z
+    .number({ invalid_type_error: "موجودی باید عدد باشد." })
+    .min(1, "موجودی ضروری است."),
+  price: z
+    .number({ invalid_type_error: "قیمت باید عدد باشد." })
+    .min(1, "قیمت ضروری است."),
   // images: z
   //   .array(
   //     z.object({

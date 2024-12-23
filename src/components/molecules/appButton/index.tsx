@@ -130,7 +130,7 @@ export const AppButton: React.FC<AppButtonProps> = ({
       size={size}
       outline={outline}
       disabled={isDisabled}
-      className={`rounded-sm transition-all items-center  ${
+      className={`rounded-sm transition-all items-center text-nowrap  ${
         fullWidth ? "w-full" : ""
       } ${getDisabledStyle()}`}
     >
