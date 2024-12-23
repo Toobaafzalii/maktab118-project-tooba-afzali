@@ -54,7 +54,7 @@ const LandingPage: React.FC = () => {
         <div className="flex justify-between items-center gap-2">
           {collectionImages &&
             collectionImages.map((img) => {
-              return <AppImage src={img} className="w-[49%]" />;
+              return <AppImage key={img} src={img} className="w-[49%]" />;
             })}
         </div>
         <div className="flex justify-between items-center p-5 gap-4">
@@ -62,18 +62,21 @@ const LandingPage: React.FC = () => {
             thumbnail="https://cdn.shopify.com/s/files/1/0498/5713/4756/files/MLOJ3603_CML_0006_b09f4163-8130-4a61-9db1-32c5402d1941_600x.progressive.jpg?v=1729715138"
             name="تی‌شرت لوکس کمل"
             price={26500}
+            quantity={1}
             id="1"
           />
           <AppProductCard
             thumbnail="https://cdn.shopify.com/s/files/1/0498/5713/4756/files/MLOJ3603_CML_0006_b09f4163-8130-4a61-9db1-32c5402d1941_600x.progressive.jpg?v=1729715138"
             name="تی‌شرت لوکس کمل"
             price={26500}
+            quantity={1}
             id="2"
           />
           <AppProductCard
             thumbnail="https://cdn.shopify.com/s/files/1/0498/5713/4756/files/MLOJ3603_CML_0006_b09f4163-8130-4a61-9db1-32c5402d1941_600x.progressive.jpg?v=1729715138"
             name="تی‌شرت لوکس کمل"
             price={26500}
+            quantity={1}
             id="3"
           />
         </div>
@@ -84,6 +87,7 @@ const LandingPage: React.FC = () => {
           banerImages.map((baner) => {
             return (
               <AppImage
+                key={baner.src}
                 className="cursor-pointer hover:shadow-md hover:scale-105 transition-all duration-500"
                 src={baner.src}
                 onClick={() => router.push(baner.navigateTo)}
@@ -97,7 +101,7 @@ const LandingPage: React.FC = () => {
           <span className="w-full text-title-28 text-light-primary-text-title">
             لیست محصولات
           </span>
-          <AppProductsList filters={filters} />
+          <AppProductsList filters={filters} size="sm" />
         </div>
         <AppFilteringSidebar onFiltersChange={onFiltersChange} />
       </div>

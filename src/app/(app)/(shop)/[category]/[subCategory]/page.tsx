@@ -33,7 +33,7 @@ const SubcategoryPage: React.FC = () => {
   }
 
   return (
-    <div className="flex flex-col flex-1 px-10">
+    <div className="flex mx-auto self-center flex-col flex-1 px-8">
       <div className="w-full flex justify-between items-end py-5 ">
         <span className="flex text-nowrap items-center justify-between gap-1">
           <span className="text-light-primary-text-subtitle text-subtitle-20">
@@ -66,7 +66,7 @@ const SubcategoryPage: React.FC = () => {
           />
         </div>
       </div>
-      <AppProductsList filters={filters} />
+      <AppProductsList filters={filters} size="lg" />
     </div>
   );
 };
