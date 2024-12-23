@@ -2,63 +2,32 @@
 import { AppButton } from "@/components/molecules/appButton";
 import ArrowLeft from "../../../../public/svg/CaretLeft.svg";
 import useCartStore from "@/stores/useCartStore";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import useSingleProductById from "@/hooks/queries/useGetProductById";
 import { number } from "zod";
+import { SingleProductDto } from "@/hooks/queries/dtos/products";
 
 type AppOrderDetailsCardProps = {
   hasButton: boolean;
+  products?: SingleProductDto["data"]["product"][];
 };
 
 const AppOrderDetailsCard: React.FC<AppOrderDetailsCardProps> = ({
   hasButton,
+  products,
 }) => {
   const cartItems = useCartStore((state) => state.cartItems);
-  const [totalPrice, setTotalPrice] = useState(0);
-  const [productDetails, setProductDetails] = useState<
-    {
-      id: string;
-      price: number;
-      quantity: number;
-    }[]
-  >([]);
+
+  const totalPrice = useMemo(() => {
+    let total = 0;
+    products?.forEach(({ price }, index) => {
+      total += price * cartItems[index].quantity;
+    });
+    return total;
+  }, [products, cartItems]);
+
   const router = useRouter();
-
-  useEffect(() => {
-    const fetchProductDetails = async () => {
-      const productPromises = cartItems.map((item) =>
-        useSingleProductById({ id: item.id })
-      );
-
-      const productResponses = await Promise.all(productPromises);
-
-      const productsWithPrice = productResponses.map((data, index) => {
-        const price = data.getProductById?.data.product.price || 0;
-        return {
-          id: cartItems[index].id,
-          price,
-          quantity: cartItems[index].quantity,
-        };
-      });
-
-      setProductDetails(productsWithPrice);
-    };
-
-    if (cartItems.length > 0) {
-      fetchProductDetails();
-    }
-  }, [cartItems]);
-
-  useEffect(() => {
-    if (productDetails.length > 0) {
-      let total = 0;
-      productDetails.forEach((product) => {
-        total += product.quantity * product.price;
-      });
-      setTotalPrice(total);
-    }
-  }, [productDetails, cartItems]);
 
   return (
     <div className="flex sticky top-[216px] flex-col justify-between items-center bg-light-primary-surface-default-subtle p-4 gap-10 text-light-primary-text-body max-w-[400px] w-full flex-grow drop-shadow-sm">
