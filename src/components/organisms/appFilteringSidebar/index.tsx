@@ -49,7 +49,7 @@ const AppFilteringSidebar: React.FC<AppFilteringSidebarProps> = ({
 
   useEffect(() => {
     handleCategoryChange(categories?.data.categories?.[0]._id ?? "");
-  }, [subcategories]);
+  }, [categories]);
 
   const handleSubcategoriesChange = (value: string) => {
     if (!value) return;

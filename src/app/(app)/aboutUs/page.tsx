@@ -1,7 +1,7 @@
-import React from "react";
+"use client";
 const Test: React.FC = () => {
   return (
-    <div>
+    <div className="w-full">
       <h1>ABOUT US</h1>
     </div>
   );

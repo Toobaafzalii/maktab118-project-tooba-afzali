@@ -9,10 +9,13 @@ import useSubcategories from "@/hooks/queries/useSubcategories";
 import useAuthStore from "@/stores/useAuthStore";
 import { root } from "postcss";
 import { useRouter } from "next/navigation";
+import AppCartDropdown from "@/components/organisms/appCartDropdown";
+import { useState } from "react";
+import useCartStore from "@/stores/useCartStore";
 
 const customTheme = {
   root: {
-    base: "w-full bg-light-primary-surface-negative text-body-18 text-light-primary-text-negative-subtle py-3 flex justify-between items-center",
+    base: "w-full fixed top-0 z-50 bg-light-primary-surface-negative text-body-18 text-light-primary-text-negative-subtle py-3 flex justify-between items-center",
     rounded: {
       on: "rounded-none",
       off: "",
@@ -98,99 +101,121 @@ const customTheme = {
 const AppHeader: React.FC = () => {
   const { subcategories } = useSubcategories({ page: 1 });
   const { user } = useAuthStore();
+  const { cartItems } = useCartStore((state) => state);
   const router = useRouter();
 
+  const [isCartOpen, setIsCartOpen] = useState(false);
+
+  const toggleCartDropDown = () => {
+    setIsCartOpen((prev) => !prev);
+  };
+
   return (
-    <MegaMenu theme={customTheme}>
-      <div className="container mx-auto flex flex-nowrap items-center justify-between py-3 text-nowrap">
-        <Navbar.Brand href="/" className="flex items-center">
-          <span className="text-title-28 ">TIBZIWEAR</span>
-          <TwLogo className="h-8 w-8" />
-        </Navbar.Brand>
-        <Navbar.Toggle className="md:hidden" />
-        <Navbar.Collapse className="w-full md:w-auto">
-          <MegaMenu.Dropdown
-            className="!bg-light-primary-surface-negative-subtle text-body-18 border-none"
-            toggle={<>برای بانوان</>}
-          >
-            <ul className="min-w-[200px] w-full grid grid-cols-1 !bg-light-primary-surface-negative-subtle">
-              {subcategories?.data.subcategories
-                .filter(
-                  (subcategory) =>
-                    subcategory.category === "67534c7571ea6b8807d33691"
-                )
-                .map((subcategory) => (
-                  <li
-                    onClick={() =>
-                      router.push(`/${subcategory.category}/${subcategory._id}`)
-                    }
-                    key={subcategory._id}
-                    className="w-full p-3 text-start text-body-18 hover:bg-light-primary-surface-negative text-light-primary-text-negative-subtle"
-                  >
-                    {subcategory.name}
-                  </li>
-                ))}
-            </ul>
-          </MegaMenu.Dropdown>
-          <MegaMenu.Dropdown
-            className="!bg-light-primary-surface-negative-subtle text-body-18 border-none"
-            toggle={<>برای آقایان</>}
-          >
-            <ul className="min-w-[200px] w-full grid grid-cols-1 !bg-light-primary-surface-negative-subtle">
-              {subcategories?.data.subcategories
-                .filter(
-                  (subcategory) =>
-                    subcategory.category === "67534c7571ea6b8807d33692"
-                )
-                .map((subcategory) => (
-                  <li
-                    onClick={() =>
-                      router.push(`/${subcategory.category}/${subcategory._id}`)
-                    }
-                    key={subcategory._id}
-                    className="w-full p-3 text-start text-body-18 hover:bg-light-primary-surface-negative text-light-primary-text-negative-subtle"
-                  >
-                    {subcategory.name}
-                  </li>
-                ))}
-            </ul>
-          </MegaMenu.Dropdown>
-          <Navbar.Link
-            className="text-nowrap hover:text-light-primary-text-negative cursor-pointer"
-            onClick={() => router.push("/aboutUs")}
-          >
-            درباره ما
-          </Navbar.Link>
-        </Navbar.Collapse>
-        <div className="hidden items-center md:flex">
-          {user ? (
-            <div className="flex justify-between !items-center gap-2 px-4">
-              <div className="flex justify-between items-center gap-1 cursor-pointer">
-                <ArrowDown />
-                <span>{user.firstName + " " + user.lastName}</span>
+    <div className="w-full relative">
+      <MegaMenu theme={customTheme}>
+        <div className="w-full relative mx-auto flex flex-nowrap items-center justify-between py-3 px-6 text-nowrap">
+          <Navbar.Brand href="/" className="flex items-center">
+            <span className="text-title-28">TIBZIWEAR</span>
+            <TwLogo className="h-8 w-8" />
+          </Navbar.Brand>
+          <Navbar.Toggle className="md:hidden" />
+          <Navbar.Collapse className="w-full md:w-auto">
+            <MegaMenu.Dropdown
+              className="!bg-light-primary-surface-negative-subtle text-body-18 border-none"
+              toggle={<>برای بانوان</>}
+            >
+              <ul className="min-w-[200px] w-full grid grid-cols-1 !bg-light-primary-surface-negative-subtle">
+                {subcategories?.data.subcategories
+                  .filter(
+                    (subcategory) =>
+                      subcategory.category === "67534c7571ea6b8807d33691"
+                  )
+                  .map((subcategory) => (
+                    <li
+                      onClick={() =>
+                        router.push(
+                          `/${subcategory.category}/${subcategory._id}`
+                        )
+                      }
+                      key={subcategory._id}
+                      className="w-full p-3 text-start text-body-18 hover:bg-light-primary-surface-negative text-light-primary-text-negative-subtle"
+                    >
+                      {subcategory.name}
+                    </li>
+                  ))}
+              </ul>
+            </MegaMenu.Dropdown>
+            <MegaMenu.Dropdown
+              className="!bg-light-primary-surface-negative-subtle text-body-18 border-none"
+              toggle={<>برای آقایان</>}
+            >
+              <ul className="min-w-[200px] w-full grid grid-cols-1 !bg-light-primary-surface-negative-subtle">
+                {subcategories?.data.subcategories
+                  .filter(
+                    (subcategory) =>
+                      subcategory.category === "67534c7571ea6b8807d33692"
+                  )
+                  .map((subcategory) => (
+                    <li
+                      onClick={() =>
+                        router.push(
+                          `/${subcategory.category}/${subcategory._id}`
+                        )
+                      }
+                      key={subcategory._id}
+                      className="w-full p-3 text-start text-body-18 hover:bg-light-primary-surface-negative text-light-primary-text-negative-subtle"
+                    >
+                      {subcategory.name}
+                    </li>
+                  ))}
+              </ul>
+            </MegaMenu.Dropdown>
+            <Navbar.Link
+              className="text-nowrap hover:text-light-primary-text-negative cursor-pointer"
+              onClick={() => router.push("/aboutUs")}
+            >
+              درباره ما
+            </Navbar.Link>
+          </Navbar.Collapse>
+          <div className="hidden items-center md:flex">
+            {user ? (
+              <div className="flex justify-between !items-center gap-2 px-4">
+                <div className="flex justify-between items-center gap-1 cursor-pointer">
+                  <ArrowDown />
+                  <span>{user.firstName + " " + user.lastName}</span>
+                </div>
+                <img
+                  src="./svg/UserAvatar.svg"
+                  alt="user"
+                  className="w-10 h-10"
+                />
               </div>
-              <img
-                src="./svg/UserAvatar.svg"
-                alt="user"
-                className="w-10 h-10"
+            ) : (
+              <div
+                className="text-subtitle-14 cursor-pointer text-light-primary-text-negative-subtle px-4"
+                onClick={() => router.push("/signup")}
+              >
+                ورود/ثبت نام
+              </div>
+            )}
+            <div className="relative">
+              {cartItems.length > 0 && (
+                <div className="rounded-lg flex z-10 justify-center items-center w-7 h-7 bg-dark-error-text-negative absolute top-[-12px] right-[-8px]">
+                  {cartItems.length}
+                </div>
+              )}
+              <AppButton
+                text="سبد خرید"
+                variant="secondary"
+                iconLeft={(className) => <ShoppingCart className={className} />}
+                onClick={toggleCartDropDown}
               />
             </div>
-          ) : (
-            <div
-              className="text-subtitle-14 cursor-pointer text-light-primary-text-negative-subtle px-4"
-              onClick={() => router.push("/signup")}
-            >
-              ورود/ثبت نام
-            </div>
-          )}
-          <AppButton
-            text="سبد خرید"
-            variant="secondary"
-            iconLeft={(className) => <ShoppingCart className={className} />}
-          />
+          </div>
         </div>
-      </div>
-    </MegaMenu>
+        {isCartOpen && <AppCartDropdown onClose={() => setIsCartOpen(false)} />}
+      </MegaMenu>
+    </div>
   );
 };
 
