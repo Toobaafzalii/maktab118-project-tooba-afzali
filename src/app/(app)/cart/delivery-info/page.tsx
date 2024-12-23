@@ -10,6 +10,12 @@ import { isDirty, z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { deliveryInfoSchema } from "@/validation/schemas/deliveryInfoForm";
 import { useRouter } from "next/navigation";
+import useCartStore from "@/stores/useCartStore";
+import useSingleProductByIds from "@/hooks/queries/useGetProductByIds";
+import DatePicker from "react-multi-date-picker";
+import { useState } from "react";
+import persian from "react-date-object/calendars/persian";
+import persian_fa from "react-date-object/locales/persian_fa";
 
 type FormData = z.infer<typeof deliveryInfoSchema>;
 
@@ -18,15 +24,26 @@ const DeliveryInfoPage: React.FC = () => {
     register,
     handleSubmit,
     formState: { errors, isValid },
+    watch,
+    setValue,
   } = useForm<FormData>({
     resolver: zodResolver(deliveryInfoSchema),
     mode: "onChange",
+    defaultValues: {
+      date: new Date(),
+    },
   });
   const router = useRouter();
+  const { cartItems } = useCartStore((state) => state);
+  const { productsByIds } = useSingleProductByIds({
+    ids: cartItems.map((item) => item.id),
+  });
 
   const onSubmit = (data: FormData) => {
-    console.log(data);
+    console.log(data.date.getTime());
   };
+
+  const { date } = watch();
 
   return (
     <div className="relative bg-light-primary-surface-default flex flex-grow justify-between items-start p-10 py-16 w-full text-nowrap gap-2">
@@ -81,7 +98,7 @@ const DeliveryInfoPage: React.FC = () => {
               helperText={errors.address?.message}
             />
           </div>
-          <div className="w-full flex justify-between items-center gap-5">
+          <div className="w-full flex justify-between items-start gap-5">
             <div className="w-full">
               <AppInput
                 label="تلفن همراه"
@@ -93,6 +110,28 @@ const DeliveryInfoPage: React.FC = () => {
                 hasError={!!errors.phoneNumber}
                 helperText={
                   errors.phoneNumber?.message || "جهت هماهنگی ارسال سفارش"
+                }
+              />
+            </div>
+            <div className="w-full">
+              <DatePicker
+                value={date}
+                locale={persian_fa}
+                name="date"
+                editable={false}
+                calendar={persian}
+                onChange={(date) => {
+                  date && setValue("date", date.toDate());
+                }}
+                render={
+                  <AppInput
+                    className="w-full"
+                    id="date"
+                    sizing="lg"
+                    type="text"
+                    label="تاریخ ارسال"
+                    placeholder="کلیک کنید"
+                  />
                 }
               />
             </div>
@@ -118,7 +157,7 @@ const DeliveryInfoPage: React.FC = () => {
           </div>
         </form>
       </div>
-      <AppOrderDetailsCard hasButton={false} />
+      <AppOrderDetailsCard hasButton={false} products={productsByIds} />
     </div>
   );
 };

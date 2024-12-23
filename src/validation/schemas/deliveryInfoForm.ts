@@ -11,4 +11,5 @@ export const deliveryInfoSchema = z.object({
     })
     .min(1, { message: "تلفن همراه الزامی است" })
     .transform((val) => val.trim()),
+  date: z.date(),
 });
