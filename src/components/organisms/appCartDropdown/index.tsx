@@ -1,11 +1,12 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { AppButton } from "@/components/molecules/appButton";
 import Eye from "../../../../public/svg/Eye.svg";
 import ArrowLeft from "../../../../public/svg/CaretLeft.svg";
 import { useRouter } from "next/navigation";
 import useCartStore from "@/stores/useCartStore";
 import AppCartDropdownItem from "@/components/molecules/appCartDropdownItem";
+import useSingleProductByIds from "@/hooks/queries/useGetProductByIds";
 
 interface Props {
   onClose: () => void;
@@ -15,14 +16,24 @@ const AppCartDropdown: React.FC<Props> = ({ onClose }) => {
   const router = useRouter();
 
   const cartItems = useCartStore((state) => state.cartItems);
+  const { productsByIds } = useSingleProductByIds({
+    ids: cartItems.map((item) => item.id),
+  });
   const updateQuantity = useCartStore((state) => state.updateQuantity);
 
   const handleCountChange = (id: string, count: number) => {
     updateQuantity(id, count);
   };
 
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, []);
+
   return (
-    <div className="fixed inset-x-0 bg-gray-900 bg-opacity-30 z-50 cursor-pointer">
+    <div className="fixed inset-x-0 bg-opacity-30 z-50 cursor-pointer ">
       <div
         className="fixed inset-0 bg-gray-700 opacity-30"
         onClick={onClose}
@@ -40,11 +51,12 @@ const AppCartDropdown: React.FC<Props> = ({ onClose }) => {
 
         {cartItems.length > 0 ? (
           <div className="flex flex-col w-full gap-4 py-4 border-b-[1px] border-light-primary-border-default-subtle">
-            {cartItems.map((item) => (
+            {cartItems.map((item, index) => (
               <AppCartDropdownItem
                 key={item.id}
                 id={item.id}
                 onCountChange={handleCountChange}
+                product={productsByIds?.[index]}
               />
             ))}
           </div>

@@ -16,4 +16,5 @@ export const PATHS = {
   getProductById: "/products/:id",
   deleteProductById: "products/:id",
   editProductsByIds: "products/:id",
+  productsByIds: "products/:id",
 };
