@@ -11,6 +11,7 @@ import { root } from "postcss";
 import { useRouter } from "next/navigation";
 import AppCartDropdown from "@/components/organisms/appCartDropdown";
 import { useState } from "react";
+import useCartStore from "@/stores/useCartStore";
 
 const customTheme = {
   root: {
@@ -100,6 +101,7 @@ const customTheme = {
 const AppHeader: React.FC = () => {
   const { subcategories } = useSubcategories({ page: 1 });
   const { user } = useAuthStore();
+  const { cartItems } = useCartStore((state) => state);
   const router = useRouter();
 
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -196,12 +198,19 @@ const AppHeader: React.FC = () => {
                 ورود/ثبت نام
               </div>
             )}
-            <AppButton
-              text="سبد خرید"
-              variant="secondary"
-              iconLeft={(className) => <ShoppingCart className={className} />}
-              onClick={toggleCartDropDown}
-            />
+            <div className="relative">
+              {cartItems.length > 0 && (
+                <div className="rounded-lg flex z-10 justify-center items-center w-7 h-7 bg-dark-error-text-negative absolute top-[-12px] right-[-8px]">
+                  {cartItems.length}
+                </div>
+              )}
+              <AppButton
+                text="سبد خرید"
+                variant="secondary"
+                iconLeft={(className) => <ShoppingCart className={className} />}
+                onClick={toggleCartDropDown}
+              />
+            </div>
           </div>
         </div>
         {isCartOpen && <AppCartDropdown onClose={() => setIsCartOpen(false)} />}
