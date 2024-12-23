@@ -14,7 +14,6 @@ export type AppButtonProps = {
   text: string;
   iconLeft?: (className: string) => React.ReactNode;
   iconRight?: (className: string) => React.ReactNode;
-  onClick?: (event?: string) => void;
 } & ButtonProps;
 
 const customTheme: CustomFlowbiteTheme["button"] = {

@@ -5,6 +5,7 @@ import { AppButton } from "../appButton";
 import PlusIcon from "../../../../public/svg/Plus.svg";
 import { useRouter } from "next/navigation";
 import useCartStore from "@/stores/useCartStore";
+import { MouseEvent } from "react";
 
 type AppProductCardProps = {
   id: string;
@@ -44,8 +45,10 @@ const AppProductCard: React.FC<AppProductCardProps> = ({
 
   const addItem = useCartStore((state) => state.addItem);
 
-  const handleAddToCart = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.stopPropagation();
+  const handleAddToCart = (
+    e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>
+  ) => {
+    e?.stopPropagation();
     addItem(id, 1);
   };
 
@@ -68,7 +71,7 @@ const AppProductCard: React.FC<AppProductCardProps> = ({
               variant="secondary"
               iconRight={(className) => <PlusIcon className={className} />}
               fullWidth
-              onClick={() => handleAddToCart}
+              onClick={(e) => handleAddToCart(e)}
               isDisabled={!quantity || quantity === 0}
             />
           </div>

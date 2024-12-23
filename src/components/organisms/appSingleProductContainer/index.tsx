@@ -8,7 +8,7 @@ import useSingleProductById from "@/hooks/queries/useGetProductById";
 import { usePathname } from "next/navigation";
 import AppSpinner from "@/components/atoms/appSpinner";
 import NotFound from "@/app/(app)/notFound/page";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import useCartStore from "@/stores/useCartStore";
 
 const AppSingleProductContainer: React.FC = () => {
@@ -23,10 +23,14 @@ const AppSingleProductContainer: React.FC = () => {
   const updateQuantity = useCartStore((state) => state.updateQuantity);
   const removeItem = useCartStore((state) => state.removeItem);
   const cartItems = useCartStore((state) => state.cartItems);
-
-  const currentItem = cartItems.find((item) => item.id === productId);
-  const itemCount = currentItem ? currentItem.quantity : 0;
-  const [showCounter, setShowCounter] = useState(itemCount ? true : false);
+  const currentItem = useMemo(
+    () => cartItems.find((item) => item.id === productId),
+    [cartItems, productId]
+  );
+  const itemCount = useMemo(
+    () => (currentItem ? currentItem.quantity : 0),
+    [cartItems]
+  );
 
   if (isSingleProductByIdLoading) {
     return (
@@ -41,7 +45,6 @@ const AppSingleProductContainer: React.FC = () => {
   }
 
   const handleAddToCart = () => {
-    setShowCounter(true);
     if (itemCount === 0) {
       addItem(productId, 1);
     } else {
@@ -51,7 +54,6 @@ const AppSingleProductContainer: React.FC = () => {
 
   const handleZeroCount = () => {
     removeItem(productId);
-    setShowCounter(false);
   };
 
   const countChangeHandle = (count: number) => {
@@ -99,7 +101,7 @@ const AppSingleProductContainer: React.FC = () => {
           </span>
         </div>
         <div className="flex flex-col justify-between items-start gap-3">
-          {showCounter ? (
+          {itemCount > 0 ? (
             <AppItemCounter
               id={productId}
               max={getProductById?.data.product.quantity}

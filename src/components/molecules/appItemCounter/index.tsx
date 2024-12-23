@@ -39,6 +39,9 @@ const AppItemCounter: React.FC<AppItemCounterProps> = ({
   const decrement = () => {
     if (count > min) {
       updateQuantity(id, count - 1);
+    } else {
+      removeItem(id);
+      onZeroCount && onZeroCount();
     }
   };
 
