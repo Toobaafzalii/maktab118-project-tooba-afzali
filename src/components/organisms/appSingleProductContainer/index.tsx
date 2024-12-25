@@ -8,7 +8,7 @@ import useSingleProductById from "@/hooks/queries/useGetProductById";
 import { usePathname } from "next/navigation";
 import AppSpinner from "@/components/atoms/appSpinner";
 import NotFound from "@/app/(app)/notFound/page";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import useCartStore from "@/stores/useCartStore";
 
 const AppSingleProductContainer: React.FC = () => {
@@ -68,17 +68,14 @@ const AppSingleProductContainer: React.FC = () => {
             <AppImage
               src={getProductById?.data.product.thumbnail}
               className="w-full"
-              isThumbnail
             />
             <AppImage
               src={getProductById?.data.product.thumbnail}
               className="w-full"
-              isThumbnail
             />
             <AppImage
               src={getProductById?.data.product.thumbnail}
               className="w-full"
-              isThumbnail
             />
           </div>
         )}
@@ -93,9 +90,12 @@ const AppSingleProductContainer: React.FC = () => {
           <span className="text-title-28">
             {getProductById?.data.product.name}
           </span>
-          <span className="text-subtitle-20">
-            {getProductById?.data.product.description}
-          </span>
+          <span
+            dangerouslySetInnerHTML={{
+              __html: getProductById?.data.product.description as TrustedHTML,
+            }}
+            className="text-subtitle-20"
+          ></span>
           <span className="text-subtitle-20 text-light-primary-text-subtitle">
             {`${getProductById?.data.product.brand} دیگر توضیحات: برند`}
           </span>
