@@ -49,9 +49,6 @@ const AdminloginPage: React.FC = () => {
           router.push("/dashboard");
         }
       },
-      onError: (error) => {
-        const axiosError = error as AxiosError;
-      },
     });
   };
 
@@ -60,7 +57,7 @@ const AdminloginPage: React.FC = () => {
   };
 
   return (
-    <div className="bg-light-primary-surface-default border-[1px] border-light-primary-border-default pb-36 pt-24 max-h-screen px-32 gap-11 w-[609px] flex flex-col justify-start items-start">
+    <div className="bg-light-primary-surface-default border-[1px] border-light-primary-border-default py-12 max-h-screen px-32 gap-8 w-full flex flex-col justify-between items-start">
       <div className="space-y-1">
         <p className="text-light-primary-text-title text-title-24">
           ورود به داشبورد
@@ -70,7 +67,7 @@ const AdminloginPage: React.FC = () => {
         </p>
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="w-full space-y-6">
+      <form onSubmit={handleSubmit(onSubmit)} className="w-full space-y-2">
         <div className="w-full">
           <AppInput
             {...register("username")}

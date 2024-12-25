@@ -24,7 +24,7 @@ const ProductsTable: React.FC = () => {
 
   const { issubcategoryByIdsLoading, subcategoryByIds, subcategoryByIdsData } =
     useSubcategoryByIds();
-  const { isProductsLoading, products, refetch } = useProducts({
+  const { isProductsLoading, products, refetch, isRefetching } = useProducts({
     page,
   });
   const { deleteProductById, isDeleteProductByIdLoading } =
@@ -118,7 +118,7 @@ const ProductsTable: React.FC = () => {
     }
   };
 
-  if (isProductsLoading) {
+  if (isProductsLoading || isRefetching) {
     return (
       <div className="flex flex-col flex-1 justify-center items-center ">
         <AppSpinner />

@@ -6,7 +6,7 @@ import CheckSquare from "../../../../public/svg/CheckSquare.svg";
 import UploadSimple from "../../../../public/svg/UploadSimple.svg";
 import AppImage from "@/components/organisms/appImage";
 
-interface ImageItem {
+export interface ImageItem {
   id: number;
   url: string | null;
   isThumbnail: boolean;
@@ -37,6 +37,7 @@ interface AppFileUploaderProps {
   defaultValue?: Array<string>;
   defaultThumbnail?: string;
   isDisabled?: boolean;
+  value?: Array<string>;
 }
 
 const AppFileUploader: React.FC<AppFileUploaderProps> = ({
@@ -127,6 +128,10 @@ const AppFileUploader: React.FC<AppFileUploaderProps> = ({
             : { ...img, isThumbnail: false }
         )
       );
+    } else if (filledImages.length === 0) {
+      setImages((prevImages) =>
+        prevImages.map((img) => ({ ...img, isThumbnail: false }))
+      );
     }
 
     onChange && onChange(filledImages);
@@ -139,7 +144,6 @@ const AppFileUploader: React.FC<AppFileUploaderProps> = ({
 
   const isUploadDisabled =
     isDisabled || images.every((img) => img.url !== null);
-
   return (
     <div className="space-y-5 flex flex-col justify-between max-w-72 w-full">
       <div className="text-subtitle-14 text-light-primary-text-title">
@@ -227,5 +231,3 @@ const AppFileUploader: React.FC<AppFileUploaderProps> = ({
 };
 
 export default AppFileUploader;
-
-/////REACT_APP_BASE_URL=http://localhost:8000
