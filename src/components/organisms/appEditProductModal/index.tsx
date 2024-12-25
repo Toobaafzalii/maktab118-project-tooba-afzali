@@ -37,6 +37,7 @@ const AppEditProductModal: React.FC<AppProductModalProps> = ({
     formState: { errors },
     setValue,
     control,
+    watch,
   } = useForm<ProductFormValues>({
     resolver: zodResolver(productSchema),
     mode: "onChange",
@@ -47,9 +48,10 @@ const AppEditProductModal: React.FC<AppProductModalProps> = ({
   const { isSubcategoriesLoading, subcategories } = useSubcategories({
     page: 1,
   });
-  const { getProductById, isSingleProductByIdLoading } = useSingleProductById({
-    id: productId,
-  });
+  const { getProductById, isSingleProductByIdLoading, isRefetching } =
+    useSingleProductById({
+      id: productId,
+    });
 
   const [updatedImages, setUpdatedImages] = useState<ImageItem[]>([]);
 
@@ -59,11 +61,14 @@ const AppEditProductModal: React.FC<AppProductModalProps> = ({
       setValue("brand", getProductById?.data.product.brand);
       setValue("category", getProductById?.data.product.category._id);
       setValue("subcategory", getProductById?.data.product.subcategory._id);
-      setValue("description", getProductById?.data.product.description);
+      setValue("description", {
+        text: getProductById?.data.product.description as string,
+        length: getProductById?.data.product.description.length,
+      });
       setValue("quantity", getProductById?.data.product.quantity);
       setValue("price", getProductById?.data.product.price);
     }
-  }, [getProductById]);
+  }, [getProductById, setValue]);
 
   const handleImageChange = (images: ImageItem[]) => {
     setUpdatedImages(images);
@@ -75,13 +80,15 @@ const AppEditProductModal: React.FC<AppProductModalProps> = ({
     formData.append("brand", data.brand);
     formData.append("category", data.category);
     formData.append("subcategory", data.subcategory);
-    formData.append("description", data.description);
+    formData.append("description", data.description.text);
     formData.append("quantity", String(data.quantity));
     formData.append("price", String(data.price));
 
     if (updatedImages.length > 0) {
       updatedImages.forEach((image) => {
-        image.imageObject && formData.append("images", image.imageObject);
+        if (image.imageObject) {
+          formData.append("images", image.imageObject);
+        }
       });
     }
 
@@ -234,21 +241,28 @@ const AppEditProductModal: React.FC<AppProductModalProps> = ({
             />
           )}
         </div>
-        <Controller
-          control={control}
-          name="description"
-          render={({ field }) => (
-            <AppTextEditor
-              id="product-description"
-              label="توضیحات"
-              placeholder="توضیحات محصول را وارد کنید..."
-              {...field}
-              helperText={errors.description?.message}
-              hasError={!!errors.description}
-              defaultValue={getProductById?.data.product.description}
-            />
-          )}
-        />
+        {!isRefetching && (
+          <Controller
+            control={control}
+            name="description"
+            render={(field) => (
+              <AppTextEditor
+                id="product-description"
+                label="توضیحات"
+                placeholder="توضیحات محصول را وارد کنید..."
+                onChange={(t, length) =>
+                  setValue("description", {
+                    text: t,
+                    length: length,
+                  })
+                }
+                helperText={errors.description?.length?.message}
+                hasError={!!errors.description?.length}
+                defaultValue={getProductById?.data.product.description}
+              />
+            )}
+          />
+        )}
       </form>
     </AppModal>
   );

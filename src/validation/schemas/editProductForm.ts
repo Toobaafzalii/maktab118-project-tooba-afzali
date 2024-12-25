@@ -8,7 +8,10 @@ export const productSchema = z.object({
   brand: z.string().min(3, "برند ضروری است."),
   category: z.string().min(3, "دسته ضروری است."),
   subcategory: z.string().min(3, "زیر دسته ضروری است."),
-  description: z.string().min(5, "توضیحات ضروری است."),
+  description: z.object({
+    text: z.string(),
+    length: z.number().min(5, "توضیحات باید حداقل ۵ کاراکتر باشد"),
+  }),
   quantity: z
     .number({ invalid_type_error: "موجودی باید عدد باشد." })
     .min(1, "موجودی ضروری است."),

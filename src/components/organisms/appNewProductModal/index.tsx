@@ -36,15 +36,12 @@ const AppProductModal: React.FC<AppProductModalProps> = ({
     mode: "onChange",
   });
 
-  const { isNewProductLoading, newProduct, newProductData } = useNewProduct();
+  const { newProduct } = useNewProduct();
   const { categories, isCategoriesLoading } = useCategories({ page: 1 });
   const { isSubcategoriesLoading, subcategories } = useSubcategories({
     page: 1,
   });
 
-  const { description } = watch();
-
-  console.log(description);
   const onSubmit: SubmitHandler<ProductFormValues> = (data) => {
     const formData = new FormData();
 
@@ -62,7 +59,7 @@ const AppProductModal: React.FC<AppProductModalProps> = ({
     formData.append("brand", data.brand);
     formData.append("category", data.category);
     formData.append("subcategory", data.subcategory);
-    formData.append("description", data.description);
+    formData.append("description", data.description.text);
     formData.append("quantity", String(data.quantity));
     formData.append("price", String(data.price));
 
@@ -72,7 +69,6 @@ const AppProductModal: React.FC<AppProductModalProps> = ({
         onClose();
         onSuccess();
       },
-      onError: (error) => {},
     });
   };
 
@@ -171,7 +167,6 @@ const AppProductModal: React.FC<AppProductModalProps> = ({
             </div>
           </div>
           <AppFileUploader
-            {...register("images")}
             hasError={!!errors.images}
             helperText={
               errors.images?.message ||
@@ -187,14 +182,19 @@ const AppProductModal: React.FC<AppProductModalProps> = ({
         <Controller
           control={control}
           name="description"
-          render={({ field }) => (
+          render={({}) => (
             <AppTextEditor
               id="product-description"
               label="توضیحات"
               placeholder="توضیحات محصول را وارد کنید..."
-              onChange={(txt) => field.onChange(txt)}
-              helperText={errors.description?.message}
-              hasError={!!errors.description}
+              onChange={(t, length) =>
+                setValue("description", {
+                  text: t,
+                  length: length,
+                })
+              }
+              helperText={errors.description?.length?.message}
+              hasError={!!errors.description?.length}
             />
           )}
         />
