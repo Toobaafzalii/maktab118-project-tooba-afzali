@@ -15,26 +15,27 @@ export const productSchema = z.object({
   price: z
     .number({ invalid_type_error: "قیمت باید عدد باشد." })
     .min(1, "قیمت ضروری است."),
-  // images: z
-  //   .array(
-  //     z.object({
-  //       id: z.number().optional(),
-  //       url: z.string(),
-  //       isThumbnail: z.boolean().optional(),
-  //       imageObject: z.optional(
-  //         z
-  //           .instanceof(Blob)
-  //           .optional()
-  //           .refine(
-  //             (file) => !file || ACCEPTED_FILE_TYPES.includes(file.type),
-  //             "فرمت فایل باید jpeg باشد."
-  //           )
-  //           .refine(
-  //             (file) => !file || file.size <= MAX_UPLOAD_SIZE,
-  //             "حجم فایل نباید بیشتر از ۳ مگابایت باشد."
-  //           )
-  //       ),
-  //     })
-  //   )
-  //   .min(1, "حداقل یک تصویر باید آپلود شود."),
+  images: z
+    .array(
+      z.object({
+        id: z.number().optional(),
+        url: z.string().optional(),
+        isThumbnail: z.boolean().optional(),
+        imageObject: z.optional(
+          z
+            .instanceof(Blob)
+            .optional()
+            .refine(
+              (file) => !file || ACCEPTED_FILE_TYPES.includes(file.type),
+              "فرمت فایل باید jpeg باشد."
+            )
+            .refine(
+              (file) => !file || file.size <= MAX_UPLOAD_SIZE,
+              "حجم فایل نباید بیشتر از ۳ مگابایت باشد."
+            )
+        ),
+      })
+    )
+    .min(1, "حداقل یک تصویر باید آپلود شود.")
+    .optional(),
 });

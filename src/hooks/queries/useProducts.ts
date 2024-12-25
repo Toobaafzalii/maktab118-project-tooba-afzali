@@ -11,7 +11,7 @@ type QueryResponse = ProductsDto;
 type QueryFnProps = { page: number; sort?: string; subcategory?: string };
 
 const useProducts = (props: QueryFnProps) => {
-  const { data, isPending, refetch } = useQuery<
+  const { data, isPending, refetch, isRefetching } = useQuery<
     QueryFnProps,
     unknown,
     QueryResponse
@@ -24,9 +24,15 @@ const useProducts = (props: QueryFnProps) => {
     ],
     queryFn: () => queryFn(props),
     placeholderData: keepPreviousData,
+    staleTime: 0,
   });
 
-  return { [queryName]: data, isProductsLoading: isPending, refetch };
+  return {
+    [queryName]: data,
+    isProductsLoading: isPending,
+    refetch,
+    isRefetching,
+  };
 };
 
 const queryFn = async (props: QueryFnProps) => {

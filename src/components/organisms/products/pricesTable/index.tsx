@@ -1,7 +1,7 @@
 "use client";
 import AppSpinner from "@/components/atoms/appSpinner";
 import AppTable from "@/components/molecules/appTable";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import Pencil from "../../../../../public/svg/Pencil.svg";
 import X from "../../../../../public/svg/X-icon.svg";
 import { AppButtonProps } from "@/components/molecules/appButton";
@@ -21,22 +21,31 @@ const PricesTable: React.FC = () => {
   const [editedRows, setEditedRows] = useState<
     Array<{ rowId: string; changes: Record<string, any> }>
   >([]);
-  const { isProductsLoading, products, refetch } = useProducts({
-    page,
-  });
+  const editedRowsRef = useRef(editedRows);
 
+  const { isProductsLoading, products, refetch } = useProducts({ page });
   const { editProductsByIds } = useEditProductsByIds();
 
+  useEffect(() => {
+    editedRowsRef.current = editedRows;
+  }, [editedRows]);
+
+  useEffect(() => {
+    refetch();
+  }, [page]);
+
   const toggleEditMode = () => {
-    if (editMode && editedRows.length > 0) {
-      editProductsByIds(editedRows, {
+    if (editMode && editedRowsRef.current.length > 0) {
+      editProductsByIds(editedRowsRef.current, {
         onSuccess: () => {
           console.log("Successfully updated rows");
-          setEditedRows([]);
+          setEditedRows([]); // Reset the state
           setEditMode(false);
           refetch();
         },
-        onError: (error) => {},
+        onError: (error) => {
+          console.error("Failed to update rows", error);
+        },
       });
     } else {
       setEditMode((prevMode) => !prevMode);
@@ -51,7 +60,6 @@ const PricesTable: React.FC = () => {
   const handleInputChange = (id: string, key: string, value: any) => {
     setEditedRows((prev) => {
       const existingIndex = prev.findIndex((row) => row.rowId === id);
-
       if (existingIndex >= 0) {
         const updatedRow = {
           rowId: id,
@@ -60,7 +68,6 @@ const PricesTable: React.FC = () => {
             [key]: value,
           },
         };
-
         return [
           ...prev.slice(0, existingIndex),
           updatedRow,
@@ -68,18 +75,13 @@ const PricesTable: React.FC = () => {
         ];
       } else {
         const newRow = { rowId: id, changes: { [key]: value } };
-
         return [...prev, newRow];
       }
     });
   };
 
-  useEffect(() => {
-    refetch();
-  }, [page]);
-
   const tableButtons: Array<AppButtonProps> = useMemo(() => {
-    const buttons = [
+    const buttons: Array<AppButtonProps> = [
       {
         text: editMode ? "ذخیره" : "ویرایش",
         onClick: toggleEditMode,
@@ -102,7 +104,7 @@ const PricesTable: React.FC = () => {
 
   if (isProductsLoading) {
     return (
-      <div className="flex flex-col flex-1 justify-center items-center ">
+      <div className="flex flex-col flex-1 justify-center items-center">
         <AppSpinner />
       </div>
     );
