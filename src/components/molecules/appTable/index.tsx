@@ -7,6 +7,7 @@ import { AppButton, AppButtonProps } from "../appButton";
 import AppPagination from "../appPagination";
 import CaretDown from "../../../../public/svg/CaretDown.svg";
 import CaretUp from "../../../../public/svg/CaretUP.svg";
+import AppImage from "@/components/organisms/appImage";
 
 const customTheme = {
   root: {
@@ -143,11 +144,8 @@ const AppTable: React.FC<TableProps> = ({
       ));
       value = <div className="flex items-center gap-1">{value}</div>;
     } else if (column.key === "thumbnail") {
-      let url = value;
-      if (!url.includes("https://")) {
-        url = `http://localhost:8000/images/products/thumbnails/${value}`;
-      }
-      value = <img className="w-8 h-8" src={url} />;
+      const url = value;
+      value = <AppImage src={url} className="w-8 h-8" />;
     } else if (column.dataFormatter) {
       value = column.dataFormatter(value);
     } else if (["price", "totalPrice"].includes(column.key)) {

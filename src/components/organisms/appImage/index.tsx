@@ -1,27 +1,32 @@
 "use client";
-import React, { FC, ImgHTMLAttributes, useEffect, useState } from "react";
+import React, {
+  FC,
+  Fragment,
+  ImgHTMLAttributes,
+  useEffect,
+  useState,
+} from "react";
 
-type Props = {
-  isThumbnail?: boolean;
-} & ImgHTMLAttributes<HTMLImageElement>;
+type Props = {} & ImgHTMLAttributes<HTMLImageElement>;
 
-const AppImage: FC<Props> = ({ src, className, isThumbnail, ...rest }) => {
+const AppImage: FC<Props> = ({ src, className, ...rest }) => {
   const [uri, setUri] = useState("");
+  const [retry, setRetry] = useState(true);
 
   useEffect(() => {
     if (src) setUri(src);
   }, [src]);
 
   const onError = () => {
-    if (!uri) return;
-    if (!uri?.includes("https://")) {
-      setUri(
-        `http://localhost:8000/images/products/${
-          isThumbnail ? "thumbnails" : "images"
-        }/${uri}`
-      );
+    if (!uri || !retry) {
+      return;
     }
-    return;
+    if (uri?.includes("/products/images")) {
+      setUri(`localhost:8000/images/products/thumbnails/${src}`);
+      setRetry(false);
+    } else {
+      setUri(`localhost:8000/images/products/images/${src}`);
+    }
   };
   return <img {...rest} src={uri} className={className} onError={onError} />;
 };

@@ -10,8 +10,9 @@ import Moon from "../../../../public/svg/Moon.svg";
 import UArrow from "../../../../public/svg/ArrowUDownRight.svg";
 import TWLogo from "../../../../public/svg/TW-logo.svg";
 import UserAvatar from "../../../../public/svg/UserAvatar.svg";
-import PrivateRoute from "../../../components/organisms/appPrivetRoute/index";
 import useAuthStore from "../../../stores/useAuthStore/index";
+import AppPrivateRoute from "@/components/organisms/appPrivetRoute";
+import { useMemo } from "react";
 
 type Pathname = "/dashboard" | "/dashboard/products" | "/dashboard/prices";
 
@@ -59,7 +60,7 @@ export default function Layout({
 }: Readonly<{ children: React.ReactNode }>) {
   const pathName = usePathname() as Pathname;
   const router = useRouter();
-  const { user, clearUser } = useAuthStore();
+  const { user, clearUser, isRehydrateStorage } = useAuthStore();
 
   const pageTitle: Record<Pathname, { title: string; description: string }> = {
     "/dashboard": {
@@ -82,14 +83,14 @@ export default function Layout({
     router.push("/dashboard/login");
   };
 
-  const canAccess = () => {
+  const canAccess = useMemo(() => {
     return user?.role === "ADMIN";
-  };
+  }, [user]);
 
   const { title = "", description = "" } = pageTitle[pathName] || {};
-
+  if (!isRehydrateStorage) return null;
   return (
-    <PrivateRoute redirectTo="/dashboard/logIn" canAccess={canAccess}>
+    <AppPrivateRoute redirectTo="/dashboard/logIn" canAccess={canAccess}>
       <div className="bg-light-primary-surface-default w-full flex justify-between items-start text-nowrap">
         <div className="bg-light-primary-surface-default-subtle min-h-screen sticky left-0 top-0 w-72 flex flex-col justify-start items-start gap-3 py-10 px-6">
           <div className="flex flex-col justify-start items-start gap-8 w-full">
@@ -162,7 +163,7 @@ export default function Layout({
           </div>
         </div>
 
-        <div className="p-10 flex flex-col justify-start items-start gap-7 w-full">
+        <div className="p-10 flex bg-light-primary-surface-default flex-col justify-start items-start gap-7 w-full">
           <div className="flex flex-col justify-start items-start gap-1 border-b-[1px] border-light-primary-border-default w-full pb-10">
             <p className="text-light-primary-text-title text-title-24">
               {title}
@@ -174,6 +175,6 @@ export default function Layout({
           {children}
         </div>
       </div>
-    </PrivateRoute>
+    </AppPrivateRoute>
   );
 }

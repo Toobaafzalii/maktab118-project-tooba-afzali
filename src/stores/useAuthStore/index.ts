@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { createJSONStorage, persist } from "zustand/middleware";
 
 interface AuthState {
   user?: {
@@ -11,33 +11,34 @@ interface AuthState {
   };
   setUser: (user: Required<Partial<AuthState["user"]>>) => void;
   clearUser: () => void;
+  isRehydrateStorage: boolean;
+  setIsRehydrateStorage: () => void;
 }
 
 const useAuthStore = create(
   persist<AuthState>(
     (set) => ({
       user: undefined,
-
       setUser: (user) => {
-        set((state) => ({
+        set(() => ({
           user,
         }));
-
-        const updatedUser = {
-          ...JSON.parse(localStorage.getItem("auth-user") || "{}"),
-          ...user,
-        };
-        localStorage.setItem("auth-user", JSON.stringify(updatedUser));
       },
       clearUser: () => {
         set({
           user: undefined,
         });
-
-        localStorage.removeItem("auth-user");
+      },
+      isRehydrateStorage: false,
+      setIsRehydrateStorage() {
+        set({ isRehydrateStorage: true });
       },
     }),
-    { name: "auth-user" }
+    {
+      name: "auth-user",
+      storage: createJSONStorage(() => localStorage),
+      onRehydrateStorage: (state) => () => state.setIsRehydrateStorage(),
+    }
   )
 );
 
