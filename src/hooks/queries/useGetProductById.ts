@@ -1,8 +1,7 @@
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { client } from "../../api/axios";
 import { PATHS } from "../../api/paths";
 import { QUERY_KEYS } from "./queryKeys";
-import { CategoriesDto } from "./dtos/categories";
 import { SingleProductDto } from "./dtos/products";
 
 const queryName = "getProductById";
@@ -11,7 +10,7 @@ type QueryResponse = SingleProductDto;
 type QueryFnProps = { id: string };
 
 const useSingleProductById = (props: QueryFnProps) => {
-  const { data, isPending, refetch, isError } = useQuery<
+  const { data, isPending, refetch, isError, isRefetching } = useQuery<
     QueryFnProps,
     unknown,
     QueryResponse
@@ -27,6 +26,7 @@ const useSingleProductById = (props: QueryFnProps) => {
     isSingleProductByIdLoading: isPending,
     refetch,
     isError,
+    isRefetching,
   };
 };
 

@@ -16,25 +16,25 @@ interface AppSelectBoxProps {
 }
 
 const customTheme = {
-  base: "!rounded-[0px] !bg-light-primary-surface-default-subtle w-full",
+  base: "!rounded-[0px] !bg-light-primary-surface-default-subtle w-full dark:bg-light-primary-surface-default-subtle rounded-none",
   field: {
-    base: "relative w-full flex items-center text-subtitle-14 !rounded-0",
+    base: "relative w-full flex items-center text-subtitle-14 !rounded-0 !bg-light-primary-surface-default-subtle  dark:bg-light-primary-surface-default-subtle ",
     input: {
-      base: "pr-10  my-2 w-full !rounded-none",
+      base: "pr-10  my-2 w-full ",
       sizes: {
         sm: "py-2 px-4 gap-2 text-subtitle-14 !rounded-none",
         lg: "py-[14px] px-4 gap-2.5 text-subtitle-14 !rounded-none",
       },
       colors: {
-        base: "!bg-light-primary-surface-default-subtle border-[1px] border-light-primary-border-default-subtle focus:border-light-primary-border-negative text-light-primary-text-subtitle",
+        base: "!bg-light-primary-surface-default-subtle dark:bg-light-primary-surface-default-subtle  border-[1px] border-light-primary-border-default-subtle focus:border-light-primary-border-negative text-light-primary-text-subtitle",
         disabled:
-          "!bg-light-gray-surface-default-subtle border-[1px] border-light-primary-border-default-subtle text-light-primary-text-caption",
+          "!bg-light-gray-surface-default-subtle dark:bg-light-primary-surface-default-subtle  border-[1px] border-light-primary-border-default- dark:bg-light-primary-surface-default-subtle  text-light-primary-text-caption",
         value:
-          "!bg-light-primary-surface-default-subtle border-[1px] border-light-primary-border-default-subtle focus:border-light-primary-border-negative text-light-primary-text-title",
+          "!bg-light-primary-surface-default-subtle dark:bg-light-primary-surface-default-subtle  border-[1px] border-light-primary-border-default-subtle focus:border-light-primary-border-negative text-light-primary-text-title",
         failure:
-          "!bg-light-primary-surface-default-subtle border-[1px] text-dark-error-text-negative border-dark-error-text-negative",
+          "!bg-light-primary-surface-default-subtle dark:bg-light-primary-surface-default-subtle  border-[1px] text-dark-error-text-negative border-dark-error-text-negative",
         success:
-          "!bg-light-primary-surface-default-subtle border-[1px] border-dark-success-border-default text-dark-success-text-negative-subtle",
+          "!bg-light-primary-surface-default-subtle dark:bg-light-primary-surface-default-subtle  border-[1px] border-dark-success-border-default text-dark-success-text-negative-subtle",
       },
       withAddon: {
         on: "!rounded-none",
@@ -99,6 +99,7 @@ const AppSelectBox: React.FC<AppSelectBoxProps> = ({
         {...rest}
         id={id}
         theme={customTheme}
+        className="w-full rounded-none"
         required
         disabled={isDisabled}
         defaultValue={defaultValue?.value}
