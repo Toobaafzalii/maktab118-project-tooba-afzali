@@ -7,7 +7,7 @@ import UploadSimple from "../../../../public/svg/UploadSimple.svg";
 import AppImage from "@/components/organisms/appImage";
 
 export interface ImageItem {
-  id: number;
+  id: string;
   url: string | null;
   isThumbnail: boolean;
   imageObject?: ImageFileObject;
@@ -50,21 +50,19 @@ const AppFileUploader: React.FC<AppFileUploaderProps> = ({
 }) => {
   const [images, setImages] = useState<ImageItem[]>([]);
   const fileRef = useRef<HTMLInputElement>(null);
-
   useEffect(() => {
     setImages(
       Array.from({ length: 5 }, (_, index) => {
-        const defaultImageUrl = defaultValue?.[index] || null;
         if (defaultThumbnail && index === 0) {
           return {
-            id: index,
+            id: index.toString(),
             url: defaultThumbnail,
             isThumbnail: true,
           };
         }
         return {
-          id: index,
-          url: defaultImageUrl,
+          id: index.toString(),
+          url: defaultValue?.[index - 1] ?? null,
           isThumbnail: false,
         };
       })
@@ -75,8 +73,8 @@ const AppFileUploader: React.FC<AppFileUploaderProps> = ({
     if (isDisabled) return;
     if (e.target.files) {
       const files = Array.from(e.target.files);
-      const newImages = files.map((file) => ({
-        id: Math.random(),
+      const newImages = files.map((file, index) => ({
+        id: file.name + index,
         url: URL.createObjectURL(file),
         isThumbnail: false,
         imageObject: file,
@@ -85,11 +83,10 @@ const AppFileUploader: React.FC<AppFileUploaderProps> = ({
 
       setImages((prevImages) => {
         const updatedImages = [...prevImages];
-        let index = 0;
         newImages.forEach((image) => {
           const nextAvailableIndex = updatedImages.findIndex((img) => !img.url);
           if (nextAvailableIndex !== -1) {
-            updatedImages[nextAvailableIndex] = { ...image, id: index++ };
+            updatedImages[nextAvailableIndex] = { ...image };
           }
         });
 
@@ -98,18 +95,24 @@ const AppFileUploader: React.FC<AppFileUploaderProps> = ({
     }
   };
 
-  const handleDelete = (id: number) => {
+  const handleDelete = (id: string) => {
     if (isDisabled) return;
     setImages((prevImages) =>
       prevImages.map((img) =>
         img.id === id
-          ? { ...img, url: null, isThumbnail: false, imageObject: undefined }
+          ? {
+              ...img,
+              url: null,
+              isThumbnail: false,
+              imageObject: undefined,
+              id: Date.now().toString(),
+            }
           : img
       )
     );
   };
 
-  const handleSetThumbnail = (id: number) => {
+  const handleSetThumbnail = (id: string) => {
     if (isDisabled) return;
     setImages((prevImages) =>
       prevImages.map((img) => ({ ...img, isThumbnail: img.id === id }))
@@ -118,7 +121,6 @@ const AppFileUploader: React.FC<AppFileUploaderProps> = ({
 
   useEffect(() => {
     const filledImages = images.filter((item) => item.url !== null);
-
     const hasThumbnail = images.some((img) => img.isThumbnail);
     if (!hasThumbnail && filledImages.length > 0) {
       setImages((prevImages) =>
@@ -133,8 +135,10 @@ const AppFileUploader: React.FC<AppFileUploaderProps> = ({
         prevImages.map((img) => ({ ...img, isThumbnail: false }))
       );
     }
+  }, []);
 
-    onChange && onChange(filledImages);
+  useEffect(() => {
+    if (onChange) onChange(images.filter((item) => item.url !== null));
   }, [images]);
 
   const renderHelperStyle = () => {
@@ -171,7 +175,6 @@ const AppFileUploader: React.FC<AppFileUploaderProps> = ({
                   <AppImage
                     src={image.url}
                     alt={image.url ?? ""}
-                    isThumbnail={image.isThumbnail}
                     className="object-cover w-full h-full"
                   />
                 ) : (
