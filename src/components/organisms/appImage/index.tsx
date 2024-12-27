@@ -22,10 +22,10 @@ const AppImage: FC<Props> = ({ src, className, ...rest }) => {
       return;
     }
     if (uri?.includes("/products/images")) {
-      setUri(`localhost:8000/images/products/thumbnails/${src}`);
+      setUri(`http://localhost:8000/images/products/thumbnails/${src}`);
       setRetry(false);
     } else {
-      setUri(`localhost:8000/images/products/images/${src}`);
+      setUri(`http://localhost:8000/images/products/images/${src}`);
     }
   };
   return <img {...rest} src={uri} className={className} onError={onError} />;

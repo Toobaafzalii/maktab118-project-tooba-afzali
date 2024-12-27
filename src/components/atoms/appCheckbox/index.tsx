@@ -18,10 +18,10 @@ const AppCheckbox: React.FC<AppCheckboxProps> = ({
     }
   };
   return (
-    <div className="w-full flex justify-between items-center hover:bg-light-primary-surface-default focus:bg-dark-primary-surface-object focus:text-light-primary-text-negative gap-2 py-2 px-3">
+    <div className="w-full flex justify-between items-center hover:bg-light-primary-surface-default focus:bg-dark-primary-surface-object focus:text-light-primary-text-negative !text-light-primary-text-title dark:text-light-primary-text-title gap-2 py-2 px-3">
       <Label
         htmlFor={`checkbox-${value}`}
-        className="w-full justify-between items-center flex cursor-pointer text-body-16"
+        className="w-full justify-between items-center flex cursor-pointer text-body-16 !text-light-primary-text-title dark:text-light-primary-text-title"
       >
         {text}
         <Checkbox

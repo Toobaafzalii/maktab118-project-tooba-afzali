@@ -1,12 +1,11 @@
 import { FC } from "react";
 import AppItemCounter from "@/components/molecules/appItemCounter";
 import Trash from "../../../../public/svg/big-trash.svg";
-import useSingleProductById from "@/hooks/queries/useGetProductById";
 import useCartStore from "@/stores/useCartStore";
-import AppSpinner from "@/components/atoms/appSpinner";
 import AppImage from "@/components/organisms/appImage";
 import { Table } from "flowbite-react";
 import { SingleProductDto } from "@/hooks/queries/dtos/products";
+import { useRouter } from "next/navigation";
 
 interface AppCartItemProps {
   itemId: string;
@@ -21,7 +20,7 @@ const AppCartTableRow: FC<AppCartItemProps> = ({
   index,
   product,
 }) => {
-  const addItem = useCartStore((state) => state.addItem);
+  const router = useRouter();
   const updateQuantity = useCartStore((state) => state.updateQuantity);
   const removeItem = useCartStore((state) => state.removeItem);
 
@@ -33,18 +32,6 @@ const AppCartTableRow: FC<AppCartItemProps> = ({
     removeItem(itemId);
   };
 
-  // const { getProductById, isSingleProductByIdLoading } = useSingleProductById({
-  //   id: itemId,
-  // });
-
-  // if (isSingleProductByIdLoading) {
-  //   return (
-  //     <div className="text-center w-full py-4">
-  //       <AppSpinner />
-  //     </div>
-  //   );
-  // }
-
   if (!product) {
     return <div className="text-center text-red-500 py-4">محصول یافت نشد.</div>;
   }
@@ -54,12 +41,11 @@ const AppCartTableRow: FC<AppCartItemProps> = ({
       <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
         <div className="flex justify-start items-center gap-x-4">
           <span>{index}</span>
-          <AppImage
-            src={product.thumbnail}
-            className="w-[100px] h-[100px]"
-            isThumbnail
-          />
-          <span className="max-w-[300px] line-clamp-2 text-wrap">
+          <AppImage src={product.thumbnail} className="w-[100px] h-[100px]" />
+          <span
+            className="max-w-[300px] cursor-pointer line-clamp-2 text-wrap text-light-primary-text-title"
+            onClick={() => router.push(`/product/${product._id}`)}
+          >
             {product.name}
           </span>
         </div>
