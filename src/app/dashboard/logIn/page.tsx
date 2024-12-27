@@ -12,7 +12,7 @@ import useLogin from "@/hooks/queries/template/useMutration";
 import { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { loginSchema } from "@/validation/schemas/adminLogin";
+import { AdminloginSchema } from "@/validation/schemas/adminLogin";
 import useAuthStore from "../../../stores/useAuthStore/index";
 
 interface FormData {
@@ -30,7 +30,7 @@ const AdminloginPage: React.FC = () => {
     formState: { errors, isValid },
   } = useForm<FormData>({
     mode: "onChange",
-    resolver: zodResolver(loginSchema),
+    resolver: zodResolver(AdminloginSchema),
   });
 
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -57,7 +57,7 @@ const AdminloginPage: React.FC = () => {
   };
 
   return (
-    <div className="bg-light-primary-surface-default border-[1px] border-light-primary-border-default py-12 max-h-screen px-32 gap-8 w-full flex flex-col justify-between items-start">
+    <div className="bg-light-primary-surface-default border-[1px] border-light-primary-border-default py-12 max-h-screen px-32 gap-8 w-full flex flex-col justify-center items-start h-[70vh]">
       <div className="space-y-1">
         <p className="text-light-primary-text-title text-title-24">
           ورود به داشبورد

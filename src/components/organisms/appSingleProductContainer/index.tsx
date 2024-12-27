@@ -10,6 +10,7 @@ import AppSpinner from "@/components/atoms/appSpinner";
 import NotFound from "@/app/(app)/notFound/page";
 import { useMemo } from "react";
 import useCartStore from "@/stores/useCartStore";
+import { get } from "http";
 
 const AppSingleProductContainer: React.FC = () => {
   const pathname = usePathname();
@@ -63,20 +64,17 @@ const AppSingleProductContainer: React.FC = () => {
   return (
     <div className="w-full relative flex justify-start items-start py-[60px] md:gap-20 px-10 ">
       <div className="flex flex-col justify-start items-center gap-5 max-w-xl w-full">
-        {getProductById?.data.product.thumbnail && (
+        {getProductById?.data.product.images && (
           <div className="flex flex-col gap-5">
-            <AppImage
-              src={getProductById?.data.product.thumbnail}
-              className="w-full"
-            />
-            <AppImage
-              src={getProductById?.data.product.thumbnail}
-              className="w-full"
-            />
-            <AppImage
-              src={getProductById?.data.product.thumbnail}
-              className="w-full"
-            />
+            {
+              <AppImage
+                src={getProductById.data.product.thumbnail}
+                className="w-full"
+              />
+            }
+            {getProductById.data.product.images.map((image, index) => (
+              <AppImage key={index} src={image} className="w-full" />
+            ))}
           </div>
         )}
       </div>

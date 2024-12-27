@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const loginSchema = z.object({
+export const AdminloginSchema = z.object({
   username: z
     .string()
     .min(3, "نام کاربری باید حداقل ۳ کاراکتر باشد")
@@ -12,4 +12,4 @@ export const loginSchema = z.object({
   password: z.string().min(8, "رمز عبور باید حداقل ۸ کاراکتر باشد"),
 });
 
-export type LoginSchema = z.infer<typeof loginSchema>;
+export type LoginSchema = z.infer<typeof AdminloginSchema>;
