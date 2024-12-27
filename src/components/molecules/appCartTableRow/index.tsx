@@ -60,10 +60,10 @@ const AppCartTableRow: FC<AppCartItemProps> = ({
           size="lg"
         />
       </Table.Cell>
-      <Table.Cell className="min-w-44">
+      <Table.Cell className="min-w-56">
         {product.price * quantity} تومان
       </Table.Cell>
-      <Table.Cell>
+      <Table.Cell className="min-w-20">
         <Trash
           onClick={handleRemoveFromCart}
           className="cursor-pointer hover:scale-105"
