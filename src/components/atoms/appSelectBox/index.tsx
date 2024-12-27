@@ -1,4 +1,5 @@
 import { HelperText, Label, Select, TextInputProps } from "flowbite-react";
+import { root } from "postcss";
 import { ChangeEvent, InputHTMLAttributes } from "react";
 
 interface AppSelectBoxProps {
@@ -16,17 +17,17 @@ interface AppSelectBoxProps {
 }
 
 const customTheme = {
-  base: "!rounded-[0px] !bg-light-primary-surface-default-subtle w-full dark:bg-light-primary-surface-default-subtle rounded-none",
+  base: "!rounded-[0px] !bg-light-primary-surface-default-subtle w-full dark:bg-light-primary-surface-default-subtle rounded-none !text-wrap !text-light-primary-text-title !dark:text-light-primary-text-title",
   field: {
-    base: "relative w-full flex items-center text-subtitle-14 !rounded-0 !bg-light-primary-surface-default-subtle  dark:bg-light-primary-surface-default-subtle ",
+    base: "relative w-full flex items-center text-subtitle-14 !rounded-0 !bg-light-primary-surface-default-subtle  dark:bg-light-primary-surface-default-subtle !text-light-primary-text-title !dark:text-light-primary-text-title",
     input: {
-      base: "pr-10  my-2 w-full ",
+      base: "pr-10  my-2 w-full !text-wrap !text-light-primary-text-title dark:text-light-primary-text-title",
       sizes: {
         sm: "py-2 px-4 gap-2 text-subtitle-14 !rounded-none",
         lg: "py-[14px] px-4 gap-2.5 text-subtitle-14 !rounded-none",
       },
       colors: {
-        base: "!bg-light-primary-surface-default-subtle dark:bg-light-primary-surface-default-subtle  border-[1px] border-light-primary-border-default-subtle focus:border-light-primary-border-negative text-light-primary-text-subtitle",
+        base: "!bg-light-primary-surface-default-subtle dark:bg-light-primary-surface-default-subtle  border-[1px] border-light-primary-border-default-subtle focus:border-light-primary-border-negative text-light-primary-text-subtitle text-wrap text-light-primary-text-title dark:text-wrap text-light-primary-text-title",
         disabled:
           "!bg-light-gray-surface-default-subtle dark:bg-light-primary-surface-default-subtle  border-[1px] border-light-primary-border-default- dark:bg-light-primary-surface-default-subtle  text-light-primary-text-caption",
         value:
@@ -89,7 +90,7 @@ const AppSelectBox: React.FC<AppSelectBoxProps> = ({
   };
 
   return (
-    <div className="w-full flex flex-col justify-start items-start gap-2 ">
+    <div className="w-full flex flex-col justify-start items-start gap-2 !text-light-primary-text-title dark:text-light-primary-text-title">
       <div className="mb-2 block">
         <Label htmlFor={id} value={labelValue} />
         {label && <div>{label}</div>}
@@ -99,14 +100,18 @@ const AppSelectBox: React.FC<AppSelectBoxProps> = ({
         {...rest}
         id={id}
         theme={customTheme}
-        className="w-full rounded-none"
+        className="w-full rounded-none !text-light-primary-text-title !dark:text-light-primary-text-title"
         required
         disabled={isDisabled}
         defaultValue={defaultValue?.value}
       >
         {options &&
           options.map((option) => (
-            <option key={option.value} value={option.value}>
+            <option
+              key={option.value}
+              value={option.value}
+              className="!text-light-primary-text-title dark:text-light-primary-text-title"
+            >
               {option.name}
             </option>
           ))}

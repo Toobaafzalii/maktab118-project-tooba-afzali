@@ -62,7 +62,6 @@ const AppProductCard: React.FC<AppProductCardProps> = ({
         <div className="relative w-full" style={{ aspectRatio: "1 / 1" }}>
           <AppImage
             src={thumbnail}
-            isThumbnail={true}
             className="w-full h-full transition-transform duration-300 ease-out object-cover "
           />
           <div className="absolute w-full z-50 bottom-0 left-0 right-0 p-4 flex items-center justify-center opacity-0 transition-all duration-500 ease-in-out group-hover:opacity-100">

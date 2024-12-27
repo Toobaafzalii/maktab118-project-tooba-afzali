@@ -29,7 +29,6 @@ const AppCartDropdownItem: React.FC<CartItemProps> = ({
       <div className="flex justify-between items-center gap-3">
         <AppImage
           src={product.thumbnail}
-          isThumbnail
           className="max-w-12 max-h-12 w-full h-full"
         />
         <span className="text-subtitle-14 text-light-primary-text-body line-clamp-2 min-w-[220px]">
