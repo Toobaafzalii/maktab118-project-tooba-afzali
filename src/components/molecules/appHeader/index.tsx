@@ -117,7 +117,7 @@ const AppHeader: React.FC = () => {
 
   const handleLogout = () => {
     clearUser();
-    router.push("/dashboard/login");
+    router.push("/login");
   };
 
   return (

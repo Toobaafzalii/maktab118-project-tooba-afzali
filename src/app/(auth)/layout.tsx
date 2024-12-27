@@ -20,9 +20,9 @@ export default function Layout({
       buttonNavigation: "/signup",
     },
     signup: {
-      helperText: "مطمعن نیستم",
-      buttonText: "مطمعن نیستم",
-      buttonNavigation: "/hhhh",
+      helperText: "حساب کاربری دارید؟",
+      buttonText: "ورود",
+      buttonNavigation: "/login",
     },
   };
 
