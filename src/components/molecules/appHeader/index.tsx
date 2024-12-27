@@ -5,9 +5,9 @@ import { AppButton } from "../appButton";
 import TwLogo from "../../../../public/svg/TW-logo.svg";
 import ArrowDown from "../../../../public/svg/CaretDown.svg";
 import ShoppingCart from "../../../../public/svg/ShoppingCart.svg";
+import ExitArrow from "../../../../public/svg/ArrowUDownRight.svg";
 import useSubcategories from "@/hooks/queries/useSubcategories";
 import useAuthStore from "@/stores/useAuthStore";
-import { root } from "postcss";
 import { useRouter } from "next/navigation";
 import AppCartDropdown from "@/components/organisms/appCartDropdown";
 import { useState } from "react";
@@ -100,14 +100,24 @@ const customTheme = {
 
 const AppHeader: React.FC = () => {
   const { subcategories } = useSubcategories({ page: 1 });
-  const { user } = useAuthStore();
+  const { user, clearUser } = useAuthStore();
   const { cartItems } = useCartStore((state) => state);
   const router = useRouter();
 
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
 
   const toggleCartDropDown = () => {
     setIsCartOpen((prev) => !prev);
+  };
+
+  const toggleUserDropdown = () => {
+    setIsUserDropdownOpen((prev) => !prev);
+  };
+
+  const handleLogout = () => {
+    clearUser();
+    router.push("/dashboard/login");
   };
 
   return (
@@ -128,7 +138,7 @@ const AppHeader: React.FC = () => {
                 {subcategories?.data.subcategories
                   .filter(
                     (subcategory) =>
-                      subcategory.category === "67534c7571ea6b8807d33691"
+                      subcategory.category === "676c4e27356fd2e734003a7e"
                   )
                   .map((subcategory) => (
                     <li
@@ -153,7 +163,7 @@ const AppHeader: React.FC = () => {
                 {subcategories?.data.subcategories
                   .filter(
                     (subcategory) =>
-                      subcategory.category === "67534c7571ea6b8807d33692"
+                      subcategory.category === "676c4e5c356fd2e734003a82"
                   )
                   .map((subcategory) => (
                     <li
@@ -163,7 +173,7 @@ const AppHeader: React.FC = () => {
                         )
                       }
                       key={subcategory._id}
-                      className="w-full p-3 text-start text-body-18 hover:bg-light-primary-surface-negative text-light-primary-text-negative-subtle"
+                      className="w-full cursor-pointer p-3 text-start text-body-18 hover:bg-light-primary-surface-negative text-light-primary-text-negative-subtle"
                     >
                       {subcategory.name}
                     </li>
@@ -180,7 +190,10 @@ const AppHeader: React.FC = () => {
           <div className="hidden items-center md:flex">
             {user ? (
               <div className="flex justify-between !items-center gap-2 px-4">
-                <div className="flex justify-between items-center gap-1 cursor-pointer">
+                <div
+                  className="flex justify-between items-center gap-1 cursor-pointer"
+                  onClick={toggleUserDropdown}
+                >
                   <ArrowDown />
                   <span>{user.firstName + " " + user.lastName}</span>
                 </div>
@@ -189,6 +202,17 @@ const AppHeader: React.FC = () => {
                   alt="user"
                   className="w-10 h-10"
                 />
+                {isUserDropdownOpen && (
+                  <div className="absolute top-[60px] left-40 bg-light-primary-surface-negative-subtle shadow-lg rounded-sm py-1 w-40">
+                    <button
+                      className="w-full text-right p-2 hover:bg-light-primary-surface-negative text-light-error-text-title flex justify-start items-center gap-2"
+                      onClick={() => handleLogout()}
+                    >
+                      <ExitArrow />
+                      خروج از حساب
+                    </button>
+                  </div>
+                )}
               </div>
             ) : (
               <div
