@@ -86,8 +86,10 @@ const MockPaymentPage: React.FC = () => {
         deliveryStatus: false,
       },
       {
-        onSuccess: () => {
-          router.push("/purchase-result?result=success");
+        onSuccess: (data) => {
+          router.push(
+            `/purchase-result?result=success&id=${data.data.order._id}`
+          );
           deleteCart({ deleteAll: true });
         },
         onError: () => {

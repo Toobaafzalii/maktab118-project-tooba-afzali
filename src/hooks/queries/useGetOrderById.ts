@@ -6,7 +6,31 @@ import { SingleProductDto } from "./dtos/products";
 
 const queryName = "getOrderById";
 const apiRequestMethod = "get";
-type QueryResponse = any;
+type QueryResponse = {
+  status: string;
+  data: {
+    order: {
+      user: string;
+      products: [
+        {
+          product: {
+            _id: string;
+            price: number;
+          };
+          count: number;
+          _id: string;
+        }
+      ];
+      totalPrice: number;
+      deliveryDate: Date;
+      deliveryStatus: boolean;
+      _id: string;
+      createdAt: Date;
+      updatedAt: Date;
+      __v: number;
+    };
+  };
+};
 type QueryFnProps = { id: string };
 
 const useGetOrderById = (props: QueryFnProps) => {
