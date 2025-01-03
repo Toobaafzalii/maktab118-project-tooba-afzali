@@ -13,4 +13,8 @@ export const QUERY_KEYS = {
   deleteProductById: "deleteProductById",
   editProductsByIds: "editProductsByIds",
   productsByIds: "productsByIds",
+  getUserById: "getUserById",
+  editUserById : "editUserById",
+  getOrderById: "getOrderById",
+  editOrderById: "editOrderById"
 };

@@ -1,3 +1,4 @@
+import useGetUserById from "@/hooks/queries/useGetUserById";
 import useSubcategoryById from "@/hooks/queries/useSubcategoryByIds";
 
 export const PATHS = {
@@ -17,4 +18,13 @@ export const PATHS = {
   deleteProductById: "products/:id",
   editProductsByIds: "products/:id",
   productsByIds: "products/:id",
+  getUserById: "users/:id",
+  editUserById: "users/:id",
+  newOrder: "/orders",
+  getOrderById: "/orders/:id",
+  editOrderById: "/orders/:id",
+  addCart : "/cart",
+  updateCart : "/cart",
+  deleteCart : "/cart",
+  
 };
