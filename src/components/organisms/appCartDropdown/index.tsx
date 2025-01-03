@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import useCartStore from "@/stores/useCartStore";
 import AppCartDropdownItem from "@/components/molecules/appCartDropdownItem";
 import useSingleProductByIds from "@/hooks/queries/useGetProductByIds";
+import useUpdateCart from "@/hooks/queries/useUpdateCard";
 
 interface Props {
   onClose: () => void;
@@ -19,10 +20,11 @@ const AppCartDropdown: React.FC<Props> = ({ onClose }) => {
   const { productsByIds } = useSingleProductByIds({
     ids: cartItems.map((item) => item.id),
   });
-  const updateQuantity = useCartStore((state) => state.updateQuantity);
+
+  const { updateCart } = useUpdateCart();
 
   const handleCountChange = (id: string, count: number) => {
-    updateQuantity(id, count);
+    updateCart({ itemId: id, quantity: count });
   };
 
   useEffect(() => {

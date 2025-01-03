@@ -6,9 +6,11 @@ export default function Layout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="min-h-screen flex flex-col bg-light-primary-surface-default">
+    <div className="min-h-screen w-full flex flex-col bg-light-primary-surface-default">
       <AppHeader />
-      <div className="pt-20 flex flex-1 container w-full"> {children}</div>
+      <div className="pt-20 flex flex-1 w-full justify-center mx-auto">
+        {children}
+      </div>
     </div>
   );
 }

@@ -6,6 +6,7 @@ import PlusIcon from "../../../../public/svg/Plus.svg";
 import { useRouter } from "next/navigation";
 import useCartStore from "@/stores/useCartStore";
 import { MouseEvent } from "react";
+import useAddCart from "@/hooks/queries/useAddCart";
 
 type AppProductCardProps = {
   id: string;
@@ -17,7 +18,7 @@ type AppProductCardProps = {
 
 const customTheme = {
   root: {
-    base: "relative flex rounded-none border border-gray-50 bg-white shadow-sm hover:cursor-pointer",
+    base: "relative flex rounded-none border border-gray-50 bg-white shadow-sm hover:cursor-pointer hover:shadow-md",
     children: "flex flec-col md:flex-row h-full justify-between gap-2 p-4",
     horizontal: {
       off: "flex-col",
@@ -44,12 +45,13 @@ const AppProductCard: React.FC<AppProductCardProps> = ({
   const router = useRouter();
 
   const addItem = useCartStore((state) => state.addItem);
+  const { addCart } = useAddCart();
 
   const handleAddToCart = (
     e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>
   ) => {
     e?.stopPropagation();
-    addItem(id, 1);
+    addCart([{ id, quantity: 1 }]);
   };
 
   return (
@@ -63,8 +65,9 @@ const AppProductCard: React.FC<AppProductCardProps> = ({
           <AppImage
             src={thumbnail}
             className="w-full h-full transition-transform duration-300 ease-out object-cover "
+            isThumbnail
           />
-          <div className="absolute w-full z-50 bottom-0 left-0 right-0 p-4 flex items-center justify-center opacity-0 transition-all duration-500 ease-in-out group-hover:opacity-100">
+          <div className="absolute w-full z-30 bottom-0 left-0 right-0 p-4 flex items-center justify-center opacity-0 transition-all duration-500 ease-in-out group-hover:opacity-100">
             <AppButton
               text="افزودن به سبد خرید"
               variant="secondary"
