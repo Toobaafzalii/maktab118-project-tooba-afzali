@@ -163,7 +163,11 @@ export const AppInput: React.FC<AppInputProps> = ({
             </div>
           )
         }
-        helperText={<span className={renderHelperStyle()}>{helperText}</span>}
+        helperText={
+          <span className={`${renderHelperStyle()} max-w-min`}>
+            {helperText}
+          </span>
+        }
         rightIcon={({ className }) =>
           rightIcon ? (
             <div
