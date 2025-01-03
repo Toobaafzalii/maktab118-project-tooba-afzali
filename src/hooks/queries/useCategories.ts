@@ -7,7 +7,7 @@ import { CategoriesDto } from "./dtos/categories";
 const queryName = "categories";
 const apiRequestMethod = "get";
 type QueryResponse = CategoriesDto;
-type QueryFnProps = { page: number };
+type QueryFnProps = { page: number , slugname?: string };
 
 const useCategories = (props: QueryFnProps) => {
   const { data, isPending, refetch, isError } = useQuery<
@@ -15,7 +15,7 @@ const useCategories = (props: QueryFnProps) => {
     unknown,
     QueryResponse
   >({
-    queryKey: [QUERY_KEYS[queryName], props.page],
+    queryKey: [QUERY_KEYS[queryName], props.page , props.slugname],
     queryFn: () => queryFn(props),
     placeholderData: keepPreviousData,
   });

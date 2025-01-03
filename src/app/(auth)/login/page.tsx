@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { AppInput } from "@/components/atoms/appInput";
 import XIcon from "../../../../public/svg/X-icon.svg";
@@ -8,11 +8,13 @@ import Person from "../../../../public/svg/person-stroke.svg";
 import EyeClosed from "../../../../public/svg/EyeClosed.svg";
 import Lock from "../../../../public/svg/Lock.svg";
 import { AppButton } from "@/components/molecules/appButton";
-import useLogin from "@/hooks/queries/template/useMutration";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { UserloginSchema } from "@/validation/schemas/userLogin";
 import useAuthStore from "../../../stores/useAuthStore/index";
+import useLogin from "@/hooks/queries/useLogin";
+import useCartStore from "@/stores/useCartStore";
+import useAddCart from "@/hooks/queries/useAddCart";
 
 interface FormData {
   username: string;
@@ -23,6 +25,9 @@ const UserloginPage: React.FC = () => {
   const router = useRouter();
   const { isLoginLoading, login } = useLogin();
   const setAuthUser = useAuthStore((state) => state.setUser);
+  const authUser = useAuthStore((state) => state.user);
+  const { cartItems, setItems } = useCartStore((state) => state);
+  const { addCart } = useAddCart();
   const {
     register,
     handleSubmit,
@@ -38,6 +43,7 @@ const UserloginPage: React.FC = () => {
     login(formData, {
       onSuccess: (data) => {
         setAuthUser({
+          _id: data.data.user._id,
           accessToken: data.token.accessToken,
           refreshToken: data.token.refreshToken,
           role: data.data.user.role,
@@ -49,14 +55,20 @@ const UserloginPage: React.FC = () => {
     });
   };
 
+  useEffect(() => {
+    if (authUser?.accessToken) {
+      addCart(cartItems);
+    }
+  }, [authUser]);
+
   const handleToggleVisibility = () => {
     setIsPasswordVisible((prevState) => !prevState);
   };
 
   return (
     <div className="bg-light-primary-surface-default border-[1px] border-light-primary-border-default py-12 max-h-screen px-32 gap-6 w-full flex flex-col justify-center items-start h-[70vh]">
-      <div className="space-y-1">
-        <p className="text-light-primary-text-title text-title-24">
+      <div className="space-y-1 mb-7">
+        <p className="text-light-primary-text-title text-title-24 ">
           ورود به حساب کاربری
         </p>
         <p className="text-light-primary-text-title text-subtitle-16">

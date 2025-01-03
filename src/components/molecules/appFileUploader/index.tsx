@@ -176,6 +176,7 @@ const AppFileUploader: React.FC<AppFileUploaderProps> = ({
                     src={image.url}
                     alt={image.url ?? ""}
                     className="object-cover w-full h-full"
+                    isThumbnail={image.isThumbnail}
                   />
                 ) : (
                   <ImagePlaceholder />

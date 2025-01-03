@@ -11,12 +11,7 @@ import React, { useState } from "react";
 import ArrowLeft from "../../../../public/svg/ArrowLeft.svg";
 import AppProductCard from "@/components/molecules/appProductCard";
 import { useRouter } from "next/navigation";
-
-const banerImages: Array<{ src: string; navigateTo: string }> = [
-  { src: "./png/biroonPush.png", navigateTo: "b" },
-  { src: "./png/pants.png", navigateTo: "b" },
-  { src: "./png/t-shirt.png", navigateTo: "b" },
-];
+import useSubcategories from "@/hooks/queries/useSubcategories";
 
 const collectionImages = [
   "./png/collection-image-1.png",
@@ -28,6 +23,48 @@ const LandingPage: React.FC = () => {
   const [filters, setFilters] = useState<Filters | null>(null);
   const onFiltersChange = (filters: Filters) => {
     setFilters(filters);
+  };
+  const { subcategories } = useSubcategories({ page: 1 });
+
+  const banerImages = {
+    men: [
+      {
+        src: "./png/birunPush-men.png",
+        navigateTo: "/676c4e5c356fd2e734003a82/",
+      },
+      {
+        src: "./png/shalvar-men.png",
+        navigateTo: "/676c4e5c356fd2e734003a82/",
+      },
+      { src: "./png/tshirt-men.png", navigateTo: "/676c4e5c356fd2e734003a82/" },
+      {
+        src: "./png/baftani-men.png",
+        navigateTo: "/676c4e5c356fd2e734003a82/",
+      },
+      { src: "./png/kafsh-men.png", navigateTo: "/676c4e5c356fd2e734003a82/" },
+    ],
+    women: [
+      {
+        src: "./png/birunPush-women.png",
+        navigateTo: "/676c4e27356fd2e734003a7e/",
+      },
+      {
+        src: "./png/shalvar-women.png",
+        navigateTo: "/676c4e27356fd2e734003a7e/",
+      },
+      {
+        src: "./png/tshirt-women.png",
+        navigateTo: "/676c4e27356fd2e734003a7e/",
+      },
+      {
+        src: "./png/baftani-women.png",
+        navigateTo: "/676c4e27356fd2e734003a7e/",
+      },
+      {
+        src: "./png/kafsh-women.png",
+        navigateTo: "/676c4e27356fd2e734003a7e/",
+      },
+    ],
   };
 
   return (
@@ -51,13 +88,13 @@ const LandingPage: React.FC = () => {
             />
           </div>
         </div>
-        <div className="flex justify-between items-center gap-2">
+        <div className="flex justify-between items-center gap-0.5">
           {collectionImages &&
             collectionImages.map((img) => {
               return <AppImage key={img} src={img} className="w-[49%]" />;
             })}
         </div>
-        <div className="flex justify-between items-center p-5 gap-4">
+        <div className="flex justify-between items-center p-5 gap-4 ">
           <AppProductCard
             thumbnail="https://cdn.shopify.com/s/files/1/0498/5713/4756/files/MLOJ3603_CML_0006_b09f4163-8130-4a61-9db1-32c5402d1941_600x.progressive.jpg?v=1729715138"
             name="تی‌شرت لوکس کمل"
@@ -82,23 +119,49 @@ const LandingPage: React.FC = () => {
         </div>
       </div>
 
-      <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-2 p-5">
-        {banerImages &&
-          banerImages.map((baner) => {
-            return (
-              <AppImage
-                key={baner.src}
-                className="cursor-pointer hover:shadow-md hover:scale-105 transition-all duration-500"
-                src={baner.src}
-                onClick={() => router.push(baner.navigateTo)}
-              />
-            );
-          })}
+      <div className="w-full flex flex-col justify-between items-start gap-10 p-[60px]">
+        <p className="text-title-36 w-full text-nowrap">برای بانوان</p>
+        <div className="w-full grid grid-cols-1 md:grid-cols-4 lg:grid-cols-3 gap-4 ">
+          {banerImages &&
+            banerImages.women.map((baner, index) => {
+              return (
+                <AppImage
+                  key={baner.src}
+                  className={`cursor-pointer hover:shadow-md hover:scale-[102%] transition-all duration-500 ${
+                    index === 0 ? "grid col-span-2" : ""
+                  }`}
+                  src={baner.src}
+                  onClick={() => router.push(baner.navigateTo)}
+                />
+              );
+            })}
+        </div>
       </div>
 
-      <div className="w-full flex justify-between items-start">
+      <div className="w-full flex flex-col justify-between items-start gap-10 p-[60px] bg-light-primary-surface-object">
+        <p className="text-title-36 w-full text-nowrap">برای آقایان</p>
+        <div className="w-full grid grid-cols-1 md:grid-cols-4 lg:grid-cols-6 gap-4 ">
+          {banerImages &&
+            banerImages.men.map((baner, index) => {
+              return (
+                <AppImage
+                  key={baner.src}
+                  className={`cursor-pointer hover:shadow-md  hover:scale-[102%] transition-all duration-500 ${
+                    index === 0 || index === 1
+                      ? "grid col-span-3"
+                      : "col-span-2"
+                  }`}
+                  src={baner.src}
+                  onClick={() => router.push(baner.navigateTo)}
+                />
+              );
+            })}
+        </div>
+      </div>
+
+      <div className="w-full flex justify-between items-start pt-2">
         <div className="w-full flex-1 flex flex-col justify-between items-start gap-5 px-4">
-          <span className="w-full text-title-28 text-light-primary-text-title">
+          <span className="w-full text-title-28 text-light-primary-text-title mt-7">
             لیست محصولات
           </span>
           <AppProductsList filters={filters} size="sm" />

@@ -1,8 +1,8 @@
 import { z } from "zod";
 
 export const deliveryInfoSchema = z.object({
-  firstName: z.string().min(3, { message: "نام گیرنده الزامی است" }),
-  lastName: z.string().min(3, { message: "نام خانوادگی گیرنده الزامی است" }),
+  firstname: z.string().min(3, { message: "نام گیرنده الزامی است" }),
+  lastname: z.string().min(3, { message: "نام خانوادگی گیرنده الزامی است" }),
   address: z.string().min(5, { message: "آدرس الزامی است" }),
   phoneNumber: z
     .string()

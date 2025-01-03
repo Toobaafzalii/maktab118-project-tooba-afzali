@@ -2,6 +2,7 @@ export interface CategoryDto {
   _id: string;
   name: string;
   icon?: string | null;
+  slugname: string;
 }
 
 export interface CategoriesDto {

@@ -13,6 +13,7 @@ import UserAvatar from "../../../../public/svg/UserAvatar.svg";
 import useAuthStore from "../../../stores/useAuthStore/index";
 import AppPrivateRoute from "@/components/organisms/appPrivetRoute";
 import { useMemo } from "react";
+import useCartStore from "@/stores/useCartStore";
 
 type Pathname = "/dashboard" | "/dashboard/products" | "/dashboard/prices";
 
@@ -61,6 +62,7 @@ export default function Layout({
   const pathName = usePathname() as Pathname;
   const router = useRouter();
   const { user, clearUser, isRehydrateStorage } = useAuthStore();
+  const { setItems } = useCartStore();
 
   const pageTitle: Record<Pathname, { title: string; description: string }> = {
     "/dashboard": {
@@ -80,6 +82,7 @@ export default function Layout({
 
   const handleLogout = () => {
     clearUser();
+    setItems([]);
     router.push("/dashboard/login");
   };
 

@@ -1,7 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { client } from "@/api/axios";
 import { PATHS } from "@/api/paths";
-import { AxiosError } from "axios";
 
 const queryName = "login";
 const apiRequestMethod = "post";

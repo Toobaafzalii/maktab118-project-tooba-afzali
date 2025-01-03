@@ -7,10 +7,13 @@ import ArrowLeft from "../../../../public/svg/ArrowLeft-gray.svg";
 import useSingleProductById from "@/hooks/queries/useGetProductById";
 import { usePathname } from "next/navigation";
 import AppSpinner from "@/components/atoms/appSpinner";
-import NotFound from "@/app/(app)/notFound/page";
+import NotFound from "@/app/notFound/page";
 import { useMemo } from "react";
 import useCartStore from "@/stores/useCartStore";
 import { get } from "http";
+import useAddCart from "@/hooks/queries/useAddCart";
+import useUpdateCart from "@/hooks/queries/useUpdateCard";
+import useDeleteCart from "@/hooks/queries/useDeleteCart";
 
 const AppSingleProductContainer: React.FC = () => {
   const pathname = usePathname();
@@ -20,8 +23,10 @@ const AppSingleProductContainer: React.FC = () => {
       id: productId,
     });
 
-  const addItem = useCartStore((state) => state.addItem);
-  const updateQuantity = useCartStore((state) => state.updateQuantity);
+  const { addCart } = useAddCart();
+  const { updateCart } = useUpdateCart();
+  const { deleteCart } = useDeleteCart();
+
   const removeItem = useCartStore((state) => state.removeItem);
   const cartItems = useCartStore((state) => state.cartItems);
   const currentItem = useMemo(
@@ -47,18 +52,18 @@ const AppSingleProductContainer: React.FC = () => {
 
   const handleAddToCart = () => {
     if (itemCount === 0) {
-      addItem(productId, 1);
+      addCart([{ id: productId, quantity: 1 }]);
     } else {
-      updateQuantity(productId, itemCount + 1);
+      updateCart({ itemId: productId, quantity: itemCount + 1 });
     }
   };
 
   const handleZeroCount = () => {
-    removeItem(productId);
+    deleteCart({ itemId: productId });
   };
 
   const countChangeHandle = (count: number) => {
-    updateQuantity(productId, count);
+    updateCart({ itemId: productId, quantity: count });
   };
 
   return (
@@ -70,6 +75,7 @@ const AppSingleProductContainer: React.FC = () => {
               <AppImage
                 src={getProductById.data.product.thumbnail}
                 className="w-full"
+                isThumbnail
               />
             }
             {getProductById.data.product.images.map((image, index) => (
@@ -95,7 +101,7 @@ const AppSingleProductContainer: React.FC = () => {
             className="text-subtitle-20"
           ></span>
           <span className="text-subtitle-20 text-light-primary-text-subtitle">
-            {`${getProductById?.data.product.brand} دیگر توضیحات: برند`}
+            {` دیگر توضیحات: برند ${getProductById?.data.product.brand}`}
           </span>
         </div>
         <div className="flex flex-col justify-between items-start gap-3">

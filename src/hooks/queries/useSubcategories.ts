@@ -7,20 +7,20 @@ import { SubcategoriesDto } from "./dtos/subcategories";
 const queryName = "subcategories";
 const apiRequestMethod = "get";
 type QueryResponse = SubcategoriesDto;
-type QueryFnProps = { page: number };
+type QueryFnProps = { page: number , slugname?:string };
 
 const useSubcategories = (props: QueryFnProps) => {
-  const { data, isPending, refetch } = useQuery<
+  const { data, isPending, refetch  , error } = useQuery<
     QueryFnProps,
     unknown,
     QueryResponse
   >({
-    queryKey: [QUERY_KEYS[queryName], props.page],
+    queryKey: [QUERY_KEYS[queryName], props.page , props.slugname],
     queryFn: () => queryFn(props),
-    placeholderData: keepPreviousData,
+    enabled:!!props
   });
 
-  return { [queryName]: data, isSubcategoriesLoading: isPending, refetch };
+  return { [queryName]: data, isSubcategoriesLoading: isPending, refetch , isSubCategoriesError : error };
 };
 
 const queryFn = async (props: QueryFnProps) => {

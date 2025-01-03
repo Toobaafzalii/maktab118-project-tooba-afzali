@@ -3,6 +3,7 @@ import { createJSONStorage, persist } from "zustand/middleware";
 
 interface AuthState {
   user?: {
+    _id: string
     accessToken: string;
     refreshToken: string;
     role: string;

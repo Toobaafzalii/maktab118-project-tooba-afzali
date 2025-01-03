@@ -7,28 +7,46 @@ import { usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import ArrowLeft from "../../../../../../public/svg/ArrowLeft-gray.svg";
 import AppSelectBox from "@/components/atoms/appSelectBox";
-import NotFound from "@/app/(app)/notFound/page";
+import NotFound from "@/app/notFound/page";
+import useSubcategories from "@/hooks/queries/useSubcategories";
+import { toast } from "react-toastify";
+import { client } from "@/api/axios";
 
 const SubcategoryPage: React.FC = () => {
   const pathname = usePathname();
-  const { subcategoryByIds, subcategoryByIdsData, subcategoryByIdsError } =
-    useSubcategoryByIds();
-  const { categories, categoriesError } = useCategories({ page: 1 });
-
-  const categoryFilter = pathname.replace("/", "").split("/")[0];
-  const subCategoryFilter = pathname.replace("/", "").split("/")[1];
+  const [categoryFilter, setCategoryFilter] = useState("");
+  const [subCategoryFilter, setSubCategoryFilter] = useState("");
+  const { isSubCategoriesError, subcategories } = useSubcategories({
+    page: 1,
+    slugname: subCategoryFilter,
+  });
+  const { categories, categoriesError } = useCategories({
+    page: 1,
+    slugname: categoryFilter,
+  });
 
   const [filters, setFilters] = useState<Filters>({
     sort: "",
-    category: categoryFilter,
-    subcategories: [subCategoryFilter],
+    category: "",
+    subcategories: [],
   });
 
   useEffect(() => {
-    subcategoryByIds({ ids: [subCategoryFilter] });
-  }, [subCategoryFilter]);
+    if (subcategories?.data?.subcategories && categories?.data?.categories) {
+      setFilters({
+        sort: "",
+        category: categories?.data.categories?.[0]?._id,
+        subcategories: [subcategories?.data.subcategories?.[0]?._id],
+      });
+    }
+  }, [categories, subcategories]);
 
-  if (categoriesError || subcategoryByIdsError) {
+  useEffect(() => {
+    setCategoryFilter(pathname.replace("/", "").split("/")[0]);
+    setSubCategoryFilter(pathname.replace("/", "").split("/")[1]);
+  }, [pathname]);
+
+  if (categoriesError || isSubCategoriesError) {
     return <NotFound />;
   }
 
@@ -37,17 +55,17 @@ const SubcategoryPage: React.FC = () => {
       <div className="w-full flex justify-between items-end py-5 ">
         <span className="flex text-nowrap items-center justify-between gap-1">
           <span className="text-light-primary-text-subtitle text-subtitle-20">
-            {
-              categories?.data.categories.find(
-                (category) => category._id === categoryFilter
-              )?.name
-            }
+            {categories &&
+              categories?.data.categories.length > 0 &&
+              categories.data.categories?.[0].name}
           </span>
           <ArrowLeft />
           <span className="text-subtitle-24 text-light-primary-text-body">
-            {subcategoryByIdsData &&
-              subcategoryByIdsData?.length > 0 &&
-              subcategoryByIdsData[0].data.subcategory.name}
+            {subcategories &&
+              subcategories?.data.subcategories.length > 0 &&
+              subcategories.data.subcategories?.[0].name
+                .replace("بانوان", "")
+                .replace("آقایان", "")}
           </span>
         </span>
         <div className="w-[14%]">

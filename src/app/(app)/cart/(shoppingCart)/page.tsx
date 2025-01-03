@@ -23,14 +23,13 @@ const ShoppingCartPage: React.FC = () => {
   }
 
   return (
-    <div className="relative bg-light-primary-surface-default flex  flex-grow justify-between items-start p-10 w-full text-nowrap gap-2 ">
+    <div className="relative bg-light-primary-surface-default flex flex-grow flex-1 justify-between items-start p-10 w-full text-nowrap gap-2 ">
       {cartItems.length <= 0 ? (
         <div className="flex flex-1 justify-center items-center self-center">
           محصولی در سبد خرید شما وجود ندارد.
         </div>
       ) : (
         <div className="w-full flex-1 flex-grow">
-          {" "}
           <AppShoppingCartTable products={productsByIds} />
         </div>
       )}
