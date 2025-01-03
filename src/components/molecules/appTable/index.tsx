@@ -11,7 +11,7 @@ import AppImage from "@/components/organisms/appImage";
 
 const customTheme = {
   root: {
-    base: "w-full text-left text-sm text-gray-500  text-right",
+    base: "w-full text-left text-sm text-gray-500 text-right",
     shadow:
       "absolute left-0 top-0 -z-10 h-full w-full rounded-lg drop-shadow-md ",
   },
@@ -53,8 +53,8 @@ type TableProps = {
   actionButtons?: AppButtonProps[];
   onDeleteClick?: (rowId: string) => void;
   onFilterChange?: (props: { value: string; key: string }) => void;
-  page: number;
-  onPageChange: (page: number) => void;
+  page?: number;
+  onPageChange?: (page: number) => void;
   totalPages?: number;
   isEditMode?: boolean;
   onInputChange?: (id: string, key: string, value: any) => void;
@@ -145,7 +145,7 @@ const AppTable: React.FC<TableProps> = ({
       value = <div className="flex items-center gap-1">{value}</div>;
     } else if (column.key === "thumbnail") {
       const url = value;
-      value = <AppImage src={url} className="w-8 h-8" />;
+      value = <AppImage src={url} className="w-8 h-8" isThumbnail />;
     } else if (column.dataFormatter) {
       value = column.dataFormatter(value);
     } else if (["price", "totalPrice"].includes(column.key)) {
@@ -213,11 +213,13 @@ const AppTable: React.FC<TableProps> = ({
         </Table.Body>
       </Table>
       <div className="w-full flex items-center bg-light-primary-surface-object p-4">
-        <AppPagination
-          page={page}
-          onPageChange={onPageChange}
-          totalPages={totalPages}
-        />
+        {page && onPageChange && (
+          <AppPagination
+            page={page}
+            onPageChange={onPageChange}
+            totalPages={totalPages}
+          />
+        )}
       </div>
     </div>
   );

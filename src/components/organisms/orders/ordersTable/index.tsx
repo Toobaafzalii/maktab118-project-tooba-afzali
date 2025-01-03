@@ -8,6 +8,7 @@ import ListChecks from "../../../../../public/svg/ListChecks.svg";
 import CareLeft from "../../../../../public/svg/CaretLeft.svg";
 import { AppButtonProps } from "@/components/molecules/appButton";
 import useUserByIds from "@/hooks/queries/useUserByIds";
+import AppOrderDetailsModal from "../../appOrderDetailsModal";
 
 const FILTERS = {
   key: "deliveryStatus",
@@ -38,6 +39,8 @@ const OrdersTable: React.FC = () => {
     deliveryStatus: deliveryStatus ?? undefined,
   });
   const { isUserByIdsLoading, userByIds, userByIdsData } = useUserByIds();
+  const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
+  const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
 
   useEffect(() => {
     const userIds: Array<string> = [];
@@ -83,7 +86,10 @@ const OrdersTable: React.FC = () => {
       {
         text: "بررسی سفارش",
         iconLeft: (className: string) => <CareLeft className={className} />,
-        onClick: () => {},
+        onClick: (rowId) => {
+          if (typeof rowId === "string") setSelectedItemId(rowId);
+          setIsOrderModalOpen(true);
+        },
         variant: "secondary",
       },
     ];
@@ -116,6 +122,15 @@ const OrdersTable: React.FC = () => {
         onPageChange={(page) => setPage(page)}
         onFilterChange={onFilterChange}
       />
+      {isOrderModalOpen && selectedItemId && (
+        <AppOrderDetailsModal
+          OrderId={selectedItemId}
+          onSuccess={() => {
+            refetch();
+          }}
+          onClose={() => setIsOrderModalOpen(false)}
+        />
+      )}
     </div>
   );
 };
