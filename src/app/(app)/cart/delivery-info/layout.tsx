@@ -12,12 +12,13 @@ export default function Layout({
   children: React.ReactNode;
 }>) {
   const router = useRouter();
-  const { user } = useAuthStore();
+  const { user, isRehydrateStorage } = useAuthStore();
 
   const canAccess = useMemo(() => {
     return Boolean(user?.accessToken);
   }, [user]);
 
+  if (!isRehydrateStorage) return null;
   return (
     <AppPrivateRoute redirectTo="/login" canAccess={canAccess}>
       <div className="relative min-h-screen flex flex-col bg-light-primary-surface-default">
@@ -38,7 +39,9 @@ export default function Layout({
             <ArrowLeft />
           </div>
         </div>
-        <div className=" flex flex-1 container w-full"> {children}</div>
+        <div className=" flex flex-1 w-full justify-center mx-auto">
+          {children}
+        </div>
       </div>
     </AppPrivateRoute>
   );
