@@ -15,8 +15,8 @@ export default function Layout({
 
   const pageDetails = {
     login: {
-      helperText: "حساب کاربری ندارید؟",
-      buttonText: "ایجاد حساب",
+      helperText: "ثبت نام نکرده اید؟",
+      buttonText: "ثبت نام",
       buttonNavigation: "/signup",
     },
     signup: {
@@ -40,7 +40,7 @@ export default function Layout({
     <div
       className="relative flex h-screen bg-cover bg-no-repeat "
       style={{
-        backgroundImage: "url(/png/admin-login-bg.png)",
+        backgroundImage: "url(/png/user-login-bg.png)",
       }}
     >
       <div className="flex flex-col justify-center sm:w-[609px] w-[90%] !h-screen absolute right-8 left-8 sm:left-0 ">
@@ -57,18 +57,26 @@ export default function Layout({
           </div>
         </div>
         {children}
-        <div className="bg-light-primary-surface-default p-5 gap-2 w-full flex justify-center items-center">
-          <p className="text-light-primary-text-subtitle text-subtitle-16">
-            {details.helperText}
-          </p>
-          <div onClick={() => router.push(details.buttonNavigation)}>
-            <AppButton
-              text={details.buttonText}
-              iconLeft={(className) => <ArrowLeft className={className} />}
-              size="l"
-              variant="secondary"
-            />
+        <div className="bg-light-primary-surface-default p-5 gap-5 w-full flex justify-between items-center">
+          <div className="gap-2 flex justify-center items-center">
+            <p className="text-light-primary-text-subtitle text-subtitle-16">
+              {details.helperText}
+            </p>
+            <div onClick={() => router.push(details.buttonNavigation)}>
+              <AppButton
+                text={details.buttonText}
+                iconLeft={(className) => <ArrowLeft className={className} />}
+                size="l"
+                variant="secondary"
+              />
+            </div>
           </div>
+            <p
+              className="text-light-primary-text-subtitle text-subtitle-16 text-nowrap cursor-pointer hover:scale-105"
+              onClick={() => router.push("/dashboard/logIn")}
+            >
+              ادمین هستید؟
+            </p>
         </div>
       </div>
     </div>

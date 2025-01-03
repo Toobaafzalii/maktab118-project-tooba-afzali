@@ -4,6 +4,8 @@ import Plus from "../../../../public/svg/PlusCounter.svg";
 import Minus from "../../../../public/svg/MinusCounter.svg";
 import { useEffect } from "react";
 import useCartStore from "@/stores/useCartStore";
+import useUpdateCart from "@/hooks/queries/useUpdateCard";
+import useDeleteCart from "@/hooks/queries/useDeleteCart";
 
 type AppItemCounterProps = {
   id: string;
@@ -27,33 +29,36 @@ const AppItemCounter: React.FC<AppItemCounterProps> = ({
   const { cartItems, updateQuantity, removeItem } = useCartStore(
     (state) => state
   );
+  const { updateCart } = useUpdateCart();
+  const { deleteCart } = useDeleteCart();
 
   const currentItem = cartItems.find((item) => item.id === id);
   const count = currentItem ? currentItem.quantity : min;
 
   const increment = () => {
     if (max && count >= max) return;
-    updateQuantity(id, count + 1);
+
+    updateCart({ itemId: id, quantity: count + 1 });
   };
 
   const decrement = () => {
     if (count > min) {
-      updateQuantity(id, count - 1);
+      updateCart({ itemId: id, quantity: count - 1 });
     } else {
-      removeItem(id);
+      deleteCart({ itemId: id });
       onZeroCount && onZeroCount();
     }
   };
 
   const reset = () => {
-    removeItem(id);
+    deleteCart({ itemId: id });
     if (onZeroCount) {
       onZeroCount();
     }
   };
 
   useEffect(() => {
-    if (onCountChange) onCountChange(count);
+    // if (onCountChange) onCountChange(count);
   }, []);
 
   const sizeClasses = size === "lg" ? "gap-8 px-5 py-4 " : "gap-2.5 px-3 py-2 ";

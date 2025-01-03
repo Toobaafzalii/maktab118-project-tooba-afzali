@@ -66,7 +66,6 @@ const AppFilteringSidebar: React.FC<AppFilteringSidebarProps> = ({
     onFiltersChange(filters);
   };
 
-  console.log(filteredSubcategories);
 
   return (
     <div className="sticky max-w-96 w-full top-0 right-[100%] py-10 px-6 min-h-screen flex flex-col justify-start items-start gap-6 bg-light-primary-surface-object text-light-primary-text-title">
@@ -116,7 +115,7 @@ const AppFilteringSidebar: React.FC<AppFilteringSidebarProps> = ({
         {filteredSubcategories.map((subcategory) => (
           <AppCheckbox
             key={subcategory._id}
-            text={subcategory.name}
+            text={subcategory.name.replace("آقایان","").replace("بانوان","")}
             value={subcategory._id || ""}
             onSelect={(value) => {
               handleSubcategoriesChange(value as string);

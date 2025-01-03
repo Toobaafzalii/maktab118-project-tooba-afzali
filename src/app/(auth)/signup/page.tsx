@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { AppInput } from "@/components/atoms/appInput";
 import XIcon from "../../../../public/svg/X-icon.svg";
@@ -12,6 +12,8 @@ import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { UserSignupSchema } from "@/validation/schemas/userSignup";
 import useAuthStore from "../../../stores/useAuthStore/index";
+import useCartStore from "@/stores/useCartStore";
+import useAddCart from "@/hooks/queries/useAddCart";
 
 interface FormData {
   firstname: string;
@@ -27,6 +29,9 @@ const UserSignupPage: React.FC = () => {
   const router = useRouter();
   const { isSignupLoading, signup } = useSignup();
   const setAuthUser = useAuthStore((state) => state.setUser);
+  const authUser = useAuthStore((state) => state.user);
+  const { cartItems, setItems } = useCartStore((state) => state);
+  const { addCart } = useAddCart();
   const {
     register,
     handleSubmit,
@@ -47,19 +52,26 @@ const UserSignupPage: React.FC = () => {
     signup(signupData, {
       onSuccess: (data) => {
         setAuthUser({
+          _id: data.data.user._id,
           accessToken: data.token.accessToken,
           refreshToken: data.token.refreshToken,
           role: data.data.user.role,
           firstName: data.data.user.firstname,
           lastName: data.data.user.lastname,
         });
-        router.push("/login");
+        router.push("/");
       },
       onError: (error) => {
         console.error("Signup error:", error);
       },
     });
   };
+
+  useEffect(() => {
+    if (authUser?.accessToken) {
+      addCart(cartItems);
+    }
+  }, [authUser]);
 
   const handleToggleVisibility = () => {
     setIsPasswordVisible((prevState) => !prevState);
@@ -70,20 +82,21 @@ const UserSignupPage: React.FC = () => {
   };
 
   return (
-    <div className="bg-light-primary-surface-default border-[1px] border-light-primary-border-default py-12 max-h-screen px-32 gap-8 w-full flex flex-col justify-between items-start">
-      <div className="space-y-1">
-        <p className="text-light-primary-text-title text-title-24">
+    <div className="bg-light-primary-surface-default border-[1px] border-light-primary-border-default max-h-screen px-20 py-10 w-full flex flex-col justify-between items-start">
+      <div>
+        <p className="text-light-primary-text-title text-title-24 mb-8">
           ایجاد حساب کاربری
         </p>
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="w-full space-y-2">
+      <form onSubmit={handleSubmit(onSubmit)} className="w-full">
         <div className="w-full flex justify-between items-start gap-2">
           <AppInput
             {...register("firstname")}
             id="first-name"
             sizing="sm"
             label="نام"
+            placeholder="نام..."
             color="base"
             type="text"
             hasError={!!errors.firstname}
@@ -94,18 +107,20 @@ const UserSignupPage: React.FC = () => {
             id="last-name"
             sizing="sm"
             label="نام خانوادگی"
+            placeholder="نام خانوادگی..."
             color="base"
             type="text"
             hasError={!!errors.lastname}
             helperText={errors.lastname?.message}
           />
         </div>
-        <div className="w-full">
+        <div className="w-full flex justify-between items-start gap-2">
           <AppInput
             {...register("username")}
             id="user-name"
             sizing="sm"
             label="نام کاربری"
+            placeholder="نام کاربری..."
             color="base"
             type="text"
             icon={(className) => <XIcon className={className} />}
@@ -116,6 +131,22 @@ const UserSignupPage: React.FC = () => {
             hasError={!!errors.username}
             helperText={errors.username?.message}
           />
+          <AppInput
+            {...register("phoneNumber")}
+            id="phoneNumber"
+            sizing="sm"
+            label="شمارهمراه"
+            color="base"
+            type="text"
+            placeholder="شماره همراه..."
+            icon={(className) => <XIcon className={className} />}
+            iconFunctionality={{
+              type: "toggleFocus",
+              callback: (isFocused) => {},
+            }}
+            hasError={!!errors.phoneNumber}
+            helperText={errors.phoneNumber?.message}
+          />
         </div>
         <div className="w-full flex justify-between items-start gap-2">
           <AppInput
@@ -123,6 +154,7 @@ const UserSignupPage: React.FC = () => {
             id="password"
             sizing="sm"
             label="رمز عبور"
+            placeholder="رمز عبور..."
             color="base"
             type={isPasswordVisible ? "text" : "password"}
             icon={(className) => <EyeClosed className={className} />}
@@ -138,6 +170,7 @@ const UserSignupPage: React.FC = () => {
             id="confirmPassword"
             sizing="sm"
             label=" تکرار رمز عبور"
+            placeholder="تکرار رمز عبور..."
             color="base"
             type={isConfirmPasswordVisible ? "text" : "password"}
             icon={(className) => <EyeClosed className={className} />}
@@ -149,24 +182,7 @@ const UserSignupPage: React.FC = () => {
             helperText={errors.confirmPassword?.message}
           />
         </div>
-        <div className="w-full">
-          <AppInput
-            {...register("phoneNumber")}
-            id="phoneNumber"
-            sizing="sm"
-            label="شمارهمراه"
-            color="base"
-            type="text"
-            placeholder="شماره تماس را وارد کنید..."
-            icon={(className) => <XIcon className={className} />}
-            iconFunctionality={{
-              type: "toggleFocus",
-              callback: (isFocused) => {},
-            }}
-            hasError={!!errors.phoneNumber}
-            helperText={errors.phoneNumber?.message}
-          />
-        </div>
+
         <div className="w-full">
           <AppInput
             {...register("address")}

@@ -6,6 +6,8 @@ import AppImage from "@/components/organisms/appImage";
 import { Table } from "flowbite-react";
 import { SingleProductDto } from "@/hooks/queries/dtos/products";
 import { useRouter } from "next/navigation";
+import useUpdateCart from "@/hooks/queries/useUpdateCard";
+import useDeleteCart from "@/hooks/queries/useDeleteCart";
 
 interface AppCartItemProps {
   itemId: string;
@@ -21,15 +23,16 @@ const AppCartTableRow: FC<AppCartItemProps> = ({
   product,
 }) => {
   const router = useRouter();
-  const updateQuantity = useCartStore((state) => state.updateQuantity);
   const removeItem = useCartStore((state) => state.removeItem);
+  const { updateCart } = useUpdateCart();
+  const { deleteCart } = useDeleteCart();
 
   const handleCountChange = (count: number) => {
-    updateQuantity(itemId, count);
+    updateCart({ itemId, quantity: count });
   };
 
   const handleRemoveFromCart = () => {
-    removeItem(itemId);
+    deleteCart({ itemId });
   };
 
   if (!product) {
@@ -38,12 +41,16 @@ const AppCartTableRow: FC<AppCartItemProps> = ({
 
   return (
     <Table.Row className="text-light-primary-text-title text-subtitle-20">
-      <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-        <div className="flex justify-start items-center gap-x-4">
+      <Table.Cell className="whitespace-nowrap font-medium text-gray-900 ">
+        <div className="flex justify-start items-center gap-x-4 min-w-[260px]">
           <span>{index}</span>
-          <AppImage src={product.thumbnail} className="w-[100px] h-[100px]" />
+          <AppImage
+            src={product.thumbnail}
+            className="w-[100px] h-[100px]"
+            isThumbnail
+          />
           <span
-            className="max-w-[300px] cursor-pointer line-clamp-2 text-wrap text-light-primary-text-title"
+            className="line-clamp-2 text-wrap text-light-primary-text-title"
             onClick={() => router.push(`/product/${product._id}`)}
           >
             {product.name}
@@ -60,10 +67,8 @@ const AppCartTableRow: FC<AppCartItemProps> = ({
           size="lg"
         />
       </Table.Cell>
-      <Table.Cell className="min-w-56">
-        {product.price * quantity} تومان
-      </Table.Cell>
-      <Table.Cell className="min-w-20">
+      <Table.Cell>{product.price * quantity} تومان</Table.Cell>
+      <Table.Cell>
         <Trash
           onClick={handleRemoveFromCart}
           className="cursor-pointer hover:scale-105"

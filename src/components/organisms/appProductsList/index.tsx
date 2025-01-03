@@ -69,11 +69,13 @@ const AppProductsList: React.FC<AppProductsListProps> = ({ filters, size }) => {
             }
           )}
       </div>
-      <AppPagination
-        page={page}
-        totalPages={products?.total_pages}
-        onPageChange={(page) => handlePageChange(page)}
-      />
+      {products && products?.total_pages > 1 && (
+        <AppPagination
+          page={page}
+          totalPages={products?.total_pages}
+          onPageChange={(page) => handlePageChange(page)}
+        />
+      )}
     </div>
   );
 };

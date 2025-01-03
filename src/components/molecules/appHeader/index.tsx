@@ -6,12 +6,14 @@ import TwLogo from "../../../../public/svg/TW-logo.svg";
 import ArrowDown from "../../../../public/svg/CaretDown.svg";
 import ShoppingCart from "../../../../public/svg/ShoppingCart.svg";
 import ExitArrow from "../../../../public/svg/ArrowUDownRight.svg";
+import Cube from "../../../../public/svg/Cube.svg";
 import useSubcategories from "@/hooks/queries/useSubcategories";
 import useAuthStore from "@/stores/useAuthStore";
 import { useRouter } from "next/navigation";
 import AppCartDropdown from "@/components/organisms/appCartDropdown";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import useCartStore from "@/stores/useCartStore";
+import useCategories from "@/hooks/queries/useCategories";
 
 const customTheme = {
   root: {
@@ -100,12 +102,28 @@ const customTheme = {
 
 const AppHeader: React.FC = () => {
   const { subcategories } = useSubcategories({ page: 1 });
+  const { categories } = useCategories({ page: 1 });
   const { user, clearUser } = useAuthStore();
-  const { cartItems } = useCartStore((state) => state);
+  const { cartItems, setItems } = useCartStore((state) => state);
   const router = useRouter();
 
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
+
+  const userDropdownRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        userDropdownRef.current &&
+        !userDropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsUserDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   const toggleCartDropDown = () => {
     setIsCartOpen((prev) => !prev);
@@ -117,7 +135,7 @@ const AppHeader: React.FC = () => {
 
   const handleLogout = () => {
     clearUser();
-    router.push("/login");
+    setItems([]);
   };
 
   return (
@@ -130,56 +148,34 @@ const AppHeader: React.FC = () => {
           </Navbar.Brand>
           <Navbar.Toggle className="md:hidden" />
           <Navbar.Collapse className="w-full md:w-auto">
-            <MegaMenu.Dropdown
-              className="!bg-light-primary-surface-negative-subtle text-body-18 border-none"
-              toggle={<>برای بانوان</>}
-            >
-              <ul className="min-w-[200px] w-full grid grid-cols-1 !bg-light-primary-surface-negative-subtle">
-                {subcategories?.data.subcategories
-                  .filter(
-                    (subcategory) =>
-                      subcategory.category === "676c4e27356fd2e734003a7e"
-                  )
-                  .map((subcategory) => (
-                    <li
-                      onClick={() =>
-                        router.push(
-                          `/${subcategory.category}/${subcategory._id}`
-                        )
-                      }
-                      key={subcategory._id}
-                      className="w-full p-3 text-start text-body-18 hover:bg-light-primary-surface-negative text-light-primary-text-negative-subtle"
-                    >
-                      {subcategory.name}
-                    </li>
-                  ))}
-              </ul>
-            </MegaMenu.Dropdown>
-            <MegaMenu.Dropdown
-              className="!bg-light-primary-surface-negative-subtle text-body-18 border-none"
-              toggle={<>برای آقایان</>}
-            >
-              <ul className="min-w-[200px] w-full grid grid-cols-1 !bg-light-primary-surface-negative-subtle">
-                {subcategories?.data.subcategories
-                  .filter(
-                    (subcategory) =>
-                      subcategory.category === "676c4e5c356fd2e734003a82"
-                  )
-                  .map((subcategory) => (
-                    <li
-                      onClick={() =>
-                        router.push(
-                          `/${subcategory.category}/${subcategory._id}`
-                        )
-                      }
-                      key={subcategory._id}
-                      className="w-full cursor-pointer p-3 text-start text-body-18 hover:bg-light-primary-surface-negative text-light-primary-text-negative-subtle"
-                    >
-                      {subcategory.name}
-                    </li>
-                  ))}
-              </ul>
-            </MegaMenu.Dropdown>
+            {categories?.data.categories.map((categoryItem) => (
+              <MegaMenu.Dropdown
+                className="!bg-light-primary-surface-negative-subtle text-body-18 border-none"
+                toggle={<>{categoryItem.name}</>}
+              >
+                <ul className="min-w-[200px] w-full grid grid-cols-1 !bg-light-primary-surface-negative-subtle">
+                  {subcategories?.data.subcategories
+                    .filter(
+                      (subcategory) => subcategory.category === categoryItem._id
+                    )
+                    .map((subcategory) => (
+                      <li
+                        onClick={() =>
+                          router.push(
+                            `/${categoryItem.slugname}/${subcategory.slugname}`
+                          )
+                        }
+                        key={subcategory._id}
+                        className="w-full p-3 text-start text-body-18 hover:bg-light-primary-surface-negative text-light-primary-text-negative-subtle"
+                      >
+                        {subcategory.name
+                          .replace("بانوان", "")
+                          .replace("آقایان", "")}
+                      </li>
+                    ))}
+                </ul>
+              </MegaMenu.Dropdown>
+            ))}
             <Navbar.Link
               className="text-nowrap hover:text-light-primary-text-negative cursor-pointer"
               onClick={() => router.push("/aboutUs")}
@@ -193,6 +189,7 @@ const AppHeader: React.FC = () => {
                 <div
                   className="flex justify-between items-center gap-1 cursor-pointer"
                   onClick={toggleUserDropdown}
+                  tabIndex={0}
                 >
                   <ArrowDown />
                   <span>{user.firstName + " " + user.lastName}</span>
@@ -203,7 +200,19 @@ const AppHeader: React.FC = () => {
                   className="w-10 h-10"
                 />
                 {isUserDropdownOpen && (
-                  <div className="absolute top-[60px] left-40 bg-light-primary-surface-negative-subtle shadow-lg rounded-sm py-1 w-40">
+                  <div
+                    ref={userDropdownRef}
+                    className="absolute top-[60px] left-40 bg-light-primary-surface-negative-subtle shadow-lg rounded-sm py-1 w-40"
+                  >
+                    {user.role === "ADMIN" && (
+                      <button
+                        className="w-full text-right p-2 hover:bg-light-primary-surface-negative text-light-primary-text-negative-subtle flex justify-start items-center gap-2"
+                        onClick={() => router.push("/dashboard")}
+                      >
+                        <Cube />
+                        ورود به داشبورد
+                      </button>
+                    )}
                     <button
                       className="w-full text-right p-2 hover:bg-light-primary-surface-negative text-light-error-text-title flex justify-start items-center gap-2"
                       onClick={() => handleLogout()}

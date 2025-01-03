@@ -8,12 +8,12 @@ import Person from "../../../../public/svg/person-stroke.svg";
 import EyeClosed from "../../../../public/svg/EyeClosed.svg";
 import Lock from "../../../../public/svg/Lock.svg";
 import { AppButton } from "@/components/molecules/appButton";
-import useLogin from "@/hooks/queries/template/useMutration";
 import { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AdminloginSchema } from "@/validation/schemas/adminLogin";
 import useAuthStore from "../../../stores/useAuthStore/index";
+import useLogin from "@/hooks/queries/useLogin";
 
 interface FormData {
   username: string;
@@ -32,7 +32,6 @@ const AdminloginPage: React.FC = () => {
     mode: "onChange",
     resolver: zodResolver(AdminloginSchema),
   });
-
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   const onSubmit: SubmitHandler<FormData> = (formData) => {
@@ -40,12 +39,14 @@ const AdminloginPage: React.FC = () => {
       onSuccess: (data) => {
         if (data.data.user.role === "ADMIN") {
           setAuthUser({
+            _id: data.data.user._id,
             accessToken: data.token.accessToken,
             refreshToken: data.token.refreshToken,
             role: data.data.user.role,
             firstName: data.data.user.firstname,
             lastName: data.data.user.lastname,
           });
+
           router.push("/dashboard");
         }
       },
@@ -58,7 +59,7 @@ const AdminloginPage: React.FC = () => {
 
   return (
     <div className="bg-light-primary-surface-default border-[1px] border-light-primary-border-default py-12 max-h-screen px-32 gap-8 w-full flex flex-col justify-center items-start h-[70vh]">
-      <div className="space-y-1">
+      <div className="space-y-1 mb-7">
         <p className="text-light-primary-text-title text-title-24">
           ورود به داشبورد
         </p>

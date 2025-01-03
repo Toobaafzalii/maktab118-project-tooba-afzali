@@ -12,13 +12,14 @@ export interface SubcategoryByIdDto {
 export interface categoryInSubcategoryById {
   _id: string;
   name: string;
-  icon: string;
+  slugname: string;
 }
 
 export interface SubcategoryDto {
   _id: string;
   category: string;
   name: string;
+  slugname : string
 }
 
 export interface SubcategoriesDto {

@@ -11,13 +11,16 @@ import { SingleProductDto } from "@/hooks/queries/dtos/products";
 type AppOrderDetailsCardProps = {
   hasButton: boolean;
   products?: SingleProductDto["data"]["product"][];
+  onTotalPriceChange?: (price: number) => void;
 };
 
 const AppOrderDetailsCard: React.FC<AppOrderDetailsCardProps> = ({
   hasButton,
   products,
+  onTotalPriceChange,
 }) => {
   const cartItems = useCartStore((state) => state.cartItems);
+  const router = useRouter();
 
   const totalPrice = useMemo(() => {
     let total = 0;
@@ -27,7 +30,11 @@ const AppOrderDetailsCard: React.FC<AppOrderDetailsCardProps> = ({
     return total;
   }, [products, cartItems]);
 
-  const router = useRouter();
+  useEffect(() => {
+    if (onTotalPriceChange) {
+      onTotalPriceChange(totalPrice + totalPrice / 10);
+    }
+  }, [totalPrice, onTotalPriceChange]);
 
   return (
     <div className="flex sticky top-[216px] flex-col justify-between items-center bg-light-primary-surface-default-subtle p-4 gap-10 text-light-primary-text-body max-w-[400px] w-full flex-grow drop-shadow-sm">

@@ -39,7 +39,7 @@ const PricesTable: React.FC = () => {
       editProductsByIds(editedRowsRef.current, {
         onSuccess: () => {
           console.log("Successfully updated rows");
-          setEditedRows([]); // Reset the state
+          setEditedRows([]);
           setEditMode(false);
           refetch();
         },
