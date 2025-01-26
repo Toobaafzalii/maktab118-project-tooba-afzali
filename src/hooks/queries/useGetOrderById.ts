@@ -6,21 +6,32 @@ import { SingleProductDto } from "./dtos/products";
 
 const queryName = "getOrderById";
 const apiRequestMethod = "get";
-type QueryResponse = {
+export type QueryResponse = {
   status: string;
   data: {
     order: {
-      user: string;
-      products: [
-        {
-          product: {
-            _id: string;
-            price: number;
-          };
-          count: number;
+      user: {
+        _id: string;
+        firstname: string;
+        lastname: string;
+        username: string;
+        phoneNumber: string;
+        address: string;
+        role: string;
+        createdAt: string;
+        updatedAt: string;
+        __v: number;
+      };
+      products: Array<{
+        product: {
           _id: string;
-        }
-      ];
+          price: number;
+          name: string;
+        };
+        count: number;
+        _id: string;
+      }>;
+
       totalPrice: number;
       deliveryDate: Date;
       deliveryStatus: boolean;
@@ -31,6 +42,7 @@ type QueryResponse = {
     };
   };
 };
+
 type QueryFnProps = { id: string };
 
 const useGetOrderById = (props: QueryFnProps) => {
@@ -58,6 +70,7 @@ const queryFn = async (props: QueryFnProps) => {
   try {
     const url = PATHS[queryName].replace(":id", props.id);
     const res = await client[apiRequestMethod](url);
+
     return res.data;
   } catch (error) {
     throw error;

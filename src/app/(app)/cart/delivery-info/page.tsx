@@ -19,7 +19,6 @@ import useGetUserById from "@/hooks/queries/useGetUserById";
 import useAuthStore from "@/stores/useAuthStore";
 import useEditUserById from "@/hooks/queries/useEditUserById";
 import { useEffect, useRef, useState } from "react";
-import Link from "next/link";
 
 type FormData = z.infer<typeof deliveryInfoSchema>;
 
@@ -104,9 +103,9 @@ const DeliveryInfoPage: React.FC = () => {
   if (!isRehydrateStorage) return null;
 
   return (
-    <div className="relative bg-light-primary-surface-default flex flex-grow justify-between items-start p-10 py-16 w-full text-nowrap gap-2">
+    <div className="relative bg-light-primary-surface-default flex flex-col-reverse gap-y-16 lg:flex-row flex-grow justify-between items-start p-10 py-16 w-full gap-x-2 ">
       <div className="flex flex-col flex-grow flex-1 justify-start items-start w-full gap-5 ">
-        <div className="flex w-full flex-col justify-center items-start">
+        <div className="flex w-full flex-col justify-center items-start max-w-[400px] sm:max-w-full">
           <span className="text-title-24 text-light-primary-text-title">
             اطلاعات گیرنده
           </span>
@@ -119,7 +118,7 @@ const DeliveryInfoPage: React.FC = () => {
           onSubmit={handleSubmit(onSubmit)}
           className="w-full flex flex-col justify-between items-start gap-5 py-6 px-8 bg-light-primary-surface-default-subtle"
         >
-          <div className="w-full flex justify-between items-center gap-5">
+          <div className="w-full flex flex-col sm:flex-row justify-between items-center gap-5">
             <div className="w-full">
               <AppInput
                 label="نام"
@@ -157,7 +156,7 @@ const DeliveryInfoPage: React.FC = () => {
               helperText={errors.address?.message}
             />
           </div>
-          <div className="w-full flex justify-between items-start gap-5">
+          <div className="w-full flex flex-col sm:flex-row justify-between items-start gap-5">
             <div className="w-full">
               <AppInput
                 label="تلفن همراه"
@@ -181,6 +180,7 @@ const DeliveryInfoPage: React.FC = () => {
                 calendar={persian}
                 onChange={(date) => {
                   date && setValue("date", date.toDate());
+                  console.log(date?.toDate());
                 }}
                 render={
                   <AppInput
@@ -195,7 +195,7 @@ const DeliveryInfoPage: React.FC = () => {
               />
             </div>
           </div>
-          <div className="w-full flex justify-between items-center gap-5">
+          <div className="w-full flex flex-col sm:flex-row justify-between items-center gap-5">
             <AppButton
               text="بازگشت به سبد"
               variant="primary"

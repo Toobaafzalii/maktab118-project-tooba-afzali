@@ -7,7 +7,7 @@ import ArrowLeft from "../../../../public/svg/ArrowLeft-gray.svg";
 import useSingleProductById from "@/hooks/queries/useGetProductById";
 import { usePathname } from "next/navigation";
 import AppSpinner from "@/components/atoms/appSpinner";
-import NotFound from "@/app/notFound/page";
+import NotFound from "@/app/not-found/page";
 import { useMemo } from "react";
 import useCartStore from "@/stores/useCartStore";
 import { get } from "http";
@@ -67,24 +67,28 @@ const AppSingleProductContainer: React.FC = () => {
   };
 
   return (
-    <div className="w-full relative flex justify-start items-start py-[60px] md:gap-20 px-10 ">
+    <div className="w-full relative flex flex-col-reverse sm:flex-row justify-between md:justify-start items-start py-[60px] gap-x-20 px-10 ">
       <div className="flex flex-col justify-start items-center gap-5 max-w-xl w-full">
         {getProductById?.data.product.images && (
           <div className="flex flex-col gap-5">
             {
               <AppImage
                 src={getProductById.data.product.thumbnail}
-                className="w-full"
+                className="sm:max-w-72 md:max-w-full w-full"
                 isThumbnail
               />
             }
             {getProductById.data.product.images.map((image, index) => (
-              <AppImage key={index} src={image} className="w-full" />
+              <AppImage
+                key={index}
+                src={image}
+                className="sm:max-w-72 md:max-w-full w-full"
+              />
             ))}
           </div>
         )}
       </div>
-      <div className="flex sticky top-20 flex-1 flex-col justify-start items-start gap-10 py-10">
+      <div className="flex sm:sticky top-20 flex-1 flex-col justify-start items-start gap-10 py-10 min-w-72">
         <span className="text-subtitle-20 text-light-primary-text-subtitle flex items-center gap-1.5">
           <span>{getProductById?.data.product.category.name}</span>
           <ArrowLeft />

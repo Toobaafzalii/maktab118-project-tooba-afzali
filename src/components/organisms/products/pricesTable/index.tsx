@@ -23,7 +23,10 @@ const PricesTable: React.FC = () => {
   >([]);
   const editedRowsRef = useRef(editedRows);
 
-  const { isProductsLoading, products, refetch } = useProducts({ page });
+  const { isProductsLoading, products, refetch } = useProducts({
+    limit: 6,
+    page,
+  });
   const { editProductsByIds } = useEditProductsByIds();
 
   useEffect(() => {

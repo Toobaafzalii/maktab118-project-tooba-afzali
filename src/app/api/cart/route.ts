@@ -17,7 +17,7 @@ const verifyToken = (token: string) => {
     return verify(
       token,
       "c44715faa99ebc0970a03f15da0300da7936ddf09ebe7d9aa980bd4f5d5f6fcf"
-    ) as { userId: string };
+    ) as { id: string };
   } catch (error) {
     return null;
   }
@@ -31,7 +31,6 @@ const getUserIdFromAuthHeader = (req: NextRequest) => {
   if (!token) return null;
 
   const decoded = verifyToken(token);
-  // @ts-ignore
   return decoded?.id || null;
 };
 

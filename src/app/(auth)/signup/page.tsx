@@ -82,7 +82,7 @@ const UserSignupPage: React.FC = () => {
   };
 
   return (
-    <div className="bg-light-primary-surface-default border-[1px] border-light-primary-border-default max-h-screen px-20 py-10 w-full flex flex-col justify-between items-start">
+    <div className="bg-light-primary-surface-default border-[1px] border-light-primary-border-default max-h-screen px-10 sm:px-20 py-10 w-full flex flex-col justify-between items-start">
       <div>
         <p className="text-light-primary-text-title text-title-24 mb-8">
           ایجاد حساب کاربری

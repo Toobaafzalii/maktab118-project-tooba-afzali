@@ -19,7 +19,7 @@ type AppProductCardProps = {
 const customTheme = {
   root: {
     base: "relative flex rounded-none border border-gray-50 bg-white shadow-sm hover:cursor-pointer hover:shadow-md",
-    children: "flex flec-col md:flex-row h-full justify-between gap-2 p-4",
+    children: "flex flex-col sm:flex-row h-full justify-between gap-2 p-4",
     horizontal: {
       off: "flex-col",
       on: "flex-col md:max-w-xl md:flex-row",
@@ -80,10 +80,10 @@ const AppProductCard: React.FC<AppProductCardProps> = ({
         </div>
       )}
     >
-      <h5 className="text-subtitle-20 text-light-primary-text-title line-clamp-2">
+      <h5 className="text-caption-18 sm:text-subtitle-20 text-light-primary-text-title line-clamp-2">
         {name}
       </h5>
-      <p className="text-title-20 text-light-primary-text-title">{`${price}ت`}</p>
+      <p className="text-caption-18 sm:text-title-20 text-light-primary-text-title">{`${price}ت`}</p>
     </Card>
   );
 };

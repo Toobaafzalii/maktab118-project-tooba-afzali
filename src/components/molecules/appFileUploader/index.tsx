@@ -60,6 +60,7 @@ const AppFileUploader: React.FC<AppFileUploaderProps> = ({
             isThumbnail: true,
           };
         }
+        console.log(defaultThumbnail);
         return {
           id: index.toString(),
           url: defaultValue?.[index - 1] ?? null,

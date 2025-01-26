@@ -23,7 +23,7 @@ const ShoppingCartPage: React.FC = () => {
   }
 
   return (
-    <div className="relative bg-light-primary-surface-default flex flex-grow flex-1 justify-between items-start p-10 w-full text-nowrap gap-2 ">
+    <div className="relative bg-light-primary-surface-default flex flex-col lg:flex-row flex-grow flex-1 justify-between items-center md:items-start p-10 w-full  gap-x-2 gap-y-10 ">
       {cartItems.length <= 0 ? (
         <div className="flex flex-1 justify-center items-center self-center">
           محصولی در سبد خرید شما وجود ندارد.

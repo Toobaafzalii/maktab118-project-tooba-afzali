@@ -66,7 +66,7 @@ const UserloginPage: React.FC = () => {
   };
 
   return (
-    <div className="bg-light-primary-surface-default border-[1px] border-light-primary-border-default py-12 max-h-screen px-32 gap-6 w-full flex flex-col justify-center items-start h-[70vh]">
+    <div className="bg-light-primary-surface-default border-[1px] border-light-primary-border-default py-12 max-h-screen px-20 sm:px-32 gap-6 w-full flex flex-col justify-center items-start h-[70vh]">
       <div className="space-y-1 mb-7">
         <p className="text-light-primary-text-title text-title-24 ">
           ورود به حساب کاربری

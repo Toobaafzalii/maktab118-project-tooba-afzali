@@ -52,13 +52,9 @@ const AppFilteringSidebar: React.FC<AppFilteringSidebarProps> = ({
   }, [categories]);
 
   const handleSubcategoriesChange = (value: string) => {
-    if (!value) return;
-
     setFilters((prev) => ({
       ...prev,
-      subcategories: prev.subcategories.includes(value)
-        ? prev.subcategories.filter((item) => item !== value)
-        : [...prev.subcategories, value],
+      subcategories: [value],
     }));
   };
 
@@ -66,12 +62,11 @@ const AppFilteringSidebar: React.FC<AppFilteringSidebarProps> = ({
     onFiltersChange(filters);
   };
 
-
   return (
-    <div className="sticky max-w-96 w-full top-0 right-[100%] py-10 px-6 min-h-screen flex flex-col justify-start items-start gap-6 bg-light-primary-surface-object text-light-primary-text-title">
+    <div className="sm:sticky max-w-full sm:max-w-[294px] lg:max-w-[360px] w-full sm:top-0 sm:right-[100%] py-10 px-6 sm:min-h-screen flex flex-col justify-start items-start gap-6 bg-light-primary-surface-object text-light-primary-text-title">
       <span className="w-full text-title-24">فیلتر و دسته بندی</span>
 
-      <div className="w-full flex justify-between items-end gap-24 py-6 border-y b-y-[1px] border-light-primary-border-default">
+      <div className="w-full flex justify-between items-end gap-60 sm:gap-4 py-6 border-y b-y-[1px] border-light-primary-border-default">
         <span className="text-title-20 text-nowrap">نمایش بر اساس</span>
         <AppSelectBox
           options={[
@@ -115,8 +110,9 @@ const AppFilteringSidebar: React.FC<AppFilteringSidebarProps> = ({
         {filteredSubcategories.map((subcategory) => (
           <AppCheckbox
             key={subcategory._id}
-            text={subcategory.name.replace("آقایان","").replace("بانوان","")}
+            text={subcategory.name.replace("آقایان", "").replace("بانوان", "")}
             value={subcategory._id || ""}
+            checked={filters.subcategories.includes(subcategory._id || "")}
             onSelect={(value) => {
               handleSubcategoriesChange(value as string);
             }}

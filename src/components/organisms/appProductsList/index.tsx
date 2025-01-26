@@ -15,6 +15,7 @@ const AppProductsList: React.FC<AppProductsListProps> = ({ filters, size }) => {
   const [page, setPage] = useState(1);
   const { isProductsLoading, products, refetch } = useProducts({
     page,
+    limit: 12,
     ...(filters?.sort && {
       sort: filters?.sort,
     }),
@@ -49,8 +50,8 @@ const AppProductsList: React.FC<AppProductsListProps> = ({ filters, size }) => {
       <div
         className={`w-full grid space-y-2 ${
           size === "sm"
-            ? " grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 space-x-2 "
-            : " grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 space-x-3 "
+            ? " grid-cols-2 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 space-x-2 "
+            : " grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 space-x-3 "
         }`}
       >
         {products &&

@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import ArrowLeft from "../../../../../../public/svg/ArrowLeft-gray.svg";
 import AppSelectBox from "@/components/atoms/appSelectBox";
-import NotFound from "@/app/notFound/page";
+import NotFound from "@/app/not-found";
 import useSubcategories from "@/hooks/queries/useSubcategories";
 import { toast } from "react-toastify";
 import { client } from "@/api/axios";

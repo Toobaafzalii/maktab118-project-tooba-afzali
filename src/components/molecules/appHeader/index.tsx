@@ -14,6 +14,7 @@ import AppCartDropdown from "@/components/organisms/appCartDropdown";
 import { useState, useRef, useEffect } from "react";
 import useCartStore from "@/stores/useCartStore";
 import useCategories from "@/hooks/queries/useCategories";
+import { content } from "flowbite-react/tailwind";
 
 const customTheme = {
   root: {
@@ -57,8 +58,8 @@ const customTheme = {
     },
   },
   toggle: {
-    base: "flex items-center gap-2 p-2 md:hidden text-body-18",
-    icon: " h-6 w-6",
+    base: "flex items-center gap-2 p-2 md:hidden text-body-18 text-light-primary-surface-negative",
+    icon: " h-6 w-6 !text-light-primary-text-negative-subtle",
   },
   dropdown: {
     base: "border-none",
@@ -77,7 +78,7 @@ const customTheme = {
           placement: "-4px",
         },
         base: "z-10 divide-y rounded-none shadow focus:outline-none mt-2 block",
-        content: "py-1 ",
+        content: "py-1",
         divider: "my-1 ",
         header: "block px-4 py-2 ",
         hidden: "invisible opacity-0",
@@ -139,14 +140,80 @@ const AppHeader: React.FC = () => {
   };
 
   return (
-    <div className="w-full relative">
+    <div className="max-w-full relative">
       <MegaMenu theme={customTheme}>
-        <div className="w-full relative mx-auto flex flex-nowrap items-center justify-between py-3 px-6 text-nowrap">
-          <Navbar.Brand href="/" className="flex items-center">
-            <span className="text-title-28">TIBZIWEAR</span>
-            <TwLogo className="h-8 w-8" />
-          </Navbar.Brand>
-          <Navbar.Toggle className="md:hidden" />
+        <div className="w-full relative mx-auto flex flex-col md:flex-row lg:flex-nowrap items-center justify-between py-3 px-6 text-nowrap">
+          <div className="flex w-full md:w-fit justify-between">
+            <Navbar.Brand href="/" className="flex items-center">
+              <span className="text-title-28 hidden lg:flex">TIBZIWEAR</span>
+              <TwLogo className="h-8 w-8" />
+            </Navbar.Brand>
+            <div className="flex items-center md:hidden">
+              {user ? (
+                <div className="flex justify-between !items-center gap-2 px-4">
+                  <div
+                    className="flex justify-between items-center gap-1 cursor-pointer"
+                    onClick={toggleUserDropdown}
+                    tabIndex={0}
+                  >
+                    <ArrowDown />
+                    <span>{user.firstName + " " + user.lastName}</span>
+                  </div>
+                  <img
+                    src="./svg/UserAvatar.svg"
+                    alt="user"
+                    className="hidden lg:flex lg:w-10 lg:h-10"
+                  />
+                  {isUserDropdownOpen && (
+                    <div
+                      ref={userDropdownRef}
+                      className="absolute top-[60px] sm:left-80 bg-light-primary-surface-negative-subtle shadow-lg rounded-sm py-1 w-40"
+                    >
+                      {user.role === "ADMIN" && (
+                        <button
+                          className="w-full text-right p-2 hover:bg-light-primary-surface-negative text-light-primary-text-negative-subtle flex justify-start items-center gap-2"
+                          onClick={() => router.push("/dashboard")}
+                        >
+                          <Cube />
+                          ورود به داشبورد
+                        </button>
+                      )}
+                      <button
+                        className="w-full text-right p-2 hover:bg-light-primary-surface-negative text-light-error-text-title flex justify-start items-center gap-2"
+                        onClick={() => handleLogout()}
+                      >
+                        <ExitArrow />
+                        خروج از حساب
+                      </button>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <div
+                  className="text-subtitle-14 cursor-pointer text-light-primary-text-negative-subtle px-4"
+                  onClick={() => router.push("/signup")}
+                >
+                  ورود/ثبت نام
+                </div>
+              )}
+              <div className="relative">
+                {cartItems.length > 0 && (
+                  <div className="rounded-lg flex z-10 justify-center items-center w-7 h-7 bg-dark-error-text-negative absolute top-[-12px] right-[-8px]">
+                    {cartItems.length}
+                  </div>
+                )}
+                <AppButton
+                  text="سبد خرید"
+                  variant="secondary"
+                  iconLeft={(className) => (
+                    <ShoppingCart className={className} />
+                  )}
+                  onClick={toggleCartDropDown}
+                />
+              </div>
+            </div>
+            <Navbar.Toggle className="md:hidden" />
+          </div>
           <Navbar.Collapse className="w-full md:w-auto">
             {categories?.data.categories.map((categoryItem) => (
               <MegaMenu.Dropdown
@@ -197,7 +264,7 @@ const AppHeader: React.FC = () => {
                 <img
                   src="./svg/UserAvatar.svg"
                   alt="user"
-                  className="w-10 h-10"
+                  className="hidden lg:flex lg:w-10 lg:h-10"
                 />
                 {isUserDropdownOpen && (
                   <div

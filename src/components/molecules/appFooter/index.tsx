@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 const AppFooter: React.FC = () => {
   const router = useRouter();
   return (
-    <div className="w-full px-24 pt-10 pb-24 bg-dark-primary-surface-default flex justify-between items-start gap-10 text-dark-primary-text-title">
+    <div className="w-full px-24 pt-10 pb-24 bg-dark-primary-surface-default flex flex-col md:flex-row justify-between items-start gap-10 text-dark-primary-text-title">
       <div className="flex flex-col justify-between items-start gap-5 max-w-xl w-full">
         <TwLogo
           className="cursor-pointer hover:scale-105"

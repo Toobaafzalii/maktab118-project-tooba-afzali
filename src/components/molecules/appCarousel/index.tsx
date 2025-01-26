@@ -31,26 +31,27 @@ const responsive = {
 
 const AppCarousel: React.FC = () => {
   return (
-    <Carousel
-      rtl
-      infinite
-      autoPlay
-      showDots
-      transitionDuration={400}
-      autoPlaySpeed={3000}
-      className="w-full"
-      responsive={responsive}
-    >
-      {carouselImages.map((image, index) => {
-        return (
-          <AppImage
-            src={image}
+    <div className="relative w-full">
+      <Carousel
+        rtl
+        infinite
+        autoPlay
+        showDots
+        transitionDuration={400}
+        autoPlaySpeed={3000}
+        className="w-full"
+        responsive={responsive}
+      >
+        {carouselImages.map((image, index) => (
+          <div
             key={index}
-            className="w-full h-screen object-cover"
-          />
-        );
-      })}
-    </Carousel>
+            className="w-full relative h-[calc(100vw*0.58)] md:h-[calc(100vw*0.55)] lg:h-[calc(100vw*0.525)]"
+          >
+            <AppImage src={image} className="w-full  h-full object-cover" />
+          </div>
+        ))}
+      </Carousel>
+    </div>
   );
 };
 

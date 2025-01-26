@@ -8,6 +8,7 @@ import { SingleProductDto } from "@/hooks/queries/dtos/products";
 import { useRouter } from "next/navigation";
 import useUpdateCart from "@/hooks/queries/useUpdateCard";
 import useDeleteCart from "@/hooks/queries/useDeleteCart";
+import { useMediaQuery } from "react-responsive";
 
 interface AppCartItemProps {
   itemId: string;
@@ -23,7 +24,7 @@ const AppCartTableRow: FC<AppCartItemProps> = ({
   product,
 }) => {
   const router = useRouter();
-  const removeItem = useCartStore((state) => state.removeItem);
+  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1200px)" });
   const { updateCart } = useUpdateCart();
   const { deleteCart } = useDeleteCart();
 
@@ -40,17 +41,29 @@ const AppCartTableRow: FC<AppCartItemProps> = ({
   }
 
   return (
-    <Table.Row className="text-light-primary-text-title text-subtitle-20">
+    <Table.Row className="text-light-primary-text-title text-subtitle-20 max-w-full">
       <Table.Cell className="whitespace-nowrap font-medium text-gray-900 ">
-        <div className="flex justify-start items-center gap-x-4 min-w-[260px]">
-          <span>{index}</span>
+        <div className="flex justify-start items-center gap-x-4 md:min-w-[260px] ">
+          <span
+            className={
+              isTabletOrMobile ? "text-subtitle-16 hidden sm:flex" : "sm:flex"
+            }
+          >
+            {index}
+          </span>
           <AppImage
             src={product.thumbnail}
-            className="w-[100px] h-[100px]"
+            className={
+              isTabletOrMobile
+                ? "sm:w-[80px] sm:h-[80px] w-[54px] h-[54px]"
+                : "w-[100px] h-[100px]"
+            }
             isThumbnail
           />
           <span
-            className="line-clamp-2 text-wrap text-light-primary-text-title"
+            className={`line-clamp-2 text-wrap text-light-primary-text-title hidden md:flex ${
+              isTabletOrMobile ? "text-subtitle-16" : ""
+            }`}
             onClick={() => router.push(`/product/${product._id}`)}
           >
             {product.name}
@@ -64,10 +77,12 @@ const AppCartTableRow: FC<AppCartItemProps> = ({
           max={product.quantity}
           onCountChange={handleCountChange}
           hasResetIcon={false}
-          size="lg"
+          size={isTabletOrMobile ? "sm" : "lg"}
         />
       </Table.Cell>
-      <Table.Cell>{product.price * quantity} تومان</Table.Cell>
+      <Table.Cell className={isTabletOrMobile ? "text-subtitle-16" : ""}>
+        {product.price * quantity} تومان
+      </Table.Cell>
       <Table.Cell>
         <Trash
           onClick={handleRemoveFromCart}

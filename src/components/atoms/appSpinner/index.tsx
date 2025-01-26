@@ -3,7 +3,7 @@
 import { Spinner } from "flowbite-react";
 
 const customTheme = {
-  base: "inline animate-spin text-gray-200",
+  base: "inline animate-spin text-gray-200 my-10",
   color: {
     failure: "fill-red-600",
     gray: "fill-gray-600",

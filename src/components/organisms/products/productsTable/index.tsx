@@ -25,6 +25,7 @@ const ProductsTable: React.FC = () => {
   const { issubcategoryByIdsLoading, subcategoryByIds, subcategoryByIdsData } =
     useSubcategoryByIds();
   const { isProductsLoading, products, refetch, isRefetching } = useProducts({
+    limit: 6,
     page,
   });
   const { deleteProductById, isDeleteProductByIdLoading } =

@@ -35,6 +35,7 @@ const OrdersTable: React.FC = () => {
   const [page, setPage] = useState(1);
   const [deliveryStatus, setDeliveryStatus] = useState<boolean | null>(null);
   const { isOrdersLoading, orders, refetch } = useOrders({
+    limit: 6,
     page,
     deliveryStatus: deliveryStatus ?? undefined,
   });

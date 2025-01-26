@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { AppInput } from "@/components/atoms/appInput";
 import XIcon from "../../../../public/svg/X-icon.svg";
@@ -14,6 +14,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { AdminloginSchema } from "@/validation/schemas/adminLogin";
 import useAuthStore from "../../../stores/useAuthStore/index";
 import useLogin from "@/hooks/queries/useLogin";
+import useCartStore from "@/stores/useCartStore";
+import useAddCart from "@/hooks/queries/useAddCart";
 
 interface FormData {
   username: string;
@@ -33,6 +35,9 @@ const AdminloginPage: React.FC = () => {
     resolver: zodResolver(AdminloginSchema),
   });
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const authUser = useAuthStore((state) => state.user);
+  const { cartItems } = useCartStore((state) => state);
+  const { addCart } = useAddCart();
 
   const onSubmit: SubmitHandler<FormData> = (formData) => {
     login(formData, {
@@ -53,12 +58,18 @@ const AdminloginPage: React.FC = () => {
     });
   };
 
+  useEffect(() => {
+    if (authUser?.accessToken) {
+      addCart(cartItems);
+    }
+  }, [authUser]);
+
   const handleToggleVisibility = () => {
     setIsPasswordVisible((prevState) => !prevState);
   };
 
   return (
-    <div className="bg-light-primary-surface-default border-[1px] border-light-primary-border-default py-12 max-h-screen px-32 gap-8 w-full flex flex-col justify-center items-start h-[70vh]">
+    <div className="bg-light-primary-surface-default border-[1px] border-light-primary-border-default py-12 max-h-screen px-20 sm:px-32 gap-8 w-full flex flex-col justify-center items-start h-[70vh]">
       <div className="space-y-1 mb-7">
         <p className="text-light-primary-text-title text-title-24">
           ورود به داشبورد

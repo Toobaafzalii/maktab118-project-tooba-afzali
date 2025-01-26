@@ -37,12 +37,12 @@ const AppOrderDetailsCard: React.FC<AppOrderDetailsCardProps> = ({
   }, [totalPrice, onTotalPriceChange]);
 
   return (
-    <div className="flex sticky top-[216px] flex-col justify-between items-center bg-light-primary-surface-default-subtle p-4 gap-10 text-light-primary-text-body max-w-[400px] w-full flex-grow drop-shadow-sm">
+    <div className="flex lg:sticky top-[216px] flex-col justify-between items-center bg-light-primary-surface-default-subtle p-4 gap-10 text-light-primary-text-body lg:max-w-[400px] w-full flex-grow drop-shadow-sm">
       <div className="w-full flex justify-between items-center gap-2">
         <span className="text-title-18"> جزییات خرید</span>
         <span className="text-subtitle-16">{`(${cartItems.length}) محصول`}</span>
       </div>
-      <div className="w-full flex justify-between items-center gap-2">
+      <div className="w-full flex justify-between items-center gap-6">
         <span className="text-subtitle-16 text-light-primary-text-subtitle">
           مجموع خرید
         </span>
@@ -50,7 +50,7 @@ const AppOrderDetailsCard: React.FC<AppOrderDetailsCardProps> = ({
           {totalPrice}
         </span>
       </div>
-      <div className="w-full flex justify-between items-center gap-2">
+      <div className="w-full flex justify-between items-center gap-6">
         <span className="text-subtitle-16 text-light-primary-text-subtitle">
           {"مالیات بر ارزش افزوده(٪۱۰)"}
         </span>
@@ -58,7 +58,7 @@ const AppOrderDetailsCard: React.FC<AppOrderDetailsCardProps> = ({
           {totalPrice / 10}
         </span>
       </div>
-      <div className="w-full flex justify-between items-center gap-2">
+      <div className="w-full flex justify-between items-center gap-6">
         <span className="text-subtitle-16 text-light-primary-text-subtitle">
           هزینه ارسال
         </span>
@@ -66,7 +66,7 @@ const AppOrderDetailsCard: React.FC<AppOrderDetailsCardProps> = ({
           رایگان
         </span>
       </div>
-      <div className="w-full flex justify-between items-center gap-2 pt-6 pb-2 border-t-[1px] border-light-primary-border-default-subtle">
+      <div className="w-full flex justify-between items-center gap-6 pt-6 pb-2 border-t-[1px] border-light-primary-border-default-subtle">
         <span className="text-subtitle-16 text-light-primary-text-subtitle">
           مبلغ قابل پرداخت
         </span>

@@ -7,7 +7,7 @@ import { SingleProductDto } from "@/hooks/queries/dtos/products";
 
 const customTheme = {
   root: {
-    base: "w-full flex-1 text-right bg-light-primary-surface-default-subtle ",
+    base: "!w-full !flex-1 flex-grow text-right bg-light-primary-surface-default-subtle ",
     shadow: "absolute left-0 top-0 -z-10 h-full w-full bg-white drop-shadow-sm",
     wrapper: "relative p-4 bg-light-primary-surface-default-subtle",
   },

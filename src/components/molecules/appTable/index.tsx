@@ -145,7 +145,7 @@ const AppTable: React.FC<TableProps> = ({
       value = <div className="flex items-center gap-1">{value}</div>;
     } else if (column.key === "thumbnail") {
       const url = value;
-      value = <AppImage src={url} className="w-8 h-8" isThumbnail />;
+      value = <AppImage src={url} className="w-10 h-10" isThumbnail />;
     } else if (column.dataFormatter) {
       value = column.dataFormatter(value);
     } else if (["price", "totalPrice"].includes(column.key)) {

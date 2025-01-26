@@ -14,8 +14,32 @@ client.interceptors.request.use(
     return config;
   },
   function (error) {
-    // Do something with request error
-    return Promise.reject(error);
+    return Promise.reject(error); // Request error
+  }
+);
+
+client.interceptors.response.use(
+  function (response) {
+    return response;
+  },
+  function (error) {
+    if (error.response) {
+      const statusCode = error.response.status;
+      const message = error.response.data?.message || error.message;
+
+      const customError = new Error(message);
+      customError.name = "APIError";
+      (customError as any).statusCode = statusCode;
+
+      throw customError;
+    } else if (error.request) {
+      const networkError = new Error("No response received from the server");
+      networkError.name = "NetworkError";
+      throw networkError;
+    } else {
+      const genericError = new Error(error.message);
+      throw genericError;
+    }
   }
 );
 
