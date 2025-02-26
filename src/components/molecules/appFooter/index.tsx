@@ -5,6 +5,7 @@ import Telegram from "../../../../public/svg/Telegram.svg";
 import Linkedin from "../../../../public/svg/LinkedIn.svg";
 import Instagram from "../../../../public/svg/Instagram.svg";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const AppFooter: React.FC = () => {
   const router = useRouter();
@@ -64,7 +65,9 @@ const AppFooter: React.FC = () => {
           </p>
           <div className="flex justify-between items-center gap-6 py-2">
             <Instagram className="cursor-pointer hover:scale-105" />
-            <Linkedin className="cursor-pointer hover:scale-105" />
+            <Link href="https://www.linkedin.com/in/tooba-afzali-766bbb30a/">
+              <Linkedin className="cursor-pointer hover:scale-105" />
+            </Link>
             <Telegram className="cursor-pointer hover:scale-105" />
           </div>
         </div>

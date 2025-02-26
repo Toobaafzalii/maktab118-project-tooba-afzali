@@ -8,7 +8,7 @@ import Person from "../../../../public/svg/person-stroke.svg";
 import EyeClosed from "../../../../public/svg/EyeClosed.svg";
 import Lock from "../../../../public/svg/Lock.svg";
 import { AppButton } from "@/components/molecules/appButton";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { UserloginSchema } from "@/validation/schemas/userLogin";
 import useAuthStore from "../../../stores/useAuthStore/index";
@@ -36,8 +36,14 @@ const UserloginPage: React.FC = () => {
     mode: "onChange",
     resolver: zodResolver(UserloginSchema),
   });
-
+  const searchParams = useSearchParams();
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [isRedirected, setIsRedirected] = useState(false);
+
+  useEffect(() => {
+    const redirected = searchParams.get("redirected");
+    setIsRedirected(redirected === "true");
+  }, [searchParams]);
 
   const onSubmit: SubmitHandler<FormData> = (formData) => {
     login(formData, {
@@ -50,7 +56,11 @@ const UserloginPage: React.FC = () => {
           firstName: data.data.user.firstname,
           lastName: data.data.user.lastname,
         });
-        router.push("/");
+        if (isRedirected) {
+          router.push("/cart/delivery-info");
+        } else {
+          router.push("/");
+        }
       },
     });
   };

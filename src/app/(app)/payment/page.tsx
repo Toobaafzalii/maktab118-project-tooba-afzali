@@ -51,7 +51,7 @@ const MockPaymentPage: React.FC = () => {
       alert("کد امنیتی وارد شده صحیح نمی‌باشد. لطفاً دوباره تلاش کنید.");
       return;
     }
-    if (!/^\d{7,8}$/.test(form.secondPassword)) {
+    if (!/^\d{6,7}$/.test(form.secondPassword)) {
       alert("رمز پویا باید ۷ یا ۸ رقم باشد.");
       return;
     }
@@ -106,13 +106,13 @@ const MockPaymentPage: React.FC = () => {
   if (!isRehydrateStorage) return null;
   return (
     <AppPrivateRoute canAccess={canAccess} redirectTo="/cart/delivery-info">
-      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 py-5">
         <h1 className="text-3xl font-bold mb-4 text-center">
           دروازه پرداخت اینترنتی پرداخت الکترونیک سامان
         </h1>
         <div className="w-full max-w-4xl bg-white shadow-md rounded-md p-6">
-          <div className="w-full grid grid-cols-2 gap-4">
-            <div className="w-full border rounded-md p-4 bg-gray-50">
+          <div className="w-full flex flex-col md:flex-row gap-4">
+            <div className="w-full md:flex-1 border rounded-md p-4 bg-gray-50">
               <h2 className="text-lg font-bold mb-3">اطلاعات پذیرنده</h2>
               <ul className="w-full space-y-1 flex flex-col text-sm">
                 <li>
@@ -152,7 +152,7 @@ const MockPaymentPage: React.FC = () => {
 
             <form
               onSubmit={handleSubmit}
-              className="border rounded-md p-4 bg-gray-50"
+              className="border rounded-md md:w-[50%] p-4 bg-gray-50"
             >
               <h2 className="text-lg font-semibold mb-3">اطلاعات کارت</h2>
               <div className="space-y-4">

@@ -7,7 +7,7 @@ import ArrowLeft from "../../../../public/svg/ArrowLeft-gray.svg";
 import useSingleProductById from "@/hooks/queries/useGetProductById";
 import { usePathname } from "next/navigation";
 import AppSpinner from "@/components/atoms/appSpinner";
-import NotFound from "@/app/not-found/page";
+import NotFound from "@/app/not-found";
 import { useMemo } from "react";
 import useCartStore from "@/stores/useCartStore";
 import { get } from "http";

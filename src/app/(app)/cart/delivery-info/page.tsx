@@ -109,7 +109,7 @@ const DeliveryInfoPage: React.FC = () => {
           <span className="text-title-24 text-light-primary-text-title">
             اطلاعات گیرنده
           </span>
-          <span className="text-subtitle-16 text-light-primary-text-subtitle">
+          <span className="text-subtitle-16 text-light-primary-text-subtitle lg:text-nowrap">
             جزئیات ارسال بسته و اطلاعات گیرنده را وارد کنید. در صورت ویرایش فرم
             اطلاعات کاربری شما نیز ویرایش خواهد شد
           </span>

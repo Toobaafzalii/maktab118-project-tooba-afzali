@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import useCartStore from "@/stores/useCartStore";
 import { MouseEvent } from "react";
 import useAddCart from "@/hooks/queries/useAddCart";
+import { toast } from "react-toastify";
 
 type AppProductCardProps = {
   id: string;

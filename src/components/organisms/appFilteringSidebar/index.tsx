@@ -8,6 +8,7 @@ import AppSelectBox from "@/components/atoms/appSelectBox";
 import useSubcategories from "@/hooks/queries/useSubcategories";
 import AppCheckbox from "@/components/atoms/appCheckbox";
 import useCategories from "@/hooks/queries/useCategories";
+import { useMediaQuery } from "react-responsive";
 
 type AppFilteringSidebarProps = {
   onFiltersChange: (filters: Filters) => void;
@@ -29,7 +30,7 @@ const AppFilteringSidebar: React.FC<AppFilteringSidebarProps> = ({
     category: "",
     subcategories: [] as string[],
   });
-
+  const isSmallScreenSize = useMediaQuery({ query: "(max-width: 716px)" });
   const [filteredSubcategories, setFilteredSubcategories] = useState<
     { _id?: string; name: string }[]
   >([]);
@@ -63,10 +64,16 @@ const AppFilteringSidebar: React.FC<AppFilteringSidebarProps> = ({
   };
 
   return (
-    <div className="sm:sticky max-w-full sm:max-w-[294px] lg:max-w-[360px] w-full sm:top-0 sm:right-[100%] py-10 px-6 sm:min-h-screen flex flex-col justify-start items-start gap-6 bg-light-primary-surface-object text-light-primary-text-title">
+    <div
+      className={`w-full py-10 px-6 flex flex-col justify-start items-start gap-6 bg-light-primary-surface-object text-light-primary-text-title ${
+        isSmallScreenSize
+          ? "max-w-full"
+          : "md:max-w-[360px] lg:max-w-[396px] xl:max-w-[360px] sticky right-[100%] top-0 min-h-screen"
+      }`}
+    >
       <span className="w-full text-title-24">فیلتر و دسته بندی</span>
 
-      <div className="w-full flex justify-between items-end gap-60 sm:gap-4 py-6 border-y b-y-[1px] border-light-primary-border-default">
+      <div className="w-full flex justify-between items-end gap-40 sm:gap-12 md:gap-20 py-6 border-y b-y-[1px] border-light-primary-border-default">
         <span className="text-title-20 text-nowrap">نمایش بر اساس</span>
         <AppSelectBox
           options={[

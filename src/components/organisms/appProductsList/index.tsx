@@ -5,6 +5,7 @@ import AppProductCard from "@/components/molecules/appProductCard";
 import useProducts from "@/hooks/queries/useProducts";
 import { useEffect, useState } from "react";
 import { Filters } from "../appFilteringSidebar";
+import { useMediaQuery } from "react-responsive";
 
 type AppProductsListProps = {
   filters: Filters | null;
@@ -22,6 +23,13 @@ const AppProductsList: React.FC<AppProductsListProps> = ({ filters, size }) => {
     ...(filters?.subcategories && {
       subcategory: filters?.subcategories[0],
     }),
+  });
+  const isMiddleScreenSize = useMediaQuery({
+    query: "(min-width: 716px) and (max-width: 820px)",
+  });
+
+  const isSmallScreenSize = useMediaQuery({
+    query: "(max-width: 480px)",
   });
 
   useEffect(() => {
@@ -50,8 +58,12 @@ const AppProductsList: React.FC<AppProductsListProps> = ({ filters, size }) => {
       <div
         className={`w-full grid space-y-2 ${
           size === "sm"
-            ? " grid-cols-2 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 space-x-2 "
-            : " grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 space-x-3 "
+            ? isMiddleScreenSize
+              ? "grid-cols-1 space-x-2"
+              : "grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 space-x-2"
+            : isSmallScreenSize
+            ? "grid-cols-1"
+            : "grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 space-x-3"
         }`}
       >
         {products &&

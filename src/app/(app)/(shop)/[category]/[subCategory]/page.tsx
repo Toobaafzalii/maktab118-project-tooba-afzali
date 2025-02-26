@@ -2,15 +2,12 @@
 import { Filters } from "@/components/organisms/appFilteringSidebar";
 import AppProductsList from "@/components/organisms/appProductsList";
 import useCategories from "@/hooks/queries/useCategories";
-import useSubcategoryByIds from "@/hooks/queries/useSubcategoryByIds";
 import { usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import ArrowLeft from "../../../../../../public/svg/ArrowLeft-gray.svg";
 import AppSelectBox from "@/components/atoms/appSelectBox";
 import NotFound from "@/app/not-found";
 import useSubcategories from "@/hooks/queries/useSubcategories";
-import { toast } from "react-toastify";
-import { client } from "@/api/axios";
 
 const SubcategoryPage: React.FC = () => {
   const pathname = usePathname();
@@ -68,7 +65,7 @@ const SubcategoryPage: React.FC = () => {
                 .replace("آقایان", "")}
           </span>
         </span>
-        <div className="w-[14%]">
+        <div className="sm:w-[14%]">
           <AppSelectBox
             options={[
               { name: "جدیدترین", value: "createdAt" },

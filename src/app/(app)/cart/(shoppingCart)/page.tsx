@@ -3,10 +3,8 @@
 import AppSpinner from "@/components/atoms/appSpinner";
 import AppOrderDetailsCard from "@/components/molecules/appOrderDetailsCard";
 import AppShoppingCartTable from "@/components/organisms/appShoppingCartTable";
-import useSingleProductById from "@/hooks/queries/useGetProductById";
 import useSingleProductByIds from "@/hooks/queries/useGetProductByIds";
 import useCartStore from "@/stores/useCartStore";
-import { useEffect } from "react";
 
 const ShoppingCartPage: React.FC = () => {
   const { cartItems } = useCartStore((state) => state);

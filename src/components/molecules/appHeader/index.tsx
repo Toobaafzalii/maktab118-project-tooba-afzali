@@ -14,7 +14,8 @@ import AppCartDropdown from "@/components/organisms/appCartDropdown";
 import { useState, useRef, useEffect } from "react";
 import useCartStore from "@/stores/useCartStore";
 import useCategories from "@/hooks/queries/useCategories";
-import { content } from "flowbite-react/tailwind";
+import { toast } from "react-toastify";
+import { useMediaQuery } from "react-responsive";
 
 const customTheme = {
   root: {
@@ -107,6 +108,7 @@ const AppHeader: React.FC = () => {
   const { user, clearUser } = useAuthStore();
   const { cartItems, setItems } = useCartStore((state) => state);
   const router = useRouter();
+  const isSmallScreenSize = useMediaQuery({ query: "(max-width: 716px)" });
 
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
@@ -204,6 +206,7 @@ const AppHeader: React.FC = () => {
                 )}
                 <AppButton
                   text="سبد خرید"
+                  size={isSmallScreenSize ? "xs" : "base"}
                   variant="secondary"
                   iconLeft={(className) => (
                     <ShoppingCart className={className} />
@@ -217,6 +220,7 @@ const AppHeader: React.FC = () => {
           <Navbar.Collapse className="w-full md:w-auto">
             {categories?.data.categories.map((categoryItem) => (
               <MegaMenu.Dropdown
+                key={categoryItem._id}
                 className="!bg-light-primary-surface-negative-subtle text-body-18 border-none"
                 toggle={<>{categoryItem.name}</>}
               >
@@ -293,7 +297,7 @@ const AppHeader: React.FC = () => {
             ) : (
               <div
                 className="text-subtitle-14 cursor-pointer text-light-primary-text-negative-subtle px-4"
-                onClick={() => router.push("/signup")}
+                onClick={() => router.push("/login")}
               >
                 ورود/ثبت نام
               </div>

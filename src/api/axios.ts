@@ -31,13 +31,13 @@ client.interceptors.response.use(
       customError.name = "APIError";
       (customError as any).statusCode = statusCode;
 
-      throw customError;
+      throw statusCode;
     } else if (error.request) {
       const networkError = new Error("No response received from the server");
       networkError.name = "NetworkError";
       throw networkError;
     } else {
-      const genericError = new Error(error.message);
+      const genericError = new Error(error.statusCode);
       throw genericError;
     }
   }

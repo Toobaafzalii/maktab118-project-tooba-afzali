@@ -20,7 +20,7 @@ export default function Layout({
 
   if (!isRehydrateStorage) return null;
   return (
-    <AppPrivateRoute redirectTo="/login" canAccess={canAccess}>
+    <AppPrivateRoute redirectTo="/login?redirected=true" canAccess={canAccess}>
       <div className="relative min-h-screen flex flex-col bg-light-primary-surface-default">
         <div className="w-full sticky top-0 py-5 px-10 flex justify-between items-center bg-light-primary-surface-default-subtle">
           <div className="flex justify-between items-center gap-2">

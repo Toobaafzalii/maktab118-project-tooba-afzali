@@ -45,8 +45,8 @@ export default function Layout({
     >
       <div className="flex flex-col justify-center sm:w-[609px] w-[90%] !h-screen absolute right-8 left-8 sm:left-0 ">
         <div className="bg-light-primary-surface-default p-5 gap-8 w-full flex justify-between items-center">
-          <TibziLogo />
-          <div onClick={() => router.push("/")}>
+          <TibziLogo onClick={() => router.push("/")} />
+          <div onClick={() => router.back()}>
             <AppButton
               text="بازگشت"
               iconLeft={(className) => <ArrowLeft className={className} />}
@@ -71,12 +71,12 @@ export default function Layout({
               />
             </div>
           </div>
-            <p
-              className="text-light-primary-text-subtitle text-subtitle-16 text-nowrap cursor-pointer hover:scale-105"
-              onClick={() => router.push("/dashboard/logIn")}
-            >
-              ادمین هستید؟
-            </p>
+          <p
+            className="text-light-primary-text-subtitle text-subtitle-16 text-nowrap cursor-pointer hover:scale-105"
+            onClick={() => router.push("/dashboard/logIn")}
+          >
+            ادمین هستید؟
+          </p>
         </div>
       </div>
     </div>
